@@ -27,7 +27,7 @@ class main:
             root = Tk()
             self.window_w = root.winfo_screenwidth()
             self.window_h = root.winfo_screenheight()
-            self.width = 1280
+            self.width = 1080
             self.height = 720
             self.dragging = False
             self.placed = False
