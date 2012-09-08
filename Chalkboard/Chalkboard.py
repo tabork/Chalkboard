@@ -1,4 +1,11 @@
 import pygame, sys, Tkinter, math
+#
+#Chalkboard 2.1
+#
+#Expected Features:
+#   Custom cursors
+#   Saving and loading images
+#
 from pygame.locals import *
 from Tkinter import *
 class main:
