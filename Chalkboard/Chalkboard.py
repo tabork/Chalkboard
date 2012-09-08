@@ -4,7 +4,7 @@ from Tkinter import *
 class main:
     def declareVar(self, setup_true_false):
         if setup_true_false == False:
-            self.icon = "Images\\icon.gif"
+            self.icon = "gui\\icon.gif"
             self.white=(255,255,255)
             self.black=(0, 0, 0)
             self.red=(255, 0, 0)
@@ -27,8 +27,12 @@ class main:
             root = Tk()
             self.window_w = root.winfo_screenwidth()
             self.window_h = root.winfo_screenheight()
-            self.width = 1080
-            self.height = 720
+            if (float(self.window_w)/float(self.window_h)) == (16/9):
+                self.width = 1280
+                self.height = 720
+            else:
+                self.width = 1080
+                self.height = 720
             self.dragging = False
             self.placed = False
             self.brushClicked = True
@@ -93,183 +97,183 @@ class main:
         pygame.draw.rect(self.screen, (233,236,157), Rect(0,0,30,height))
         pygame.draw.rect(self.screen, (233,236,157), Rect(0,0,width,30))
         if self.brushClicked == False:
-            self.screen.blit(pygame.image.load("Images\\brush.png").convert_alpha(), (3,30))
+            self.screen.blit(pygame.image.load("gui\\brush.png").convert_alpha(), (3,30))
         else:
-            self.screen.blit(pygame.image.load("Images\\brush_clicked.png").convert_alpha(), (3,30))
-            self.screen.blit(pygame.image.load("Images\\color_txt.png").convert_alpha(), (33,4))
+            self.screen.blit(pygame.image.load("gui\\brush_clicked.png").convert_alpha(), (3,30))
+            self.screen.blit(pygame.image.load("gui\\color_txt.png").convert_alpha(), (33,4))
             if self.whiteSelected:
-                self.screen.blit(pygame.image.load("Images\\white_box.png").convert_alpha(), (80, 4))
+                self.screen.blit(pygame.image.load("gui\\white_box.png").convert_alpha(), (80, 4))
             elif self.blackSelected:
-                self.screen.blit(pygame.image.load("Images\\black_box.png").convert_alpha(), (80,4))
+                self.screen.blit(pygame.image.load("gui\\black_box.png").convert_alpha(), (80,4))
             elif self.redSelected:
-                self.screen.blit(pygame.image.load("Images\\red_box.png").convert_alpha(), (80,4))
+                self.screen.blit(pygame.image.load("gui\\red_box.png").convert_alpha(), (80,4))
             elif self.orangeSelected:
-                self.screen.blit(pygame.image.load("Images\\orange_box.png").convert_alpha(), (80,4))
+                self.screen.blit(pygame.image.load("gui\\orange_box.png").convert_alpha(), (80,4))
             elif self.limeSelected:
-                self.screen.blit(pygame.image.load("Images\\lime_box.png").convert_alpha(), (80,4))
+                self.screen.blit(pygame.image.load("gui\\lime_box.png").convert_alpha(), (80,4))
             elif self.greenSelected:
-                self.screen.blit(pygame.image.load("Images\\green_box.png").convert_alpha(), (80,4))
+                self.screen.blit(pygame.image.load("gui\\green_box.png").convert_alpha(), (80,4))
             elif self.blueSelected:
-                self.screen.blit(pygame.image.load("Images\\blue_box.png").convert_alpha(), (80,4))
+                self.screen.blit(pygame.image.load("gui\\blue_box.png").convert_alpha(), (80,4))
             elif self.tealSelected:
-                self.screen.blit(pygame.image.load("Images\\teal_box.png").convert_alpha(), (80,4))
+                self.screen.blit(pygame.image.load("gui\\teal_box.png").convert_alpha(), (80,4))
             elif self.purpleSelected:
-                self.screen.blit(pygame.image.load("Images\\purple_box.png").convert_alpha(), (80,4))
+                self.screen.blit(pygame.image.load("gui\\purple_box.png").convert_alpha(), (80,4))
             elif self.yellowSelected:
-                self.screen.blit(pygame.image.load("Images\\yellow_box.png").convert_alpha(), (80,4))
-            self.screen.blit(pygame.image.load("Images\\arrow.png").convert_alpha(), (213,4))
-            self.screen.blit(pygame.image.load("Images\\size_txt.png").convert_alpha(), (240, 5))
-            self.screen.blit(pygame.image.load("Images\\slider.png").convert_alpha(), (290,8))
-            self.screen.blit(pygame.image.load("Images\\slider_handle.png").convert_alpha(), (self.slider_x, 14))
+                self.screen.blit(pygame.image.load("gui\\yellow_box.png").convert_alpha(), (80,4))
+            self.screen.blit(pygame.image.load("gui\\arrow.png").convert_alpha(), (213,4))
+            self.screen.blit(pygame.image.load("gui\\size_txt.png").convert_alpha(), (240, 5))
+            self.screen.blit(pygame.image.load("gui\\slider.png").convert_alpha(), (290,8))
+            self.screen.blit(pygame.image.load("gui\\slider_handle.png").convert_alpha(), (self.slider_x, 14))
             if self.squareBrushClicked:
-                self.screen.blit(pygame.image.load("Images\\square_clicked.png").convert_alpha(), (350, 3))
+                self.screen.blit(pygame.image.load("gui\\square_clicked.png").convert_alpha(), (350, 3))
             else:
-                self.screen.blit(pygame.image.load("Images\\square.png").convert_alpha(), (350,3))
+                self.screen.blit(pygame.image.load("gui\\square.png").convert_alpha(), (350,3))
             if self.circleBrushClicked:
-                self.screen.blit(pygame.image.load("Images\\circle_clicked.png").convert_alpha(), (380, 3))
+                self.screen.blit(pygame.image.load("gui\\circle_clicked.png").convert_alpha(), (380, 3))
             else:
-                self.screen.blit(pygame.image.load("Images\\circle.png").convert_alpha(), (380, 3))
+                self.screen.blit(pygame.image.load("gui\\circle.png").convert_alpha(), (380, 3))
         if self.eraserClicked == False:
-            self.screen.blit(pygame.image.load("Images\\eraser.png").convert_alpha(), (3, 60))
+            self.screen.blit(pygame.image.load("gui\\eraser.png").convert_alpha(), (3, 60))
         else:
-            self.screen.blit(pygame.image.load("Images\\eraser_clicked.png").convert_alpha(), (3, 60))
-            self.screen.blit(pygame.image.load("Images\\size_txt.png").convert_alpha(), (33, 5))
-            self.screen.blit(pygame.image.load("Images\\slider.png").convert_alpha(), (83,8))
-            self.screen.blit(pygame.image.load("Images\\slider_handle.png").convert_alpha(), (self.slider_eraser_x, 14))
+            self.screen.blit(pygame.image.load("gui\\eraser_clicked.png").convert_alpha(), (3, 60))
+            self.screen.blit(pygame.image.load("gui\\size_txt.png").convert_alpha(), (33, 5))
+            self.screen.blit(pygame.image.load("gui\\slider.png").convert_alpha(), (83,8))
+            self.screen.blit(pygame.image.load("gui\\slider_handle.png").convert_alpha(), (self.slider_eraser_x, 14))
             if self.squareClicked:
-                self.screen.blit(pygame.image.load("Images\\square_clicked.png").convert_alpha(), (138, 3))
+                self.screen.blit(pygame.image.load("gui\\square_clicked.png").convert_alpha(), (138, 3))
             else:
-                self.screen.blit(pygame.image.load("Images\\square.png").convert_alpha(), (138,3))
+                self.screen.blit(pygame.image.load("gui\\square.png").convert_alpha(), (138,3))
             if self.circleClicked:
-                self.screen.blit(pygame.image.load("Images\\circle_clicked.png").convert_alpha(), (168, 3))
+                self.screen.blit(pygame.image.load("gui\\circle_clicked.png").convert_alpha(), (168, 3))
             else:
-                self.screen.blit(pygame.image.load("Images\\circle.png").convert_alpha(), (168, 3))
+                self.screen.blit(pygame.image.load("gui\\circle.png").convert_alpha(), (168, 3))
         if self.rectClicked == False:
-            self.screen.blit(pygame.image.load("Images\\rectangle.png").convert_alpha(), (3,90))
+            self.screen.blit(pygame.image.load("gui\\rectangle.png").convert_alpha(), (3,90))
         else:
-            self.screen.blit(pygame.image.load("Images\\rectangle_clicked.png").convert_alpha(), (3,90))
-            self.screen.blit(pygame.image.load("Images\\color_txt.png").convert_alpha(), (33,4))
+            self.screen.blit(pygame.image.load("gui\\rectangle_clicked.png").convert_alpha(), (3,90))
+            self.screen.blit(pygame.image.load("gui\\color_txt.png").convert_alpha(), (33,4))
             if self.whiteSelected:
-                self.screen.blit(pygame.image.load("Images\\white_box.png").convert_alpha(), (80, 4))
+                self.screen.blit(pygame.image.load("gui\\white_box.png").convert_alpha(), (80, 4))
             elif self.blackSelected:
-                self.screen.blit(pygame.image.load("Images\\black_box.png").convert_alpha(), (80,4))
+                self.screen.blit(pygame.image.load("gui\\black_box.png").convert_alpha(), (80,4))
             elif self.redSelected:
-                self.screen.blit(pygame.image.load("Images\\red_box.png").convert_alpha(), (80,4))
+                self.screen.blit(pygame.image.load("gui\\red_box.png").convert_alpha(), (80,4))
             elif self.orangeSelected:
-                self.screen.blit(pygame.image.load("Images\\orange_box.png").convert_alpha(), (80,4))
+                self.screen.blit(pygame.image.load("gui\\orange_box.png").convert_alpha(), (80,4))
             elif self.limeSelected:
-                self.screen.blit(pygame.image.load("Images\\lime_box.png").convert_alpha(), (80,4))
+                self.screen.blit(pygame.image.load("gui\\lime_box.png").convert_alpha(), (80,4))
             elif self.greenSelected:
-                self.screen.blit(pygame.image.load("Images\\green_box.png").convert_alpha(), (80,4))
+                self.screen.blit(pygame.image.load("gui\\green_box.png").convert_alpha(), (80,4))
             elif self.blueSelected:
-                self.screen.blit(pygame.image.load("Images\\blue_box.png").convert_alpha(), (80,4))
+                self.screen.blit(pygame.image.load("gui\\blue_box.png").convert_alpha(), (80,4))
             elif self.tealSelected:
-                self.screen.blit(pygame.image.load("Images\\teal_box.png").convert_alpha(), (80,4))
+                self.screen.blit(pygame.image.load("gui\\teal_box.png").convert_alpha(), (80,4))
             elif self.purpleSelected:
-                self.screen.blit(pygame.image.load("Images\\purple_box.png").convert_alpha(), (80,4))
+                self.screen.blit(pygame.image.load("gui\\purple_box.png").convert_alpha(), (80,4))
             elif self.yellowSelected:
-                self.screen.blit(pygame.image.load("Images\\yellow_box.png").convert_alpha(), (80,4))
-            self.screen.blit(pygame.image.load("Images\\arrow.png").convert_alpha(), (213,4))
+                self.screen.blit(pygame.image.load("gui\\yellow_box.png").convert_alpha(), (80,4))
+            self.screen.blit(pygame.image.load("gui\\arrow.png").convert_alpha(), (213,4))
         if self.ellipseClicked == False:
-            self.screen.blit(pygame.image.load("Images\\ellipse.png").convert_alpha(), (3,120))
+            self.screen.blit(pygame.image.load("gui\\ellipse.png").convert_alpha(), (3,120))
         else:
-            self.screen.blit(pygame.image.load("Images\\ellipse_clicked.png").convert_alpha(), (3,120))
-            self.screen.blit(pygame.image.load("Images\\color_txt.png").convert_alpha(), (33,4))
+            self.screen.blit(pygame.image.load("gui\\ellipse_clicked.png").convert_alpha(), (3,120))
+            self.screen.blit(pygame.image.load("gui\\color_txt.png").convert_alpha(), (33,4))
             if self.whiteSelected:
-                self.screen.blit(pygame.image.load("Images\\white_box.png").convert_alpha(), (80, 4))
+                self.screen.blit(pygame.image.load("gui\\white_box.png").convert_alpha(), (80, 4))
             elif self.blackSelected:
-                self.screen.blit(pygame.image.load("Images\\black_box.png").convert_alpha(), (80,4))
+                self.screen.blit(pygame.image.load("gui\\black_box.png").convert_alpha(), (80,4))
             elif self.orangeSelected:
-                self.screen.blit(pygame.image.load("Images\\orange_box.png").convert_alpha(), (80,4))
+                self.screen.blit(pygame.image.load("gui\\orange_box.png").convert_alpha(), (80,4))
             elif self.redSelected:
-                self.screen.blit(pygame.image.load("Images\\red_box.png").convert_alpha(), (80,4))
+                self.screen.blit(pygame.image.load("gui\\red_box.png").convert_alpha(), (80,4))
             elif self.limeSelected:
-                self.screen.blit(pygame.image.load("Images\\lime_box.png").convert_alpha(), (80,4))
+                self.screen.blit(pygame.image.load("gui\\lime_box.png").convert_alpha(), (80,4))
             elif self.greenSelected:
-                self.screen.blit(pygame.image.load("Images\\green_box.png").convert_alpha(), (80,4))
+                self.screen.blit(pygame.image.load("gui\\green_box.png").convert_alpha(), (80,4))
             elif self.blueSelected:
-                self.screen.blit(pygame.image.load("Images\\blue_box.png").convert_alpha(), (80,4))
+                self.screen.blit(pygame.image.load("gui\\blue_box.png").convert_alpha(), (80,4))
             elif self.tealSelected:
-                self.screen.blit(pygame.image.load("Images\\teal_box.png").convert_alpha(), (80,4))
+                self.screen.blit(pygame.image.load("gui\\teal_box.png").convert_alpha(), (80,4))
             elif self.purpleSelected:
-                self.screen.blit(pygame.image.load("Images\\purple_box.png").convert_alpha(), (80,4))
+                self.screen.blit(pygame.image.load("gui\\purple_box.png").convert_alpha(), (80,4))
             elif self.yellowSelected:
-                self.screen.blit(pygame.image.load("Images\\yellow_box.png").convert_alpha(), (80,4))
-            self.screen.blit(pygame.image.load("Images\\arrow.png").convert_alpha(), (213,4))
+                self.screen.blit(pygame.image.load("gui\\yellow_box.png").convert_alpha(), (80,4))
+            self.screen.blit(pygame.image.load("gui\\arrow.png").convert_alpha(), (213,4))
         if self.lineClicked == False:
-            self.screen.blit(pygame.image.load("Images\\line.png").convert_alpha(), (3, 150))
+            self.screen.blit(pygame.image.load("gui\\line.png").convert_alpha(), (3, 150))
         else:
-            self.screen.blit(pygame.image.load("Images\\line_clicked.png").convert_alpha(), (3,150))
-            self.screen.blit(pygame.image.load("Images\\color_txt.png").convert_alpha(), (33,4))
+            self.screen.blit(pygame.image.load("gui\\line_clicked.png").convert_alpha(), (3,150))
+            self.screen.blit(pygame.image.load("gui\\color_txt.png").convert_alpha(), (33,4))
             if self.whiteSelected:
-                self.screen.blit(pygame.image.load("Images\\white_box.png").convert_alpha(), (80, 4))
+                self.screen.blit(pygame.image.load("gui\\white_box.png").convert_alpha(), (80, 4))
             elif self.blackSelected:
-                self.screen.blit(pygame.image.load("Images\\black_box.png").convert_alpha(), (80,4))
+                self.screen.blit(pygame.image.load("gui\\black_box.png").convert_alpha(), (80,4))
             elif self.orangeSelected:
-                self.screen.blit(pygame.image.load("Images\\orange_box.png").convert_alpha(), (80,4))
+                self.screen.blit(pygame.image.load("gui\\orange_box.png").convert_alpha(), (80,4))
             elif self.redSelected:
-                self.screen.blit(pygame.image.load("Images\\red_box.png").convert_alpha(), (80,4))
+                self.screen.blit(pygame.image.load("gui\\red_box.png").convert_alpha(), (80,4))
             elif self.limeSelected:
-                self.screen.blit(pygame.image.load("Images\\lime_box.png").convert_alpha(), (80,4))
+                self.screen.blit(pygame.image.load("gui\\lime_box.png").convert_alpha(), (80,4))
             elif self.greenSelected:
-                self.screen.blit(pygame.image.load("Images\\green_box.png").convert_alpha(), (80,4))
+                self.screen.blit(pygame.image.load("gui\\green_box.png").convert_alpha(), (80,4))
             elif self.blueSelected:
-                self.screen.blit(pygame.image.load("Images\\blue_box.png").convert_alpha(), (80,4))
+                self.screen.blit(pygame.image.load("gui\\blue_box.png").convert_alpha(), (80,4))
             elif self.tealSelected:
-                self.screen.blit(pygame.image.load("Images\\teal_box.png").convert_alpha(), (80,4))
+                self.screen.blit(pygame.image.load("gui\\teal_box.png").convert_alpha(), (80,4))
             elif self.purpleSelected:
-                self.screen.blit(pygame.image.load("Images\\purple_box.png").convert_alpha(), (80,4))
+                self.screen.blit(pygame.image.load("gui\\purple_box.png").convert_alpha(), (80,4))
             elif self.yellowSelected:
-                self.screen.blit(pygame.image.load("Images\\yellow_box.png").convert_alpha(), (80,4))
-            self.screen.blit(pygame.image.load("Images\\arrow.png").convert_alpha(), (213,4))
-            self.screen.blit(pygame.image.load("Images\\size_txt.png").convert_alpha(), (240, 5))
-            self.screen.blit(pygame.image.load("Images\\slider.png").convert_alpha(), (290,8))
-            self.screen.blit(pygame.image.load("Images\\slider_handle.png").convert_alpha(), (self.slider_line_x, 14))
-        self.screen.blit(pygame.image.load("Images\\fill_txt.png").convert_alpha(), (450, 3))
+                self.screen.blit(pygame.image.load("gui\\yellow_box.png").convert_alpha(), (80,4))
+            self.screen.blit(pygame.image.load("gui\\arrow.png").convert_alpha(), (213,4))
+            self.screen.blit(pygame.image.load("gui\\size_txt.png").convert_alpha(), (240, 5))
+            self.screen.blit(pygame.image.load("gui\\slider.png").convert_alpha(), (290,8))
+            self.screen.blit(pygame.image.load("gui\\slider_handle.png").convert_alpha(), (self.slider_line_x, 14))
+        self.screen.blit(pygame.image.load("gui\\fill_txt.png").convert_alpha(), (450, 3))
         if self.blackFillSelected:
-            self.screen.blit(pygame.image.load("Images\\black_box.png").convert_alpha(), (540,4))
+            self.screen.blit(pygame.image.load("gui\\black_box.png").convert_alpha(), (540,4))
         elif self.whiteFillSelected:
-            self.screen.blit(pygame.image.load("Images\\white_box.png").convert_alpha(), (540,4))
+            self.screen.blit(pygame.image.load("gui\\white_box.png").convert_alpha(), (540,4))
         elif self.redFillSelected:
-            self.screen.blit(pygame.image.load("Images\\red_box.png").convert_alpha(), (540,4))
+            self.screen.blit(pygame.image.load("gui\\red_box.png").convert_alpha(), (540,4))
         elif self.limeFillSelected:
-            self.screen.blit(pygame.image.load("Images\\lime_box.png").convert_alpha(), (540,4))
+            self.screen.blit(pygame.image.load("gui\\lime_box.png").convert_alpha(), (540,4))
         elif self.greenFillSelected:
-            self.screen.blit(pygame.image.load("Images\\green_box.png").convert_alpha(), (540,4))
+            self.screen.blit(pygame.image.load("gui\\green_box.png").convert_alpha(), (540,4))
         elif self.orangeFillSelected:
-            self.screen.blit(pygame.image.load("Images\\orange_box.png").convert_alpha(), (540,4))
+            self.screen.blit(pygame.image.load("gui\\orange_box.png").convert_alpha(), (540,4))
         elif self.blueFillSelected:
-            self.screen.blit(pygame.image.load("Images\\blue_box.png").convert_alpha(), (540,4))
+            self.screen.blit(pygame.image.load("gui\\blue_box.png").convert_alpha(), (540,4))
         elif self.yellowFillSelected:
-            self.screen.blit(pygame.image.load("Images\\yellow_box.png").convert_alpha(), (540,4))
+            self.screen.blit(pygame.image.load("gui\\yellow_box.png").convert_alpha(), (540,4))
         elif self.tealFillSelected:
-            self.screen.blit(pygame.image.load("Images\\teal_box.png").convert_alpha(), (540,4))
+            self.screen.blit(pygame.image.load("gui\\teal_box.png").convert_alpha(), (540,4))
         elif self.purpleFillSelected:
-            self.screen.blit(pygame.image.load("Images\\purple_box.png").convert_alpha(), (540,4))
-        self.screen.blit(pygame.image.load("Images\\arrow.png").convert_alpha(), (673, 4))
-        self.screen.blit(pygame.image.load("Images\\clear.png").convert_alpha(), (self.cx,4))
+            self.screen.blit(pygame.image.load("gui\\purple_box.png").convert_alpha(), (540,4))
+        self.screen.blit(pygame.image.load("gui\\arrow.png").convert_alpha(), (673, 4))
+        self.screen.blit(pygame.image.load("gui\\clear.png").convert_alpha(), (self.cx,4))
         if self.arrowClicked:
-            self.screen.blit(pygame.image.load("Images\\white_box.png").convert_alpha(), (80,24))
-            self.screen.blit(pygame.image.load("Images\\black_box.png").convert_alpha(), (80,44))
-            self.screen.blit(pygame.image.load("Images\\red_box.png").convert_alpha(), (80,64))
-            self.screen.blit(pygame.image.load("Images\\orange_box.png").convert_alpha(), (80,84))
-            self.screen.blit(pygame.image.load("Images\\lime_box.png").convert_alpha(), (80,104))
-            self.screen.blit(pygame.image.load("Images\\green_box.png").convert_alpha(), (80,124))
-            self.screen.blit(pygame.image.load("Images\\blue_box.png").convert_alpha(), (80,144))
-            self.screen.blit(pygame.image.load("Images\\teal_box.png").convert_alpha(), (80,164))
-            self.screen.blit(pygame.image.load("Images\\purple_box.png").convert_alpha(), (80,184))
-            self.screen.blit(pygame.image.load("Images\\yellow_box.png").convert_alpha(), (80, 204))
+            self.screen.blit(pygame.image.load("gui\\white_box.png").convert_alpha(), (80,24))
+            self.screen.blit(pygame.image.load("gui\\black_box.png").convert_alpha(), (80,44))
+            self.screen.blit(pygame.image.load("gui\\red_box.png").convert_alpha(), (80,64))
+            self.screen.blit(pygame.image.load("gui\\orange_box.png").convert_alpha(), (80,84))
+            self.screen.blit(pygame.image.load("gui\\lime_box.png").convert_alpha(), (80,104))
+            self.screen.blit(pygame.image.load("gui\\green_box.png").convert_alpha(), (80,124))
+            self.screen.blit(pygame.image.load("gui\\blue_box.png").convert_alpha(), (80,144))
+            self.screen.blit(pygame.image.load("gui\\teal_box.png").convert_alpha(), (80,164))
+            self.screen.blit(pygame.image.load("gui\\purple_box.png").convert_alpha(), (80,184))
+            self.screen.blit(pygame.image.load("gui\\yellow_box.png").convert_alpha(), (80, 204))
         if self.fillArrowClicked:
-            self.screen.blit(pygame.image.load("Images\\white_box.png").convert_alpha(), (540,24))
-            self.screen.blit(pygame.image.load("Images\\black_box.png").convert_alpha(), (540,44))
-            self.screen.blit(pygame.image.load("Images\\red_box.png").convert_alpha(), (540,64))
-            self.screen.blit(pygame.image.load("Images\\orange_box.png").convert_alpha(), (540,84))
-            self.screen.blit(pygame.image.load("Images\\lime_box.png").convert_alpha(), (540,104))
-            self.screen.blit(pygame.image.load("Images\\green_box.png").convert_alpha(), (540,124))
-            self.screen.blit(pygame.image.load("Images\\blue_box.png").convert_alpha(), (540,144))
-            self.screen.blit(pygame.image.load("Images\\teal_box.png").convert_alpha(), (540,164))
-            self.screen.blit(pygame.image.load("Images\\purple_box.png").convert_alpha(), (540,184))
-            self.screen.blit(pygame.image.load("Images\\yellow_box.png").convert_alpha(), (540, 204))
+            self.screen.blit(pygame.image.load("gui\\white_box.png").convert_alpha(), (540,24))
+            self.screen.blit(pygame.image.load("gui\\black_box.png").convert_alpha(), (540,44))
+            self.screen.blit(pygame.image.load("gui\\red_box.png").convert_alpha(), (540,64))
+            self.screen.blit(pygame.image.load("gui\\orange_box.png").convert_alpha(), (540,84))
+            self.screen.blit(pygame.image.load("gui\\lime_box.png").convert_alpha(), (540,104))
+            self.screen.blit(pygame.image.load("gui\\green_box.png").convert_alpha(), (540,124))
+            self.screen.blit(pygame.image.load("gui\\blue_box.png").convert_alpha(), (540,144))
+            self.screen.blit(pygame.image.load("gui\\teal_box.png").convert_alpha(), (540,164))
+            self.screen.blit(pygame.image.load("gui\\purple_box.png").convert_alpha(), (540,184))
+            self.screen.blit(pygame.image.load("gui\\yellow_box.png").convert_alpha(), (540, 204))
         pygame.display.flip()
     def setup(self):
         pygame.init()
@@ -336,7 +340,7 @@ class main:
             self.purpleFillSelected = False
             self.yellowFillSelected = False
             self.fillArrowClicked = False
-            self.screen.blit(pygame.image.load("Images\\menu_screen.png"), (0,0))
+            self.screen.blit(pygame.image.load("gui\\menu_screen.png"), (0,0))
             self.fill = self.white
             self.screen.fill(self.fill)
         elif yco in range(45,64):
@@ -351,7 +355,7 @@ class main:
             self.purpleFillSelected = False
             self.yellowFillSelected = False
             self.fillArrowClicked = False
-            self.screen.blit(pygame.image.load("Images\\menu_screen.png"), (0,0))
+            self.screen.blit(pygame.image.load("gui\\menu_screen.png"), (0,0))
             self.fill = self.black
             self.screen.fill(self.fill)
         elif yco in range(65,84):
@@ -366,7 +370,7 @@ class main:
             self.purpleFillSelected = False
             self.yellowFillSelected = False
             self.fillArrowClicked = False
-            self.screen.blit(pygame.image.load("Images\\menu_screen.png"), (0,0))
+            self.screen.blit(pygame.image.load("gui\\menu_screen.png"), (0,0))
             self.fill = self.red
             self.screen.fill(self.fill)
         elif yco in range(85,104):
@@ -381,7 +385,7 @@ class main:
             self.purpleFillSelected = False
             self.yellowFillSelected = False
             self.fillArrowClicked = False
-            self.screen.blit(pygame.image.load("Images\\menu_screen.png"), (0,0))
+            self.screen.blit(pygame.image.load("gui\\menu_screen.png"), (0,0))
             self.fill = self.orange
             self.screen.fill(self.fill)
         elif yco in range(105,124):
@@ -396,7 +400,7 @@ class main:
             self.purpleFillSelected = False
             self.yellowFillSelected = False
             self.fillArrowClicked = False
-            self.screen.blit(pygame.image.load("Images\\menu_screen.png"), (0,0))
+            self.screen.blit(pygame.image.load("gui\\menu_screen.png"), (0,0))
             self.fill = self.lime
             self.screen.fill(self.fill)
         elif yco in range(125, 144):
@@ -411,7 +415,7 @@ class main:
             self.purpleFillSelected = False
             self.yellowFillSelected = False
             self.fillArrowClicked = False
-            self.screen.blit(pygame.image.load("Images\\menu_screen.png"), (0,0))
+            self.screen.blit(pygame.image.load("gui\\menu_screen.png"), (0,0))
             self.fill = self.green
             self.screen.fill(self.fill)
         elif yco in range(145,164):
@@ -426,7 +430,7 @@ class main:
             self.purpleFillSelected = False
             self.yellowFillSelected = False
             self.fillArrowClicked = False
-            self.screen.blit(pygame.image.load("Images\\menu_screen.png"), (0,0))
+            self.screen.blit(pygame.image.load("gui\\menu_screen.png"), (0,0))
             self.fill = self.blue
             self.screen.fill(self.fill)
         elif yco in range(165,184):
@@ -441,7 +445,7 @@ class main:
             self.purpleFillSelected = False
             self.yellowFillSelected = False
             self.fillArrowClicked = False
-            self.screen.blit(pygame.image.load("Images\\menu_screen.png"), (0,0))
+            self.screen.blit(pygame.image.load("gui\\menu_screen.png"), (0,0))
             self.fill = self.teal
             self.screen.fill(self.fill)
         elif yco in range(185, 204):
@@ -456,7 +460,7 @@ class main:
             self.purpleFillSelected = True
             self.yellowFillSelected = False
             self.fillArrowClicked = False
-            self.screen.blit(pygame.image.load("Images\\menu_screen.png"), (0,0))
+            self.screen.blit(pygame.image.load("gui\\menu_screen.png"), (0,0))
             self.fill = self.purple
             self.screen.fill(self.fill)
         elif yco in range(205, 224):
@@ -471,7 +475,7 @@ class main:
             self.purpleFillSelected = False
             self.yellowFillSelected = True
             self.fillArrowClicked = False
-            self.screen.blit(pygame.image.load("Images\\menu_screen.png"), (0,0))
+            self.screen.blit(pygame.image.load("gui\\menu_screen.png"), (0,0))
             self.fill = self.yellow
             self.screen.fill(self.fill)
         self.redraw(self.history, self.hist_points, self.hist_color, self.hist_size)
@@ -485,7 +489,7 @@ class main:
                     xco, yco = pygame.mouse.get_pos()
                     if (xco not in range(80, 180) or yco not in range(24, 224)) or (xco in range(213,230) and yco in range(4,22)):
                         self.arrowClicked = False
-                        self.screen.blit(pygame.image.load("Images\\menu_screen.png"), (0,0))
+                        self.screen.blit(pygame.image.load("gui\\menu_screen.png"), (0,0))
                     elif xco in range(80,180):
                         if yco in range(24, 44):
                             self.whiteSelected = True
@@ -499,7 +503,7 @@ class main:
                             self.purpleSelected = False
                             self.yellowSelected = False
                             self.arrowClicked = False
-                            self.screen.blit(pygame.image.load("Images\\menu_screen.png"), (0,0))
+                            self.screen.blit(pygame.image.load("gui\\menu_screen.png"), (0,0))
                             self.color = self.white
                             self.changeBrush()
                         elif yco in range(45,64):
@@ -514,7 +518,7 @@ class main:
                             self.purpleSelected = False
                             self.yellowSelected = False
                             self.arrowClicked = False
-                            self.screen.blit(pygame.image.load("Images\\menu_screen.png"), (0,0))
+                            self.screen.blit(pygame.image.load("gui\\menu_screen.png"), (0,0))
                             self.color = self.black
                             self.changeBrush()
                         elif yco in range(65,84):
@@ -529,7 +533,7 @@ class main:
                             self.purpleSelected = False
                             self.yellowSelected = False
                             self.arrowClicked = False
-                            self.screen.blit(pygame.image.load("Images\\menu_screen.png"), (0,0))
+                            self.screen.blit(pygame.image.load("gui\\menu_screen.png"), (0,0))
                             self.color = self.red
                             self.changeBrush()
                         elif yco in range(85,104):
@@ -544,7 +548,7 @@ class main:
                             self.purpleSelected = False
                             self.yellowSelected = False
                             self.arrowClicked = False
-                            self.screen.blit(pygame.image.load("Images\\menu_screen.png"), (0,0))
+                            self.screen.blit(pygame.image.load("gui\\menu_screen.png"), (0,0))
                             self.color = self.orange
                             self.changeBrush()
                         elif yco in range(105,124):
@@ -559,7 +563,7 @@ class main:
                             self.purpleSelected = False
                             self.yellowSelected = False
                             self.arrowClicked = False
-                            self.screen.blit(pygame.image.load("Images\\menu_screen.png"), (0,0))
+                            self.screen.blit(pygame.image.load("gui\\menu_screen.png"), (0,0))
                             self.color = self.lime
                             self.changeBrush()
                         elif yco in range(125, 144):
@@ -574,7 +578,7 @@ class main:
                             self.purpleSelected = False
                             self.yellowSelected = False
                             self.arrowClicked = False
-                            self.screen.blit(pygame.image.load("Images\\menu_screen.png"), (0,0))
+                            self.screen.blit(pygame.image.load("gui\\menu_screen.png"), (0,0))
                             self.color = self.green
                             self.changeBrush()
                         elif yco in range(145,164):
@@ -589,7 +593,7 @@ class main:
                             self.purpleSelected = False
                             self.yellowSelected = False
                             self.arrowClicked = False
-                            self.screen.blit(pygame.image.load("Images\\menu_screen.png"), (0,0))
+                            self.screen.blit(pygame.image.load("gui\\menu_screen.png"), (0,0))
                             self.color = self.blue
                             self.changeBrush()
                         elif yco in range(165,184):
@@ -604,7 +608,7 @@ class main:
                             self.purpleSelected = False
                             self.yellowSelected = False
                             self.arrowClicked = False
-                            self.screen.blit(pygame.image.load("Images\\menu_screen.png"), (0,0))
+                            self.screen.blit(pygame.image.load("gui\\menu_screen.png"), (0,0))
                             self.color = self.teal
                             self.changeBrush()
                         elif yco in range(185, 204):
@@ -619,7 +623,7 @@ class main:
                             self.purpleSelected = True
                             self.yellowSelected = False
                             self.arrowClicked = False
-                            self.screen.blit(pygame.image.load("Images\\menu_screen.png"), (0,0))
+                            self.screen.blit(pygame.image.load("gui\\menu_screen.png"), (0,0))
                             self.color = self.purple
                             self.changeBrush()
                         elif yco in range(205, 224):
@@ -634,7 +638,7 @@ class main:
                             self.purpleSelected = False
                             self.yellowSelected = True
                             self.arrowClicked = False
-                            self.screen.blit(pygame.image.load("Images\\menu_screen.png"), (0,0))
+                            self.screen.blit(pygame.image.load("gui\\menu_screen.png"), (0,0))
                             self.color = self.yellow
                             self.changeBrush()
         elif self.fillArrowClicked:
@@ -646,7 +650,7 @@ class main:
                     xco, yco = pygame.mouse.get_pos()
                     if (xco not in range(540, 640) or yco not in range(24, 224)) or (xco in range(673,690) and yco in range(4,22)):
                         self.fillArrowClicked = False
-                        self.screen.blit(pygame.image.load("Images\\menu_screen.png"), (0,0))
+                        self.screen.blit(pygame.image.load("gui\\menu_screen.png"), (0,0))
                     elif xco in range(540,640):
                         self.fillScreen(yco)
         else:
@@ -700,10 +704,10 @@ class main:
                         self.lineClicked = True
                         self.ellipseClicked = False
                     elif xco in range(213,230) and yco in range(4,22):
-                        pygame.image.save(self.screen, "Images\\menu_screen.png")
+                        pygame.image.save(self.screen, "gui\\menu_screen.png")
                         self.arrowClicked = True
                     elif xco in range(673,690) and yco in range(4,22):
-                        pygame.image.save(self.screen, "Images\\menu_screen.png")
+                        pygame.image.save(self.screen, "gui\\menu_screen.png")
                         self.fillArrowClicked = True
                     elif xco in range(self.cx,self.cx+50) and yco in range(4,24):
                         self.history = []
@@ -756,8 +760,8 @@ class main:
                     self.placed = True
                     self.points = []
                     self.c = 1
-                    pygame.image.save(self.screen, "Images\\screen.png")
-                    self.scr = pygame.image.load("Images\\screen.png").convert_alpha()
+                    pygame.image.save(self.screen, "gui\\screen.png")
+                    self.scr = pygame.image.load("gui\\screen.png").convert_alpha()
                     if self.rectClicked:
                         self.history.append("rect")
                         self.hist_points.append(self.point1)
@@ -797,7 +801,7 @@ class main:
                     self.rect_h = 0
                     self.line_s = 0
                 elif event.type == VIDEORESIZE:
-                    pygame.image.save(self.screen,"Images\\fs_screen.png")
+                    pygame.image.save(self.screen,"gui\\fs_screen.png")
                     self.screen = pygame.display.set_mode(event.size, RESIZABLE, 0)
                     pygame.display.flip()
                     self.width, self.height = event.size
@@ -818,7 +822,7 @@ class main:
                         self.screen = pygame.display.set_mode((self.width,self.height),RESIZABLE,0)
                     self.gui(self.width, self.height)
                     self.screen.fill(self.fill)
-                    self.screen.blit(pygame.image.load("Images\\fs_screen.png").convert_alpha(),(0,0))
+                    self.screen.blit(pygame.image.load("gui\\fs_screen.png").convert_alpha(),(0,0))
     def rect_drag(self):
         if self.placed == True:
             self.screen.blit(self.scr, (0,0))
