@@ -783,7 +783,7 @@ class main:
                             self.hist_points.append(self.point2)
                             self.hist_points.append(self.point3)
                             self.hist_points.append(self.point4)
-                            self.hist_size.append(1)
+                            self.hist_size.append(4)
                             self.hist_color.append(self.line_c)
                     elif self.lineClicked:
                         self.history.append("line")
@@ -871,21 +871,21 @@ class main:
             self.point1 = rect_corner[0]
             self.point2 = rect_corner[1]
         elif rect_height == 0 and rect_width != 0:
-            pygame.draw.line(self.screen, self.color, self.points[self.c], self.points[0], 1)
+            pygame.draw.line(self.screen, self.color, self.points[self.c], self.points[0], 4)
             self.ell_type = 2
             self.point1 = self.points[self.c][0]
             self.point2 = self.points[self.c][1]
             self.point3 = self.points[0][0]
             self.point4 = self.points[0][1]
         elif rect_height != 0 and rect_width == 0:
-            pygame.draw.line(self.screen, self.color, self.points[0], self.points[self.c], 1)
+            pygame.draw.line(self.screen, self.color, self.points[0], self.points[self.c], 4)
             self.ell_type = 2
             self.point1 = self.points[0][0]
             self.point2 = self.points[0][1]
             self.point3 = self.points[self.c][0]
             self.point4 = self.points[self.c][1]
         elif rect_height == 0 and rect_width == 0:
-            pygame.draw.line(self.screen, self.color, self.points[self.c], self.points[0], 1)
+            pygame.draw.line(self.screen, self.color, self.points[self.c], self.points[0], 4)
             self.ell_type = 2
             self.point1 = self.points[self.c][0]
             self.point2 = self.points[self.c][1]
