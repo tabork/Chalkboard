@@ -31,8 +31,8 @@ class main:
                 self.width = 1280
                 self.height = 720
             else:
-                self.width = 1080
-                self.height = 720
+                self.width = 1000
+                self.height = 750
             self.dragging = False
             self.placed = False
             self.brushClicked = True
