@@ -1002,9 +1002,25 @@ class main:
             elif mouse_x > 336:
                 self.slider_x = 336
         self.changeBrush()
+    def update(self):
+        f = open("updated.txt", "r")
+        if os.path.exists("update.txt"):
+            if f.readline() == "true":
+                v = open("version.txt", 'w')
+                u = open("update.txt", 'r')
+                t = u.readline()
+                v.write(t)
+                v.close()
+                u.close()
+                os.unlink("update.txt")
+        if os.path.exists("updater.exe"):
+            os.unlink("updater.exe")
+        if os.path.exists("updated_launcher.exe"):
+            os.unlink("Chalkboard.exe")
+            os.rename("updated_launcher.exe","Chalkboard.exe")
     def __init__(self):
         self.setup()
-        self.saving = True
+        self.update()
         while True:
             pygame.display.flip()
             self.events()
