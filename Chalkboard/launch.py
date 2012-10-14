@@ -3,7 +3,7 @@ import pygame, sys, Tkinter, math
 #Chalkboard 2.1
 #
 #Expected Features:
-#   Custom cursors
+#   Custom cursors---------------------> being put off until 2.2
 #   Saving and loading images
 #
 #
