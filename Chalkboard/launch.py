@@ -1,4 +1,3 @@
-import pygame, sys, Tkinter, math
 #
 #Chalkboard 2.1
 #
@@ -10,6 +9,7 @@ import pygame, sys, Tkinter, math
 #--GUI repositioned
 #--Need to design Menu pics at top
 #
+import pygame, sys, Tkinter, math, os, urllib
 from pygame.locals import *
 from Tkinter import *
 class main:
@@ -53,6 +53,7 @@ class main:
             self.ellipseClicked = False
             self.arrowClicked = False
             self.fillArrowClicked = False
+            self.fileClicked = False
             self.whiteSelected = True
             self.blackSelected = False
             self.redSelected = False
@@ -108,6 +109,7 @@ class main:
         pygame.draw.rect(self.screen, (206,206,206), Rect(0,0,width,30))
         pygame.draw.rect(self.screen, (233,236,157), Rect(0,30,30,height))
         pygame.draw.rect(self.screen, (233,236,157), Rect(0,30,width,30))
+        self.screen.blit(pygame.image.load("gui\\File.png").convert_alpha(), (5,5))
         if self.brushClicked == False:
             self.screen.blit(pygame.image.load("gui\\brush.png").convert_alpha(), (3,60))
         else:
@@ -665,6 +667,9 @@ class main:
                         self.screen.blit(pygame.image.load("gui\\menu_screen.png"), (0,0))
                     elif xco in range(540,640):
                         self.fillScreen(yco)
+        elif self.fileClicked:
+            print ("clicked")
+            self.fileClicked = False
         else:
             for event in pygame.event.get():
                 if event.type == QUIT:
@@ -672,7 +677,9 @@ class main:
                     sys.exit()
                 elif event.type == MOUSEBUTTONDOWN:
                     xco, yco = event.pos
-                    if self.rectClicked and xco not in range(0,30) and yco not in range(0,60):
+                    if xco in range(0, 50) and yco in range(0, 30):
+                        self.fileClicked = True
+                    elif self.rectClicked and xco not in range(0,30) and yco not in range(0,60):
                         self.points.append(event.pos)
                         self.dragging = True
                     elif self.ellipseClicked and xco not in range(0,30) and yco not in range(0,60):
@@ -766,6 +773,7 @@ class main:
                     elif self.lineClicked:
                         if xco in range(self.slider_line_x, self.slider_line_x + 9) and yco in range(44, 51):
                             self.sh_moving = True
+                    
                 elif event.type == MOUSEBUTTONUP:
                     self.dragging = False
                     self.sh_moving = False
@@ -1003,24 +1011,18 @@ class main:
                 self.slider_x = 336
         self.changeBrush()
     def update(self):
-        f = open("updated.txt", "r")
-        if os.path.exists("update.txt"):
-            if f.readline() == "true":
-                v = open("version.txt", 'w')
-                u = open("update.txt", 'r')
-                t = u.readline()
-                v.write(t)
-                v.close()
-                u.close()
-                os.unlink("update.txt")
-        if os.path.exists("updater.exe"):
-            os.unlink("updater.exe")
-        if os.path.exists("updated_launcher.exe"):
-            os.unlink("Chalkboard.exe")
-            os.rename("updated_launcher.exe","Chalkboard.exe")
+        url = "http://kamakwazee.net/Chalkboard/version.txt"
+        update = urllib.urlopen(url)
+        localFile = open("update.txt","w")
+        localFile.write(update.read())
+        localFile.close()
+        lf = open("update.txt","r")
+        if lf.read() != 2.0.5:
+            os.startfile("ChalkboardUpdates.exe")
+            sys.exit()
     def __init__(self):
-        self.setup()
         self.update()
+        self.setup()
         while True:
             pygame.display.flip()
             self.events()
