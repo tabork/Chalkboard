@@ -1010,18 +1010,7 @@ class main:
             elif mouse_x > 336:
                 self.slider_x = 336
         self.changeBrush()
-    def update(self):
-        url = "http://kamakwazee.net/Chalkboard/version.txt"
-        update = urllib.urlopen(url)
-        localFile = open("update.txt","w")
-        localFile.write(update.read())
-        localFile.close()
-        lf = open("update.txt","r")
-        if lf.read() != 2.0.5:
-            os.startfile("ChalkboardUpdates.exe")
-            sys.exit()
     def __init__(self):
-        self.update()
         self.setup()
         while True:
             pygame.display.flip()
