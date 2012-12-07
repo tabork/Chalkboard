@@ -668,7 +668,6 @@ class main:
                     elif xco in range(540,640):
                         self.fillScreen(yco)
         elif self.fileClicked:
-            print ("clicked")
             self.fileClicked = False
         else:
             for event in pygame.event.get():
