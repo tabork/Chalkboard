@@ -918,8 +918,7 @@ class main:
                             self.changeBrush()
                     elif self.lineClicked:
                         if xco in range(self.slider_line_x, self.slider_line_x + 9) and yco in range(44, 51):
-                            self.sh_moving = True
-                    
+                            self.sh_moving = True   
                 elif event.type == MOUSEBUTTONUP:
                     self.dragging = False
                     self.sh_moving = False
