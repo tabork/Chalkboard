@@ -14,6 +14,9 @@ from Tkinter import *
 class main:
     def declareVar(self, setup_true_false):
         if setup_true_false == False:
+            self.saved = True
+            self.title = "Chalkboard  |  Untitled.png"
+            self.savedname = "Untitled.png"
             self.icon = "gui/icon.gif"
             self.white=(255,255,255)
             self.black=(0, 0, 0)
@@ -101,7 +104,7 @@ class main:
         else:
             self.main_icon = pygame.image.load(self.icon).convert()
             pygame.display.set_icon(self.main_icon)
-            pygame.display.set_caption("Chalkboard", "Chalkboard")
+            pygame.display.set_caption(self.title)
     def getTool(self, t):
         if t == "brush":
             self.brushClicked = True
@@ -846,6 +849,11 @@ class main:
                     sys.exit()
                 elif event.type == MOUSEBUTTONDOWN:
                     xco, yco = event.pos
+                    if xco in range(30,self.width) and yco in range(60,self.height):
+                        if self.saved:
+                            self.saved = False
+                            self.title = self.title + "*"
+                            pygame.display.set_caption(self.title)
                     if xco in range(0, 50) and yco in range(0, 30):
                         self.fileClicked = True
                         pygame.image.save(self.screen, "gui/menu_screen.png")
