@@ -423,6 +423,10 @@ class main:
             self.screen.blit(pygame.image.load("gui/teal_box.png").convert_alpha(), (540,194))
             self.screen.blit(pygame.image.load("gui/purple_box.png").convert_alpha(), (540,214))
             self.screen.blit(pygame.image.load("gui/yellow_box.png").convert_alpha(), (540, 234))
+        if self.fileClicked:
+            self.screen.blit(pygame.image.load("gui/save_as.png").convert_alpha(), (0,25))
+            self.screen.blit(pygame.image.load("gui/save.png").convert_alpha(), (0,45))
+            self.screen.blit(pygame.image.load("gui/open.png").convert_alpha(), (0, 65))
         pygame.display.flip()
     def setup(self):
         pygame.init()
@@ -641,6 +645,12 @@ class main:
                     if (xco not in range(80, 180) or yco not in range(54, 254)) or (xco in range(213,230) and yco in range(34,52)):
                         self.arrowClicked = False
                         self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
+                        if xco in range(0,136) and yco in range(0,25):
+                            self.fileClicked = True
+                            pygame.image.save(self.screen, "gui/menu_screen.png")
+                        elif xco in range(673,690) and yco in range(34,52):
+                            self.fillArrowClicked = True
+                            pygame.image.save(self.screen, "gui/menu_screen.png")
                     elif xco in range(80,180):
                         if yco in range(54, 74):
                             self.whiteSelected = True
@@ -803,10 +813,31 @@ class main:
                     if (xco not in range(540, 640) or yco not in range(54, 254)) or (xco in range(673,690) and yco in range(34,52)):
                         self.fillArrowClicked = False
                         self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
+                        if xco in range(0,136) or yco in range(0,25):
+                            self.fileClicked = True
+                            pygame.image.save(self.screen, "gui/menu_screen.png")
+                        elif xco in range(213,230) and yco in range(34,52):
+                            self.arrowClicked = True
+                            pygame.image.save(self.screen, "gui/menu_screen.png")
                     elif xco in range(540,640):
                         self.fillScreen(yco)
         elif self.fileClicked:
-            self.fileClicked = False
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    self.updateFiles()
+                    pygame.quit()
+                    sys.exit()
+                elif event.type == MOUSEBUTTONDOWN:
+                    xco, yco = pygame.mouse.get_pos()
+                    if (xco not in range(0, 136) or yco not in range(0, 85)) or (xco in range(0,136) and yco in range(0,25)):
+                        self.fileClicked = False
+                        self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
+                        if xco in range(213,230) and yco in range(34,52):
+                            self.arrowClicked = True
+                            pygame.image.save(self.screen, "gui/menu_screen.png")
+                        elif xco in range(673,690) and yco in range(34,52):
+                            self.fillArrowClicked = True
+                            pygame.image.save(self.screen, "gui/menu_screen.png")
         else:
             for event in pygame.event.get():
                 if event.type == QUIT:
@@ -817,6 +848,7 @@ class main:
                     xco, yco = event.pos
                     if xco in range(0, 50) and yco in range(0, 30):
                         self.fileClicked = True
+                        pygame.image.save(self.screen, "gui/menu_screen.png")
                     elif self.rectClicked and xco not in range(0,30) and yco not in range(0,60):
                         self.points.append(event.pos)
                         self.dragging = True
