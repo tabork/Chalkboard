@@ -30,10 +30,10 @@ class main:
             self.brush_mode = "square"
             self.eraser_mode = "square"
             self.points=[]
-            self.ls = 1
+            self.s = 1
             self.c = 1
-            self.es = 1
-            self.bs = 1
+            self.s = 1
+            self.s = 1
             root = Tk()
             self.window_w = root.winfo_screenwidth()
             self.window_h = root.winfo_screenheight()
@@ -223,12 +223,12 @@ class main:
             szf.write("1")
             sz = "1"
         szf.close()
-        self.ls = int(sz)
-        self.es = int(sz)
-        self.bs = int(sz)
-        self.slider_x = 286 + self.bs
-        self.slider_eraser_x = 79 + self.es
-        self.slider_line_x = 286 + self.ls
+        self.s = int(sz)
+        self.s = int(sz)
+        self.s = int(sz)
+        self.slider_x = 286 + self.s
+        self.slider_eraser_x = 79 + self.s
+        self.slider_line_x = 286 + self.s
         if os.path.exists("properties/tool.txt"):
             tf = open("properties/tool.txt", "r")
             t = tf.read()
@@ -1066,37 +1066,37 @@ class main:
     def brush_drag(self):
         x, y = pygame.mouse.get_pos()
         if self.brush_mode == "square":
-            if self.bs == 1:
-                pygame.draw.circle(self.screen,self.color,(x,y),self.bs/2)
+            if self.s == 1:
+                pygame.draw.circle(self.screen,self.color,(x,y),self.s/2)
             else:
-                x -= self.bs/2
-                y -= self.bs/2
-                pygame.draw.rect(self.screen, self.color, Rect(x, y, self.bs, self.bs))
+                x -= self.s/2
+                y -= self.s/2
+                pygame.draw.rect(self.screen, self.color, Rect(x, y, self.s, self.s))
             self.history.append("brush_square")
         elif self.brush_mode == "circle":
-            pygame.draw.circle(self.screen, self.color,(x,y),self.bs/2)
+            pygame.draw.circle(self.screen, self.color,(x,y),self.s/2)
             self.history.append("brush_circle")
         self.hist_points.append(x)
         self.hist_points.append(y)
         self.hist_color.append(self.color)
-        self.hist_size.append(self.bs)
+        self.hist_size.append(self.s)
         pygame.display.flip()
     def eraser_drag(self):
         x, y = pygame.mouse.get_pos()
         if self.eraser_mode == "square":
-            if self.es == 1:
-                pygame.draw.circle(self.screen,self.fill,(x,y),self.es/2)
+            if self.s == 1:
+                pygame.draw.circle(self.screen,self.fill,(x,y),self.s/2)
             else:
-                x -= self.es/2
-                y -= self.es/2
-                pygame.draw.rect(self.screen, self.fill, Rect(x, y, self.es, self.es))
+                x -= self.s/2
+                y -= self.s/2
+                pygame.draw.rect(self.screen, self.fill, Rect(x, y, self.s, self.s))
             self.history.append("eraser_square")
         elif self.eraser_mode == "circle":
-            pygame.draw.circle(self.screen, self.fill,(x,y),self.es/2)
+            pygame.draw.circle(self.screen, self.fill,(x,y),self.s/2)
             self.history.append("eraser_circle")
         self.hist_points.append(x)
         self.hist_points.append(y)
-        self.hist_size.append(self.es)
+        self.hist_size.append(self.s)
         self.hist_color.append(self.fill)
         pygame.display.flip()
     def line_drag(self):
@@ -1105,17 +1105,17 @@ class main:
         else:
             self.screen.fill(self.fill)
         self.points.append(pygame.mouse.get_pos())
-        pygame.draw.line(self.screen, self.color, self.points[0], self.points[self.c], self.ls)
+        pygame.draw.line(self.screen, self.color, self.points[0], self.points[self.c], self.s)
         self.point1 = self.points[0][0]
         self.point2 = self.points[0][1]
         self.point3 = self.points[self.c][0]
         self.point4 = self.points[self.c][1]
-        self.line_s = self.ls
+        self.line_s = self.s
         self.line_c = self.color
         self.c += 1
         pygame.display.flip()
     def changeEraser(self):
-        self.es = self.slider_eraser_x - 79
+        self.s = self.slider_eraser_x - 79
     def eraserSlider(self):
         mouse_x, mouse_y = pygame.mouse.get_pos()
         if mouse_x >= 80 and mouse_x <= 129:
@@ -1127,9 +1127,9 @@ class main:
                 self.slider_eraser_x = 129
         self.changeEraser()
     def changeBrush(self):
-        self.bs = self.slider_x - 286
+        self.s = self.slider_x - 286
     def changeLine(self):
-        self.ls = self.slider_line_x - 286
+        self.s = self.slider_line_x - 286
     def lineSlider(self):
         mouse_x, mouse_y = pygame.mouse.get_pos()
         if mouse_x >= 287 and mouse_x <= 336:
@@ -1193,7 +1193,7 @@ class main:
         self.sh.write(self.brush_mode)
         self.sh.close()
         self.sz = open("properties/size.txt", "w")
-        self.sz.write(str(self.bs))
+        self.sz.write(str(self.s))
         self.sz.close()
         self.tl = open("properties/tool.txt", "w")
         self.tl.write(self.getToolString())
