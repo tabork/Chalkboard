@@ -45,7 +45,7 @@ class main:
                 self.height = 720
             self.dragging = False
             self.placed = False
-            self.brushClicked = True
+            self.brushClicked = False
             self.eraserClicked = False
             self.rectClicked = False
             self.lineClicked = False
@@ -53,7 +53,7 @@ class main:
             self.arrowClicked = False
             self.fillArrowClicked = False
             self.fileClicked = False
-            self.whiteSelected = True
+            self.whiteSelected = False
             self.blackSelected = False
             self.redSelected = False
             self.orangeSelected = False
@@ -62,7 +62,8 @@ class main:
             self.blueSelected = False
             self.tealSelected = False
             self.purpleSelected = False
-            self.blackFillSelected = True
+            self.yellowSelected = False
+            self.blackFillSelected = False
             self.whiteFillSelected = False
             self.redFillSelected = False
             self.orangeFillSelected = False
@@ -76,9 +77,9 @@ class main:
             self.slider_line_x = 287
             self.slider_eraser_x = 80
             self.sh_moving = False
-            self.squareClicked = True
+            self.squareClicked = False
             self.circleClicked = False
-            self.squareBrushClicked = True
+            self.squareBrushClicked = False
             self.circleBrushClicked = False
             self.history = []
             self.hist_points = []
@@ -97,12 +98,149 @@ class main:
             self.rect_c = self.black
             self.line_s = 0
             self.line_c = (0,0,0)
-            self.size = (0,0)
             self.cx = 810
         else:
             self.main_icon = pygame.image.load(self.icon).convert()
             pygame.display.set_icon(self.main_icon)
             pygame.display.set_caption("Chalkboard", "Chalkboard")
+    def getTool(self, t):
+        if t == "brush":
+            self.brushClicked = True
+        elif t == "eraser":
+            self.eraserClicked = True
+        elif t == "rect":
+            self.rectClicked = True
+        elif t == "ellipse":
+            self.ellipseClicked = True
+        elif t == "line":
+            self.lineClicked = True
+    def setClicked(self, bg):
+        if bg:
+            if self.fill == self.black:
+                self.blackFillSelected = True
+            elif self.fill == self.white:
+                self.whiteFillSelected = True
+            elif self.fill == self.red:
+                self.redFillSelected = True
+            elif self.fill == self.blue:
+                self.blueFillSelected = True
+            elif self.fill == self.green:
+                self.greenFillSelected = True
+            elif self.fill == self.yellow:
+                self.yellowFillSelected = True
+            elif self.fill == self.lime:
+                self.limeFillSelected = True
+            elif self.fill == self.purple:
+                self.purpleFillSelected = True
+            elif self.fill == self.teal:
+                self.tealFillSelected = True
+            elif self.fill == self.orange:
+                self.orangeFillSelected = True
+        else:
+            if self.color == self.black:
+                self.blackSelected = True
+            elif self.color == self.white:
+                self.whiteSelected = True
+            elif self.color == self.red:
+                self.redSelected = True
+            elif self.color == self.blue:
+                self.blueSelected = True
+            elif self.color == self.green:
+                self.greenSelected = True
+            elif self.color == self.yellow:
+                self.yellowSelected = True
+            elif self.color == self.lime:
+                self.limeSelected = True
+            elif self.color == self.purple:
+                self.purpleSelected = True
+            elif self.color == self.teal:
+                self.tealSelected = True
+            elif self.color == self.orange:
+                self.orangeSelected = True
+    def getColor(self, c):
+        if c == "black":
+            return self.black
+        elif c == "white":
+            return self.white
+        elif c == "red":
+            return self.red
+        elif c == "blue":
+            return self.blue
+        elif c == "green":
+            return self.green
+        elif c == "yellow":
+            return self.yellow
+        elif c == "lime":
+            return self.lime
+        elif c == "purple":
+            return self.purple
+        elif c == "teal":
+            return self.teal
+        elif c == "orange":
+            return self.orange
+    def getProperties(self):
+        if os.path.exists("properties/bgColor.txt"):
+            bgcf = open("properties/bgColor.txt", "r")
+            bgc = bgcf.read()
+        else:
+            bgcf = open("properties/bgColor.txt", "w")
+            bgcf.write("black")
+            bgc = "black"
+        bgcf.close()
+        self.fill = self.getColor(bgc)
+        self.setClicked(True)
+        if os.path.exists("properties/fgColor.txt"):
+            fgcf = open("properties/fgColor.txt", "r")
+            fgc = fgcf.read()
+        else:
+            fgcf = open("properties/fgColor.txt", "w")
+            fgcf.write("white")
+            fgc = "white"
+        fgcf.close()
+        self.color = self.getColor(fgc)
+        self.setClicked(False)
+        if os.path.exists("properties/shape.txt"):
+            sf = open("properties/shape.txt", "r")
+            s = sf.read()
+        else:
+            sf = open("properties/shape.txt", "w")
+            sf.write("square")
+            s = "square"
+        sf.close()
+        self.brush_mode = s
+        self.eraser_mode = s
+        if s == "square":
+            self.squareClicked = True
+            self.squareBrushClicked = True
+        else:
+            self.circleClicked = True
+            self.circleBrushClicked = True
+        if os.path.exists("properties/size.txt"):
+            szf = open("properties/size.txt", "r")
+            sz = szf.read()
+        else:
+            szf = open("properties/size.txt", "w")
+            szf.write("1")
+            sz = "1"
+        szf.close()
+        self.ls = int(sz)
+        self.es = int(sz)
+        self.bs = int(sz)
+        self.slider_x = 286 + self.bs
+        self.slider_eraser_x = 79 + self.es
+        self.slider_line_x = 286 + self.ls
+        if os.path.exists("properties/tool.txt"):
+            tf = open("properties/tool.txt", "r")
+            t = tf.read()
+        else:
+            tf = open("properties/tool.txt", "w")
+            tf.write("brush")
+            t = "brush"
+        tf.close()
+        self.getTool(t)
+        print(self.fill)
+        self.screen.fill(self.fill)
+        pygame.display.flip()
     def gui(self, width, height):
         pygame.display.flip()
         pygame.draw.rect(self.screen, (206,206,206), Rect(0,0,width,30))
@@ -293,6 +431,7 @@ class main:
         self.declareVar(False)
         self.screen = pygame.display.set_mode((self.width,self.height),RESIZABLE,0)
         self.declareVar(True)
+        self.getProperties()
         self.gui(self.width, self.height)
     def redraw(self, h, p, c, s):
         i = 0
@@ -496,6 +635,7 @@ class main:
         if self.arrowClicked:
             for event in pygame.event.get():
                 if event.type == QUIT:
+                    self.updateFiles()
                     pygame.quit()
                     sys.exit()
                 elif event.type == MOUSEBUTTONDOWN:
@@ -657,6 +797,7 @@ class main:
         elif self.fillArrowClicked:
             for event in pygame.event.get():
                 if event.type == QUIT:
+                    self.updateFiles()
                     pygame.quit()
                     sys.exit()
                 elif event.type == MOUSEBUTTONDOWN:
@@ -671,6 +812,7 @@ class main:
         else:
             for event in pygame.event.get():
                 if event.type == QUIT:
+                    self.updateFiles()
                     pygame.quit()
                     sys.exit()
                 elif event.type == MOUSEBUTTONDOWN:
@@ -1008,6 +1150,54 @@ class main:
             elif mouse_x > 336:
                 self.slider_x = 336
         self.changeBrush()
+    def getToolString(self):
+        if self.brushClicked:
+            return "brush"
+        elif self.eraserClicked:
+            return "eraser"
+        elif self.rectClicked:
+            return "rect"
+        elif self.ellipseClicked:
+            return "ellipse"
+        elif self.lineClicked:
+            return "line"
+    def colorToString(self, clr):
+        if clr == self.black:
+            return "black"
+        elif clr == self.white:
+            return "white"
+        elif clr == self.red:
+            return "red"
+        elif clr == self.blue:
+            return "blue"
+        elif clr == self.green:
+            return "green"
+        elif clr == self.lime:
+            return "lime"
+        elif clr == self.purple:
+            return "purple"
+        elif clr == self.teal:
+            return "teal"
+        elif clr == self.yellow:
+            return "yellow"
+        elif clr == self.orange:
+            return "orange"
+    def updateFiles(self):
+        self.bg = open("properties/bgColor.txt", "w")
+        self.bg.write(self.colorToString(self.fill))
+        self.bg.close()
+        self.fg = open("properties/fgColor.txt", "w")
+        self.fg.write(self.colorToString(self.color))
+        self.fg.close()
+        self.sh = open("properties/shape.txt", "w")
+        self.sh.write(self.brush_mode)
+        self.sh.close()
+        self.sz = open("properties/size.txt", "w")
+        self.sz.write(str(self.bs))
+        self.sz.close()
+        self.tl = open("properties/tool.txt", "w")
+        self.tl.write(self.getToolString())
+        self.tl.close()
     def __init__(self):
         self.setup()
         while True:
