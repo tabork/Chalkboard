@@ -1215,6 +1215,12 @@ class main:
         self.tl = open("properties/tool.txt", "w")
         self.tl.write(self.getToolString())
         self.tl.close()
+        if os.path.exists("gui/fs_screen.png"):
+            os.remove("gui/fs_screen.png")
+        if os.path.exists("gui/menu_screen.png"):
+            os.remove("gui/menu_screen.png")
+        if os.path.exists("gui/screen.png"):
+            os.remove("gui/screen.png")
     def __init__(self):
         self.setup()
         while True:
