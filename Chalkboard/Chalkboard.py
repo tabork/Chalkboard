@@ -2,9 +2,8 @@
 #Chalkboard 2.1
 #
 #Expected Features:
-#   Custom cursors---------------------> being put off until 2.2
 #   Saving and loading images
-#
+#   Property saves
 #
 #--GUI repositioned
 #--Need to design Menu pics at top
