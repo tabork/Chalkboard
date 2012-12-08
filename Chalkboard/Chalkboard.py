@@ -1120,11 +1120,17 @@ class main:
         mouse_x, mouse_y = pygame.mouse.get_pos()
         if mouse_x >= 80 and mouse_x <= 129:
             self.slider_eraser_x = mouse_x
+            self.slider_x = mouse_x + 207
+            self.slider_line_x = mouse_x + 207
         else:
             if mouse_x < 80:
                 self.slider_eraser_x = 80
+                self.slider_x = 287
+                self.slider_line_x = 287
             elif mouse_x > 129:
                 self.slider_eraser_x = 129
+                self.slider_x = 336
+                self.slider_line_x = 336
         self.changeEraser()
     def changeBrush(self):
         self.s = self.slider_x - 286
@@ -1134,21 +1140,33 @@ class main:
         mouse_x, mouse_y = pygame.mouse.get_pos()
         if mouse_x >= 287 and mouse_x <= 336:
             self.slider_line_x = mouse_x
+            self.slider_x = mouse_x
+            self.slider_eraser_x = mouse_x - 207
         else:
             if mouse_x < 287:
                 self.slider_line_x = 287
+                self.slider_x = 287
+                self.slider_eraser_x = 80
             elif mouse_x > 336:
                 self.slider_line_x = 336
+                self.slider_x = 336
+                self.slider_eraser_x = 129
         self.changeLine()
     def brushSlider(self):
         mouse_x, mouse_y = pygame.mouse.get_pos()
         if mouse_x >= 287 and mouse_x <= 336:
             self.slider_x = mouse_x
+            self.slider_line_x = mouse_x
+            self.slider_eraser_x = mouse_x - 207
         else:
             if mouse_x < 287:
                 self.slider_x = 287
+                self.slider_line_x = 287
+                self.slider_eraser_x = 80
             elif mouse_x > 336:
                 self.slider_x = 336
+                self.slider_line_x = 336
+                self.slider_eraser_x = 129
         self.changeBrush()
     def getToolString(self):
         if self.brushClicked:
