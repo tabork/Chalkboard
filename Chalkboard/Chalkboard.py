@@ -238,7 +238,6 @@ class main:
             t = "brush"
         tf.close()
         self.getTool(t)
-        print(self.fill)
         self.screen.fill(self.fill)
         pygame.display.flip()
     def gui(self, width, height):
