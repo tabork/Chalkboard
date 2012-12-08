@@ -27,8 +27,7 @@ class main:
             self.orange = (255, 102, 0)
             self.fill = self.black
             self.color = self.white
-            self.brush_mode = "square"
-            self.eraser_mode = "square"
+            self.mode = "square"
             self.points=[]
             self.s = 1
             self.c = 1
@@ -207,8 +206,8 @@ class main:
             sf.write("square")
             s = "square"
         sf.close()
-        self.brush_mode = s
-        self.eraser_mode = s
+        self.mode = s
+        self.mode = s
         if s == "square":
             self.squareClicked = True
             self.squareBrushClicked = True
@@ -888,26 +887,34 @@ class main:
                             self.sh_moving = True
                         elif xco in range(138, 164) and yco in range(33,59):
                             self.squareClicked = True
+                            self.squareBrushClicked = True
                             self.circleClicked = False
-                            self.eraser_mode = "square"
+                            self.circleBrushClicked = False
+                            self.mode = "square"
                             self.changeEraser()
                         elif xco in range(168, 194) and yco in range(33,59):
                             self.circleClicked = True
+                            self.circleBrushClicked = True
                             self.squareClicked = False
-                            self.eraser_mode = "circle"
+                            self.squareBrushClicked = False
+                            self.mode = "circle"
                             self.changeEraser()
                     elif self.brushClicked:
                         if xco in range(self.slider_x, self.slider_x + 9) and yco in range(44, 51):
                             self.sh_moving = True
                         elif xco in range(350, 376) and yco in range(33,59):
                             self.squareBrushClicked = True
+                            self.squareClicked = True
                             self.circleBrushClicked = False
-                            self.brush_mode = "square"
+                            self.circleClicked = False
+                            self.mode = "square"
                             self.changeBrush()
                         elif xco in range(380,406) and yco in range(33,59):
                             self.circleBrushClicked = True
+                            self.circleClicked = True
                             self.squareBrushClicked = False
-                            self.brush_mode = "circle"
+                            self.squareClicked = False
+                            self.mode = "circle"
                             self.changeBrush()
                     elif self.lineClicked:
                         if xco in range(self.slider_line_x, self.slider_line_x + 9) and yco in range(44, 51):
@@ -1064,7 +1071,7 @@ class main:
         pygame.display.flip()
     def brush_drag(self):
         x, y = pygame.mouse.get_pos()
-        if self.brush_mode == "square":
+        if self.mode == "square":
             if self.s == 1:
                 pygame.draw.circle(self.screen,self.color,(x,y),self.s/2)
             else:
@@ -1072,7 +1079,7 @@ class main:
                 y -= self.s/2
                 pygame.draw.rect(self.screen, self.color, Rect(x, y, self.s, self.s))
             self.history.append("brush_square")
-        elif self.brush_mode == "circle":
+        elif self.mode == "circle":
             pygame.draw.circle(self.screen, self.color,(x,y),self.s/2)
             self.history.append("brush_circle")
         self.hist_points.append(x)
@@ -1082,7 +1089,7 @@ class main:
         pygame.display.flip()
     def eraser_drag(self):
         x, y = pygame.mouse.get_pos()
-        if self.eraser_mode == "square":
+        if self.mode == "square":
             if self.s == 1:
                 pygame.draw.circle(self.screen,self.fill,(x,y),self.s/2)
             else:
@@ -1090,7 +1097,7 @@ class main:
                 y -= self.s/2
                 pygame.draw.rect(self.screen, self.fill, Rect(x, y, self.s, self.s))
             self.history.append("eraser_square")
-        elif self.eraser_mode == "circle":
+        elif self.mode == "circle":
             pygame.draw.circle(self.screen, self.fill,(x,y),self.s/2)
             self.history.append("eraser_circle")
         self.hist_points.append(x)
@@ -1207,7 +1214,7 @@ class main:
         self.fg.write(self.colorToString(self.color))
         self.fg.close()
         self.sh = open("properties/shape.txt", "w")
-        self.sh.write(self.brush_mode)
+        self.sh.write(self.mode)
         self.sh.close()
         self.sz = open("properties/size.txt", "w")
         self.sz.write(str(self.s))
