@@ -1,6 +1,8 @@
 #
 #Chalkboard 2.1
 #
+#   Created and Maintained by the Kamakwazee Open Source Team
+#
 #Expected Features:
 #   Saving and loading images
 #   Property saves
@@ -8,18 +10,23 @@
 #--GUI repositioned
 #--Need to design Menu pics at top
 #
-import pygame, sys, Tkinter, math, os, urllib, tkFileDialog, tkMessageBox, save_as, open_file
+import pygame, sys, Tkinter, math, os, urllib, tkFileDialog, tkMessageBox, save_as, open_file, display
 from pygame.locals import *
 from Tkinter import *
 class main:
     def open_it(self):
         self.fileClicked = False
+        if self.saved == False:
+            yn = display.disp().display()
+            if yn:
+                self.save()
         self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
         pygame.display.flip()
         fn = open_file.open_f().openfile()
         if fn != None:
             self.opened = True
             self.opened_file = fn
+            self.savedname = fn
             loaded = pygame.image.load(fn)
             pygame.transform.scale(loaded,(self.width-30,self.height-60))
             self.screen.blit(loaded,(30,60))
@@ -27,6 +34,27 @@ class main:
             self.title = "Chalkboard  |  " + fn
             pygame.display.set_caption(self.title)
             pygame.display.flip()
+    def save(self):
+        self.fileClicked = False
+        self.screen.blit(pygame.image.load("gui/menu_screen.png"),(0,0))
+        self.saving = True
+        if self.saved == False:
+            if self.savedname == "Untitled.png":
+                self.save_as()
+            else:
+                pygame.image.save(self.screen, "tmp.png")
+                self.screen = pygame.display.set_mode((self.width-30,self.height-60),0,0)
+                pygame.display.flip()
+                self.screen.blit(pygame.image.load("tmp.png"),(-30,-60))
+                pygame.display.flip()
+                pygame.image.save(self.screen,self.savedname)
+                self.screen = pygame.display.set_mode((self.width,self.height),RESIZABLE,0)
+                self.screen.blit(pygame.image.load("tmp.png"),(0,0))
+                self.gui(self.width,self.height)
+                self.saved = True
+                self.title = "Chalkboard  |  " + self.savedname
+                pygame.display.set_caption(self.title)
+        self.saving = False
     def save_as(self):
         self.fileClicked = False
         self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
@@ -46,6 +74,7 @@ class main:
             self.title = "Chalkboard  |  " + fn
             pygame.display.set_caption(self.title)
             os.remove("tmp.png")
+            self.savedname = fn
         self.saving = False
     def declareVar(self, setup_true_false):
         if setup_true_false == False:
@@ -676,6 +705,10 @@ class main:
             self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
             self.fill = self.yellow
             self.screen.fill(self.fill)
+        if self.saved:
+            self.saved = False
+            self.title = self.title + "*"
+            pygame.display.set_caption(self.title)
         self.redraw(self.history, self.hist_points, self.hist_color, self.hist_size)
     def events(self):
         if self.arrowClicked:
@@ -884,6 +917,8 @@ class main:
                             pygame.image.save(self.screen, "gui/menu_screen.png")
                     if xco in range(0,136) and yco in range(25,45):
                         self.save_as()
+                    elif xco in range(0,136) and yco in range(45,65):
+                        self.save()
                     elif xco in range(0,136) and yco in range(65,85):
                         self.open_it()
         else:
@@ -1294,7 +1329,15 @@ class main:
             return "yellow"
         elif clr == self.orange:
             return "orange"
+    def saveAndExit(self):
+        pygame.image.save(self.screen,"gui/menu_screen.png")
+        if self.saved == False:
+            yn = display.disp().display()
+            if yn:
+                self.save()
     def updateFiles(self):
+        self.saveAndExit()
+        pygame.display.flip()
         self.bg = open("properties/bgColor.txt", "w")
         self.bg.write(self.colorToString(self.fill))
         self.bg.close()

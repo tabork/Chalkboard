@@ -6,7 +6,7 @@ class open_f():
 
       # Create a save file dialog
 
-      filters = '(*.png)|*.png|(*.jpg)|*.jpg|(*.bmp)|*.bmp|(*.gif)|*.gif'
+      filters = '(*.png)|*.png|(*.jpg)|*.jpg|(*.bmp)|*.bmp'
 
       dialog = wx.FileDialog ( None, style = wx.OPEN, wildcard = filters )
 
