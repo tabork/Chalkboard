@@ -17,34 +17,36 @@ class main:
         self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
         pygame.display.flip()
         fn = open_file.open_f().openfile()
-        self.opened = True
-        self.opened_file = fn
-        loaded = pygame.image.load(fn)
-        pygame.transform.scale(loaded,(self.width-30,self.height-60))
-        self.screen.blit(loaded,(30,60))
-        self.saved = True
-        self.title = "Chalkboard  |  " + fn
-        pygame.display.set_caption(self.title)
-        pygame.display.flip()
+        if fn != None:
+            self.opened = True
+            self.opened_file = fn
+            loaded = pygame.image.load(fn)
+            pygame.transform.scale(loaded,(self.width-30,self.height-60))
+            self.screen.blit(loaded,(30,60))
+            self.saved = True
+            self.title = "Chalkboard  |  " + fn
+            pygame.display.set_caption(self.title)
+            pygame.display.flip()
     def save_as(self):
         self.fileClicked = False
-        self.saving = True
         self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
+        self.saving = True
         fn = save_as.save().saveas()
-        pygame.image.save(self.screen, "tmp.png")
-        self.screen = pygame.display.set_mode((self.width-30,self.height-60),0,0)
-        pygame.display.flip()
-        self.screen.blit(pygame.image.load("tmp.png"),(-30,-60))
-        pygame.display.flip()
-        pygame.image.save(self.screen,fn)
-        self.screen = pygame.display.set_mode((self.width,self.height),RESIZABLE,0)
-        self.screen.blit(pygame.image.load("tmp.png"),(0,0))
+        if fn != None:
+            pygame.image.save(self.screen, "tmp.png")
+            self.screen = pygame.display.set_mode((self.width-30,self.height-60),0,0)
+            pygame.display.flip()
+            self.screen.blit(pygame.image.load("tmp.png"),(-30,-60))
+            pygame.display.flip()
+            pygame.image.save(self.screen,fn)
+            self.screen = pygame.display.set_mode((self.width,self.height),RESIZABLE,0)
+            self.screen.blit(pygame.image.load("tmp.png"),(0,0))
+            self.gui(self.width,self.height)
+            self.saved = True
+            self.title = "Chalkboard  |  " + fn
+            pygame.display.set_caption(self.title)
+            os.remove("tmp.png")
         self.saving = False
-        self.gui(self.width,self.height)
-        self.saved = True
-        self.title = "Chalkboard  |  " + fn
-        pygame.display.set_caption(self.title)
-        os.remove("tmp.png")
     def declareVar(self, setup_true_false):
         if setup_true_false == False:
             self.saved = True

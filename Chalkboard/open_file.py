@@ -13,16 +13,8 @@ class open_f():
       # Show the dialog and get user input
 
       if dialog.ShowModal() == wx.ID_OK:
-
-         print 'Selected:', dialog.GetPath()
-
-      # The user did not select anything
-
+         dialog.Destroy()
+         return dialog.GetPath()
       else:
-
-         print 'Nothing was selected.'
-
-      # Destroy the dialog
-
-      dialog.Destroy()
-      return dialog.GetPath()
+         dialog.Destroy()
+         return None

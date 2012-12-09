@@ -13,16 +13,10 @@ class save():
       # Show the dialog and get user input
 
       if dialog.ShowModal() == wx.ID_OK:
-
-         print 'Selected:', dialog.GetPath()
-
-      # The user did not select anything
-
+         dialog.Destroy()
+         return dialog.getPath()
       else:
+         dialog.Destroy()
+         return None
 
-         print 'Nothing was selected.'
-
-      # Destroy the dialog
-
-      dialog.Destroy()
-      return dialog.GetPath()
+      
