@@ -54,6 +54,7 @@ class main:
                 self.saved = True
                 self.title = "Chalkboard  |  " + self.savedname
                 pygame.display.set_caption(self.title)
+                os.remove("tmp.png")
         self.saving = False
     def save_as(self):
         self.fileClicked = False
