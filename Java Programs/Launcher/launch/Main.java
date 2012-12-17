@@ -2,7 +2,9 @@ package launch;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.Scanner;
 
 import javax.swing.JFrame;
@@ -35,11 +37,19 @@ public class Main {
 	}
 	public static void main(String[] args) throws IOException {
 		program program = new program();
-		FileUtils.copyURLToFile(new URL("http://www.kamakwazee.net/Chalkboard/version.txt"), new File("update.txt"));
-		if(checkForUpdates()){
-			new Update();
+		try{
+			FileUtils.copyURLToFile(new URL("http://www.kamakwazee.net/Chalkboard/version.txt"), new File("update.txt"));
+			if(checkForUpdates()){
+				new Update().setup();
+			}
+			else{
+				program.start();
+			}
 		}
-		else{
+		catch(UnknownHostException uhe){
+			program.start();
+		}
+		catch(ConnectException ce){
 			program.start();
 		}
 	}

@@ -1,17 +1,27 @@
 package launch;
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.SwingUtilities;
+
 import org.apache.commons.io.*;
 
-public class Downloader {
+public class Downloader extends JFrame{
 	
 	public static String progress;
 	public static double totalSize;
@@ -19,66 +29,74 @@ public class Downloader {
 	public static long current;
 	public static int percentage;
 	public static String percent;
+	public JLabel l;
+    public static JProgressBar bar;
+    public JButton yes;
+    public JButton no;
+    public JPanel yn;
+	
+	private class ButtonListener implements ActionListener{
+		
+		public void actionPerformed(ActionEvent event){
+			if(event.getSource() == yes){
+				try {
+					yes.setEnabled(false);
+					no.setEnabled(false);
+					l.setText("Downloading Updates");
+					l.update(l.getGraphics());
+					update(getGraphics());
+					Download();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			else{
+				try {
+					Continue();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		
+	}
 
     private static class ProgressListener implements ActionListener {
 
-        public void clear(){
-        	for(int i = 0;i<25;i++){
-        		System.out.print("\n");
-        	}
-        }
-        @Override
         public void actionPerformed(ActionEvent e){
-        	if(start != true){
-        		clear();
-        	}
-        	else{
-        		start = false;
-        	}
             // e.getSource() gives you the object of DownloadCountingOutputStream
             // because you set it in the overriden method, afterWrite().
         	current = ((DownloadCountingOutputStream) e.getSource()).getByteCount();
             percentage = (int) Math.round((current/totalSize)*100);
-            percent = "] " + Integer.toString(percentage) + "%";
-            if(percentage >= 0 && percentage <= 10){
-            	progress = "[                    ";
-            }
-            else if(percentage >= 10 && percentage <= 20){
-            	progress = "[--                  ";
-            }
-            else if(percentage >= 20 && percentage <= 30){
-            	progress = "[----                ";
-            }
-            else if(percentage >= 30 && percentage <= 40){
-            	progress = "[------              ";
-            }
-            else if(percentage >= 40 && percentage <= 50){
-            	progress = "[--------            ";
-            }
-            else if(percentage >= 50 && percentage <= 60){
-            	progress = "[----------          ";
-            }
-            else if(percentage >= 60 && percentage <= 70){
-            	progress = "[------------        ";
-            }
-            else if(percentage >= 70 && percentage <= 80){
-            	progress = "[--------------      ";
-            }
-            else if(percentage >= 80 && percentage <= 90){
-            	progress = "[----------------    ";
-            }
-            else if(percentage >= 90 && percentage < 100){
-            	progress = "[------------------  ";
-            }
-            else{
-            	progress = "[--------------------";
-            }
-            System.out.println(progress + percent);
+            changeBar(percentage);
         }
     }
 
-    public Downloader() throws IOException {
-    	progress = "[                    ";
+    
+    
+    public Downloader(){
+    	super("Downloading Updates");
+    	l = new JLabel("Would you like to download new updates?");
+    	bar = new JProgressBar();
+    	yes = new JButton("Yes");
+    	yes.addActionListener(new ButtonListener());
+    	no = new JButton("No");
+    	no.addActionListener(new ButtonListener());
+    	yn = new JPanel();
+    	yn.add(yes); yn.add(no);
+    	add(l, BorderLayout.NORTH);
+    	add(yn, BorderLayout.SOUTH);
+    	add(bar, BorderLayout.CENTER);
+    }
+
+	public void Continue() throws IOException {
+		new program().start();
+		terminate();
+	}
+
+	public void Download() throws IOException {
     	Scanner scan = new Scanner(new File("update.txt"));
         URL dl = null;
         File fl = null;
@@ -87,8 +105,8 @@ public class Downloader {
         InputStream is = null;
         ProgressListener progressListener = new ProgressListener();
         try {
-            fl = new File("updater.exe");
-            dl = new URL("http://kamakwazee.net/Downloads/Chalkboard/Chalkboard-" + scan.nextLine() + "-win32-setup");
+            fl = new File("update.exe");
+            dl = new URL("http://kamakwazee.net/Chalkboard/update.exe");
             scan.close();
             os = new FileOutputStream(fl);
             is = dl.openStream();
@@ -113,6 +131,24 @@ public class Downloader {
             if (is != null) { 
                 is.close(); 
             }
+            finished();
         }
-    }
+		
+	}
+	private void finished() throws MalformedURLException, IOException {
+		new Update().runUpdate();
+		terminate();
+	}
+
+	public static void changeBar(int p){
+		bar.setValue(p);
+		bar.setStringPainted(true);
+		bar.update(bar.getGraphics());
+	}
+
+	public void terminate() {
+		super.setVisible(false);
+		super.dispose();
+		
+	}
 }
