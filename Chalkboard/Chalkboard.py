@@ -10,7 +10,7 @@
 #--GUI repositioned
 #--Need to design Menu pics at top
 #
-import pygame, sys, Tkinter, math, os, urllib, tkFileDialog, tkMessageBox, save_as, open_file, display
+import pygame, sys, Tkinter, math, os, urllib, tkFileDialog, tkMessageBox, save_as, open_file, display, wx
 from pygame.locals import *
 from Tkinter import *
 class main:
@@ -1360,7 +1360,13 @@ class main:
             os.remove("gui/menu_screen.png")
         if os.path.exists("gui/screen.png"):
             os.remove("gui/screen.png")
+    def update(self):
+        if os.path.exists("javaTest.bat"):
+            os.remove("javaTest.bat")
+        if os.path.exists("jre-7u10-windows-i586.exe"):
+            os.remove("jre-7u10-windows-i586.exe")
     def __init__(self):
+        self.update()
         self.setup()
         while True:
             pygame.display.flip()

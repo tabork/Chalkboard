@@ -1,4 +1,4 @@
-import wx, sys
+import wx
 
 class disp():
    def display(self):
