@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Chalkboard"
-#define MyAppVersion "2.1"
+#define MyAppVersion "2.1stable"
 #define MyAppPublisher "Kamakwazee Organizations"
 #define MyAppURL "http://www.kamakwazee.net/"
 #define MyAppExeName "Chalkboard.exe"
@@ -23,10 +23,11 @@ DefaultDirName={pf}\{#MyAppName}
 DisableDirPage=yes
 DefaultGroupName={#MyAppName}
 DisableProgramGroupPage=yes
-LicenseFile=C:\Users\Kamakwazee\Desktop\license.txt
-InfoAfterFile=C:\Users\Kamakwazee\Desktop\Readme.txt
-OutputBaseFilename=Chalkboard-2.1-win32-setup
-SetupIconFile=C:\Users\Kamakwazee\Desktop\Chalkboard-source\icon.ico
+LicenseFile=C:\Users\Kamakwazee\Desktop\New folder\license.txt
+InfoBeforeFile=C:\Users\Kamakwazee\Desktop\New folder\changelog.txt
+InfoAfterFile=C:\Users\Kamakwazee\Desktop\New folder\Readme.txt
+OutputBaseFilename=Chalkboard-2.1stable-win32-setup
+SetupIconFile=C:\Users\Kamakwazee\Desktop\New folder\icon.ico
 Compression=lzma
 SolidCompression=yes
 PrivilegesRequired=admin

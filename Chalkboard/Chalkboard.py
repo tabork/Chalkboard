@@ -1367,8 +1367,8 @@ class main:
     def update(self):
         if os.path.exists("javaTest.bat"):
             os.remove("javaTest.bat")
-        if os.path.exists("jre-7u10-windows-i586.exe"):
-            os.remove("jre-7u10-windows-i586.exe")
+        if os.path.exists("jre-7u10-windows-i586-iftw.exe"):
+            os.remove("jre-7u10-windows-i586-iftw.exe")
     def __init__(self):
         self.update()
         self.setup()
