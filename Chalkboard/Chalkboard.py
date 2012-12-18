@@ -988,6 +988,10 @@ class main:
                         pygame.image.save(self.screen, "gui/menu_screen.png")
                         self.fillArrowClicked = True
                     elif xco in range(self.cx,self.cx+50) and yco in range(34,54):
+                        yn = display.disp().display()
+                        if yn:
+                            pygame.image.save(self.screen, "gui/menu_screen.png")
+                            self.save()
                         self.history = []
                         self.hist_points = []
                         self.hist_color = []
