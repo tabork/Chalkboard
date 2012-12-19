@@ -1,19 +1,93 @@
 #
 #Chalkboard 2.1
 #
+#   Created and Maintained by the Kamakwazee Open Source Team
+#
 #Expected Features:
 #   Saving and loading images
-#
+#   Property saves
 #
 #--GUI repositioned
 #--Need to design Menu pics at top
 #
-import pygame, sys, Tkinter, math, os, urllib
+import pygame, sys, Tkinter, math, os, urllib, tkFileDialog, tkMessageBox, save_as, open_file, display, wx
 from pygame.locals import *
 from Tkinter import *
 class main:
+    def open_it(self):
+        self.fileClicked = False
+        if self.saved == False:
+            yn = display.disp().display()
+            if yn:
+                self.save()
+        self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
+        pygame.display.flip()
+        fn = open_file.open_f().openfile()
+        if fn != None:
+            self.opened = True
+            self.opened_file = fn
+            self.savedname = fn
+            loaded = pygame.image.load(fn)
+            pygame.transform.scale(loaded,(self.width-30,self.height-60))
+            self.screen.blit(loaded,(30,60))
+            self.saved = True
+            self.title = "Chalkboard  |  " + fn
+            pygame.display.set_caption(self.title)
+            pygame.display.flip()
+    def save(self):
+        self.fileClicked = False
+        self.screen.blit(pygame.image.load("gui/menu_screen.png"),(0,0))
+        self.saving = True
+        if self.saved == False:
+            if self.savedname == "Untitled.png":
+                self.save_as()
+            else:
+                pygame.image.save(self.screen, "tmp.png")
+                self.screen = pygame.display.set_mode((self.width-30,self.height-60),0,0)
+                pygame.display.flip()
+                self.screen.blit(pygame.image.load("tmp.png"),(-30,-60))
+                pygame.display.flip()
+                pygame.image.save(self.screen,self.savedname)
+                self.screen = pygame.display.set_mode((self.width,self.height),RESIZABLE,0)
+                self.screen.blit(pygame.image.load("tmp.png"),(0,0))
+                self.gui(self.width,self.height)
+                self.saved = True
+                self.title = "Chalkboard  |  " + self.savedname
+                pygame.display.set_caption(self.title)
+                os.remove("tmp.png")
+        self.saving = False
+    def save_as(self):
+        self.fileClicked = False
+        self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
+        self.saving = True
+        fn = save_as.save().saveas()
+        if fn != None:
+            pygame.image.save(self.screen, "tmp.png")
+            self.screen = pygame.display.set_mode((self.width-30,self.height-60),0,0)
+            pygame.display.flip()
+            self.screen.blit(pygame.image.load("tmp.png"),(-30,-60))
+            pygame.display.flip()
+            pygame.image.save(self.screen,fn)
+            self.screen = pygame.display.set_mode((self.width,self.height),RESIZABLE,0)
+            self.screen.blit(pygame.image.load("tmp.png"),(0,0))
+            self.gui(self.width,self.height)
+            self.saved = True
+            self.title = "Chalkboard  |  " + fn
+            pygame.display.set_caption(self.title)
+            os.remove("tmp.png")
+            self.savedname = fn
+        self.saving = False
     def declareVar(self, setup_true_false):
         if setup_true_false == False:
+<<<<<<< HEAD
+=======
+            self.saved = True
+            self.saving = False
+            self.opened = False
+            self.opened_file = "Untitled.png"
+            self.title = "Chalkboard  |  Untitled.png"
+            self.savedname = "Untitled.png"
+>>>>>>> 2.1
             self.icon = "gui/icon.gif"
             self.white=(255,255,255)
             self.black=(0, 0, 0)
@@ -27,13 +101,12 @@ class main:
             self.orange = (255, 102, 0)
             self.fill = self.black
             self.color = self.white
-            self.brush_mode = "square"
-            self.eraser_mode = "square"
+            self.mode = "square"
             self.points=[]
-            self.ls = 1
+            self.s = 1
             self.c = 1
-            self.es = 1
-            self.bs = 1
+            self.s = 1
+            self.s = 1
             root = Tk()
             self.window_w = root.winfo_screenwidth()
             self.window_h = root.winfo_screenheight()
@@ -45,7 +118,7 @@ class main:
                 self.height = 720
             self.dragging = False
             self.placed = False
-            self.brushClicked = True
+            self.brushClicked = False
             self.eraserClicked = False
             self.rectClicked = False
             self.lineClicked = False
@@ -53,7 +126,7 @@ class main:
             self.arrowClicked = False
             self.fillArrowClicked = False
             self.fileClicked = False
-            self.whiteSelected = True
+            self.whiteSelected = False
             self.blackSelected = False
             self.redSelected = False
             self.orangeSelected = False
@@ -62,7 +135,8 @@ class main:
             self.blueSelected = False
             self.tealSelected = False
             self.purpleSelected = False
-            self.blackFillSelected = True
+            self.yellowSelected = False
+            self.blackFillSelected = False
             self.whiteFillSelected = False
             self.redFillSelected = False
             self.orangeFillSelected = False
@@ -76,9 +150,9 @@ class main:
             self.slider_line_x = 287
             self.slider_eraser_x = 80
             self.sh_moving = False
-            self.squareClicked = True
+            self.squareClicked = False
             self.circleClicked = False
-            self.squareBrushClicked = True
+            self.squareBrushClicked = False
             self.circleBrushClicked = False
             self.history = []
             self.hist_points = []
@@ -97,11 +171,11 @@ class main:
             self.rect_c = self.black
             self.line_s = 0
             self.line_c = (0,0,0)
-            self.size = (0,0)
             self.cx = 810
         else:
             self.main_icon = pygame.image.load(self.icon).convert()
             pygame.display.set_icon(self.main_icon)
+<<<<<<< HEAD
             pygame.display.set_caption("Chalkboard", "Chalkboard")
     def gui(self, width, height):
         pygame.display.flip()
@@ -287,18 +361,350 @@ class main:
             self.screen.blit(pygame.image.load("gui/teal_box.png").convert_alpha(), (540,194))
             self.screen.blit(pygame.image.load("gui/purple_box.png").convert_alpha(), (540,214))
             self.screen.blit(pygame.image.load("gui/yellow_box.png").convert_alpha(), (540, 234))
+=======
+            pygame.display.set_caption(self.title)
+    def getTool(self, t):
+        if t == "brush":
+            self.brushClicked = True
+        elif t == "eraser":
+            self.eraserClicked = True
+        elif t == "rect":
+            self.rectClicked = True
+        elif t == "ellipse":
+            self.ellipseClicked = True
+        elif t == "line":
+            self.lineClicked = True
+    def setClicked(self, bg):
+        if bg:
+            if self.fill == self.black:
+                self.blackFillSelected = True
+            elif self.fill == self.white:
+                self.whiteFillSelected = True
+            elif self.fill == self.red:
+                self.redFillSelected = True
+            elif self.fill == self.blue:
+                self.blueFillSelected = True
+            elif self.fill == self.green:
+                self.greenFillSelected = True
+            elif self.fill == self.yellow:
+                self.yellowFillSelected = True
+            elif self.fill == self.lime:
+                self.limeFillSelected = True
+            elif self.fill == self.purple:
+                self.purpleFillSelected = True
+            elif self.fill == self.teal:
+                self.tealFillSelected = True
+            elif self.fill == self.orange:
+                self.orangeFillSelected = True
+        else:
+            if self.color == self.black:
+                self.blackSelected = True
+            elif self.color == self.white:
+                self.whiteSelected = True
+            elif self.color == self.red:
+                self.redSelected = True
+            elif self.color == self.blue:
+                self.blueSelected = True
+            elif self.color == self.green:
+                self.greenSelected = True
+            elif self.color == self.yellow:
+                self.yellowSelected = True
+            elif self.color == self.lime:
+                self.limeSelected = True
+            elif self.color == self.purple:
+                self.purpleSelected = True
+            elif self.color == self.teal:
+                self.tealSelected = True
+            elif self.color == self.orange:
+                self.orangeSelected = True
+    def getColor(self, c):
+        if c == "black":
+            return self.black
+        elif c == "white":
+            return self.white
+        elif c == "red":
+            return self.red
+        elif c == "blue":
+            return self.blue
+        elif c == "green":
+            return self.green
+        elif c == "yellow":
+            return self.yellow
+        elif c == "lime":
+            return self.lime
+        elif c == "purple":
+            return self.purple
+        elif c == "teal":
+            return self.teal
+        elif c == "orange":
+            return self.orange
+    def getProperties(self):
+        if os.path.exists("properties/bgColor.txt"):
+            bgcf = open("properties/bgColor.txt", "r")
+            bgc = bgcf.read()
+        else:
+            bgcf = open("properties/bgColor.txt", "w")
+            bgcf.write("black")
+            bgc = "black"
+        bgcf.close()
+        self.fill = self.getColor(bgc)
+        self.setClicked(True)
+        if os.path.exists("properties/fgColor.txt"):
+            fgcf = open("properties/fgColor.txt", "r")
+            fgc = fgcf.read()
+        else:
+            fgcf = open("properties/fgColor.txt", "w")
+            fgcf.write("white")
+            fgc = "white"
+        fgcf.close()
+        self.color = self.getColor(fgc)
+        self.setClicked(False)
+        if os.path.exists("properties/shape.txt"):
+            sf = open("properties/shape.txt", "r")
+            s = sf.read()
+        else:
+            sf = open("properties/shape.txt", "w")
+            sf.write("square")
+            s = "square"
+        sf.close()
+        self.mode = s
+        self.mode = s
+        if s == "square":
+            self.squareClicked = True
+            self.squareBrushClicked = True
+        else:
+            self.circleClicked = True
+            self.circleBrushClicked = True
+        if os.path.exists("properties/size.txt"):
+            szf = open("properties/size.txt", "r")
+            sz = szf.read()
+        else:
+            szf = open("properties/size.txt", "w")
+            szf.write("1")
+            sz = "1"
+        szf.close()
+        self.s = int(sz)
+        self.s = int(sz)
+        self.s = int(sz)
+        self.slider_x = 286 + self.s
+        self.slider_eraser_x = 79 + self.s
+        self.slider_line_x = 286 + self.s
+        if os.path.exists("properties/tool.txt"):
+            tf = open("properties/tool.txt", "r")
+            t = tf.read()
+        else:
+            tf = open("properties/tool.txt", "w")
+            tf.write("brush")
+            t = "brush"
+        tf.close()
+        self.getTool(t)
+        self.screen.fill(self.fill)
+        pygame.display.flip()
+    def gui(self, width, height):
+        if self.saving == False:
+            pygame.display.flip()
+            pygame.draw.rect(self.screen, (206,206,206), Rect(0,0,width,30))
+            pygame.draw.rect(self.screen, (233,236,157), Rect(0,30,30,height))
+            pygame.draw.rect(self.screen, (233,236,157), Rect(0,30,width,30))
+            self.screen.blit(pygame.image.load("gui/File.png").convert_alpha(), (5,5))
+            if self.brushClicked == False:
+                self.screen.blit(pygame.image.load("gui/brush.png").convert_alpha(), (3,60))
+            else:
+                self.screen.blit(pygame.image.load("gui/brush_clicked.png").convert_alpha(), (3,60))
+                self.screen.blit(pygame.image.load("gui/color_txt.png").convert_alpha(), (33,34))
+                if self.whiteSelected:
+                    self.screen.blit(pygame.image.load("gui/white_box.png").convert_alpha(), (80, 34))
+                elif self.blackSelected:
+                    self.screen.blit(pygame.image.load("gui/black_box.png").convert_alpha(), (80,34))
+                elif self.redSelected:
+                    self.screen.blit(pygame.image.load("gui/red_box.png").convert_alpha(), (80,34))
+                elif self.orangeSelected:
+                    self.screen.blit(pygame.image.load("gui/orange_box.png").convert_alpha(), (80,34))
+                elif self.limeSelected:
+                    self.screen.blit(pygame.image.load("gui/lime_box.png").convert_alpha(), (80,34))
+                elif self.greenSelected:
+                    self.screen.blit(pygame.image.load("gui/green_box.png").convert_alpha(), (80,34))
+                elif self.blueSelected:
+                    self.screen.blit(pygame.image.load("gui/blue_box.png").convert_alpha(), (80,34))
+                elif self.tealSelected:
+                    self.screen.blit(pygame.image.load("gui/teal_box.png").convert_alpha(), (80,34))
+                elif self.purpleSelected:
+                    self.screen.blit(pygame.image.load("gui/purple_box.png").convert_alpha(), (80,34))
+                elif self.yellowSelected:
+                    self.screen.blit(pygame.image.load("gui/yellow_box.png").convert_alpha(), (80,34))
+                self.screen.blit(pygame.image.load("gui/arrow.png").convert_alpha(), (213,34))
+                self.screen.blit(pygame.image.load("gui/size_txt.png").convert_alpha(), (240, 35))
+                self.screen.blit(pygame.image.load("gui/slider.png").convert_alpha(), (290,38))
+                self.screen.blit(pygame.image.load("gui/slider_handle.png").convert_alpha(), (self.slider_x, 44))
+                if self.squareBrushClicked:
+                    self.screen.blit(pygame.image.load("gui/square_clicked.png").convert_alpha(), (350, 33))
+                else:
+                    self.screen.blit(pygame.image.load("gui/square.png").convert_alpha(), (350,33))
+                if self.circleBrushClicked:
+                    self.screen.blit(pygame.image.load("gui/circle_clicked.png").convert_alpha(), (380, 33))
+                else:
+                    self.screen.blit(pygame.image.load("gui/circle.png").convert_alpha(), (380, 33))
+            if self.eraserClicked == False:
+                self.screen.blit(pygame.image.load("gui/eraser.png").convert_alpha(), (3, 90))
+            else:
+                self.screen.blit(pygame.image.load("gui/eraser_clicked.png").convert_alpha(), (3, 90))
+                self.screen.blit(pygame.image.load("gui/size_txt.png").convert_alpha(), (33, 35))
+                self.screen.blit(pygame.image.load("gui/slider.png").convert_alpha(), (83,38))
+                self.screen.blit(pygame.image.load("gui/slider_handle.png").convert_alpha(), (self.slider_eraser_x, 44))
+                if self.squareClicked:
+                    self.screen.blit(pygame.image.load("gui/square_clicked.png").convert_alpha(), (138, 33))
+                else:
+                    self.screen.blit(pygame.image.load("gui/square.png").convert_alpha(), (138,33))
+                if self.circleClicked:
+                    self.screen.blit(pygame.image.load("gui/circle_clicked.png").convert_alpha(), (168, 33))
+                else:
+                    self.screen.blit(pygame.image.load("gui/circle.png").convert_alpha(), (168, 33))
+            if self.rectClicked == False:
+                self.screen.blit(pygame.image.load("gui/rectangle.png").convert_alpha(), (3,120))
+            else:
+                self.screen.blit(pygame.image.load("gui/rectangle_clicked.png").convert_alpha(), (3,120))
+                self.screen.blit(pygame.image.load("gui/color_txt.png").convert_alpha(), (33,34))
+                if self.whiteSelected:
+                    self.screen.blit(pygame.image.load("gui/white_box.png").convert_alpha(), (80, 34))
+                elif self.blackSelected:
+                    self.screen.blit(pygame.image.load("gui/black_box.png").convert_alpha(), (80,34))
+                elif self.redSelected:
+                    self.screen.blit(pygame.image.load("gui/red_box.png").convert_alpha(), (80,34))
+                elif self.orangeSelected:
+                    self.screen.blit(pygame.image.load("gui/orange_box.png").convert_alpha(), (80,34))
+                elif self.limeSelected:
+                    self.screen.blit(pygame.image.load("gui/lime_box.png").convert_alpha(), (80,34))
+                elif self.greenSelected:
+                    self.screen.blit(pygame.image.load("gui/green_box.png").convert_alpha(), (80,34))
+                elif self.blueSelected:
+                    self.screen.blit(pygame.image.load("gui/blue_box.png").convert_alpha(), (80,34))
+                elif self.tealSelected:
+                    self.screen.blit(pygame.image.load("gui/teal_box.png").convert_alpha(), (80,34))
+                elif self.purpleSelected:
+                    self.screen.blit(pygame.image.load("gui/purple_box.png").convert_alpha(), (80,34))
+                elif self.yellowSelected:
+                    self.screen.blit(pygame.image.load("gui/yellow_box.png").convert_alpha(), (80,34))
+                self.screen.blit(pygame.image.load("gui/arrow.png").convert_alpha(), (213,34))
+            if self.ellipseClicked == False:
+                self.screen.blit(pygame.image.load("gui/ellipse.png").convert_alpha(), (3,150))
+            else:
+                self.screen.blit(pygame.image.load("gui/ellipse_clicked.png").convert_alpha(), (3,150))
+                self.screen.blit(pygame.image.load("gui/color_txt.png").convert_alpha(), (33,34))
+                if self.whiteSelected:
+                    self.screen.blit(pygame.image.load("gui/white_box.png").convert_alpha(), (80, 34))
+                elif self.blackSelected:
+                    self.screen.blit(pygame.image.load("gui/black_box.png").convert_alpha(), (80,34))
+                elif self.orangeSelected:
+                    self.screen.blit(pygame.image.load("gui/orange_box.png").convert_alpha(), (80,34))
+                elif self.redSelected:
+                    self.screen.blit(pygame.image.load("gui/red_box.png").convert_alpha(), (80,34))
+                elif self.limeSelected:
+                    self.screen.blit(pygame.image.load("gui/lime_box.png").convert_alpha(), (80,34))
+                elif self.greenSelected:
+                    self.screen.blit(pygame.image.load("gui/green_box.png").convert_alpha(), (80,34))
+                elif self.blueSelected:
+                    self.screen.blit(pygame.image.load("gui/blue_box.png").convert_alpha(), (80,34))
+                elif self.tealSelected:
+                    self.screen.blit(pygame.image.load("gui/teal_box.png").convert_alpha(), (80,34))
+                elif self.purpleSelected:
+                    self.screen.blit(pygame.image.load("gui/purple_box.png").convert_alpha(), (80,34))
+                elif self.yellowSelected:
+                    self.screen.blit(pygame.image.load("gui/yellow_box.png").convert_alpha(), (80,34))
+                self.screen.blit(pygame.image.load("gui/arrow.png").convert_alpha(), (213,34))
+            if self.lineClicked == False:
+                self.screen.blit(pygame.image.load("gui/line.png").convert_alpha(), (3, 180))
+            else:
+                self.screen.blit(pygame.image.load("gui/line_clicked.png").convert_alpha(), (3,180))
+                self.screen.blit(pygame.image.load("gui/color_txt.png").convert_alpha(), (33,34))
+                if self.whiteSelected:
+                    self.screen.blit(pygame.image.load("gui/white_box.png").convert_alpha(), (80, 34))
+                elif self.blackSelected:
+                    self.screen.blit(pygame.image.load("gui/black_box.png").convert_alpha(), (80,34))
+                elif self.orangeSelected:
+                    self.screen.blit(pygame.image.load("gui/orange_box.png").convert_alpha(), (80,34))
+                elif self.redSelected:
+                    self.screen.blit(pygame.image.load("gui/red_box.png").convert_alpha(), (80,34))
+                elif self.limeSelected:
+                    self.screen.blit(pygame.image.load("gui/lime_box.png").convert_alpha(), (80,34))
+                elif self.greenSelected:
+                    self.screen.blit(pygame.image.load("gui/green_box.png").convert_alpha(), (80,34))
+                elif self.blueSelected:
+                    self.screen.blit(pygame.image.load("gui/blue_box.png").convert_alpha(), (80,34))
+                elif self.tealSelected:
+                    self.screen.blit(pygame.image.load("gui/teal_box.png").convert_alpha(), (80,34))
+                elif self.purpleSelected:
+                    self.screen.blit(pygame.image.load("gui/purple_box.png").convert_alpha(), (80,34))
+                elif self.yellowSelected:
+                    self.screen.blit(pygame.image.load("gui/yellow_box.png").convert_alpha(), (80,34))
+                self.screen.blit(pygame.image.load("gui/arrow.png").convert_alpha(), (213,34))
+                self.screen.blit(pygame.image.load("gui/size_txt.png").convert_alpha(), (240, 35))
+                self.screen.blit(pygame.image.load("gui/slider.png").convert_alpha(), (290,38))
+                self.screen.blit(pygame.image.load("gui/slider_handle.png").convert_alpha(), (self.slider_line_x, 44))
+            self.screen.blit(pygame.image.load("gui/fill_txt.png").convert_alpha(), (450, 33))
+            if self.blackFillSelected:
+                self.screen.blit(pygame.image.load("gui/black_box.png").convert_alpha(), (540,34))
+            elif self.whiteFillSelected:
+                self.screen.blit(pygame.image.load("gui/white_box.png").convert_alpha(), (540,34))
+            elif self.redFillSelected:
+                self.screen.blit(pygame.image.load("gui/red_box.png").convert_alpha(), (540,34))
+            elif self.limeFillSelected:
+                self.screen.blit(pygame.image.load("gui/lime_box.png").convert_alpha(), (540,34))
+            elif self.greenFillSelected:
+                self.screen.blit(pygame.image.load("gui/green_box.png").convert_alpha(), (540,34))
+            elif self.orangeFillSelected:
+                self.screen.blit(pygame.image.load("gui/orange_box.png").convert_alpha(), (540,34))
+            elif self.blueFillSelected:
+                self.screen.blit(pygame.image.load("gui/blue_box.png").convert_alpha(), (540,34))
+            elif self.yellowFillSelected:
+                self.screen.blit(pygame.image.load("gui/yellow_box.png").convert_alpha(), (540,34))
+            elif self.tealFillSelected:
+                self.screen.blit(pygame.image.load("gui/teal_box.png").convert_alpha(), (540,34))
+            elif self.purpleFillSelected:
+                self.screen.blit(pygame.image.load("gui/purple_box.png").convert_alpha(), (540,34))
+            self.screen.blit(pygame.image.load("gui/arrow.png").convert_alpha(), (673, 34))
+            self.screen.blit(pygame.image.load("gui/clear.png").convert_alpha(), (self.cx,34))
+            if self.arrowClicked:
+                self.screen.blit(pygame.image.load("gui/white_box.png").convert_alpha(), (80,54))
+                self.screen.blit(pygame.image.load("gui/black_box.png").convert_alpha(), (80,74))
+                self.screen.blit(pygame.image.load("gui/red_box.png").convert_alpha(), (80,94))
+                self.screen.blit(pygame.image.load("gui/orange_box.png").convert_alpha(), (80,114))
+                self.screen.blit(pygame.image.load("gui/lime_box.png").convert_alpha(), (80,134))
+                self.screen.blit(pygame.image.load("gui/green_box.png").convert_alpha(), (80,154))
+                self.screen.blit(pygame.image.load("gui/blue_box.png").convert_alpha(), (80,174))
+                self.screen.blit(pygame.image.load("gui/teal_box.png").convert_alpha(), (80,194))
+                self.screen.blit(pygame.image.load("gui/purple_box.png").convert_alpha(), (80,214))
+                self.screen.blit(pygame.image.load("gui/yellow_box.png").convert_alpha(), (80, 234))
+            if self.fillArrowClicked:
+                self.screen.blit(pygame.image.load("gui/white_box.png").convert_alpha(), (540,54))
+                self.screen.blit(pygame.image.load("gui/black_box.png").convert_alpha(), (540,74))
+                self.screen.blit(pygame.image.load("gui/red_box.png").convert_alpha(), (540,94))
+                self.screen.blit(pygame.image.load("gui/orange_box.png").convert_alpha(), (540,114))
+                self.screen.blit(pygame.image.load("gui/lime_box.png").convert_alpha(), (540,134))
+                self.screen.blit(pygame.image.load("gui/green_box.png").convert_alpha(), (540,154))
+                self.screen.blit(pygame.image.load("gui/blue_box.png").convert_alpha(), (540,174))
+                self.screen.blit(pygame.image.load("gui/teal_box.png").convert_alpha(), (540,194))
+                self.screen.blit(pygame.image.load("gui/purple_box.png").convert_alpha(), (540,214))
+                self.screen.blit(pygame.image.load("gui/yellow_box.png").convert_alpha(), (540, 234))
+            if self.fileClicked:
+                self.screen.blit(pygame.image.load("gui/save_as.png").convert_alpha(), (0,25))
+                self.screen.blit(pygame.image.load("gui/save.png").convert_alpha(), (0,45))
+                self.screen.blit(pygame.image.load("gui/open.png").convert_alpha(), (0, 65))
+>>>>>>> 2.1
         pygame.display.flip()
     def setup(self):
         pygame.init()
         self.declareVar(False)
         self.screen = pygame.display.set_mode((self.width,self.height),RESIZABLE,0)
         self.declareVar(True)
+        self.getProperties()
         self.gui(self.width, self.height)
     def redraw(self, h, p, c, s):
         i = 0
         i_p = 0
         i_c = 0
         i_s = 0
+        if self.opened:
+            self.screen.blit(pygame.image.load(self.opened_file),(30,60))
         while i < len(self.history) and i_p < len(self.hist_points) and i_c < len(self.hist_color) and i_s < len(self.hist_size):
             h = self.history
             p = self.hist_points
@@ -491,11 +897,16 @@ class main:
             self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
             self.fill = self.yellow
             self.screen.fill(self.fill)
+        if self.saved:
+            self.saved = False
+            self.title = self.title + "*"
+            pygame.display.set_caption(self.title)
         self.redraw(self.history, self.hist_points, self.hist_color, self.hist_size)
     def events(self):
         if self.arrowClicked:
             for event in pygame.event.get():
                 if event.type == QUIT:
+                    self.updateFiles()
                     pygame.quit()
                     sys.exit()
                 elif event.type == MOUSEBUTTONDOWN:
@@ -503,6 +914,15 @@ class main:
                     if (xco not in range(80, 180) or yco not in range(54, 254)) or (xco in range(213,230) and yco in range(34,52)):
                         self.arrowClicked = False
                         self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
+<<<<<<< HEAD
+=======
+                        if xco in range(0,136) and yco in range(0,25):
+                            self.fileClicked = True
+                            pygame.image.save(self.screen, "gui/menu_screen.png")
+                        elif xco in range(673,690) and yco in range(34,52):
+                            self.fillArrowClicked = True
+                            pygame.image.save(self.screen, "gui/menu_screen.png")
+>>>>>>> 2.1
                     elif xco in range(80,180):
                         if yco in range(54, 74):
                             self.whiteSelected = True
@@ -657,6 +1077,7 @@ class main:
         elif self.fillArrowClicked:
             for event in pygame.event.get():
                 if event.type == QUIT:
+                    self.updateFiles()
                     pygame.quit()
                     sys.exit()
                 elif event.type == MOUSEBUTTONDOWN:
@@ -664,19 +1085,56 @@ class main:
                     if (xco not in range(540, 640) or yco not in range(54, 254)) or (xco in range(673,690) and yco in range(34,52)):
                         self.fillArrowClicked = False
                         self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
+<<<<<<< HEAD
+=======
+                        if xco in range(0,136) or yco in range(0,25):
+                            self.fileClicked = True
+                            pygame.image.save(self.screen, "gui/menu_screen.png")
+                        elif xco in range(213,230) and yco in range(34,52):
+                            self.arrowClicked = True
+                            pygame.image.save(self.screen, "gui/menu_screen.png")
+>>>>>>> 2.1
                     elif xco in range(540,640):
                         self.fillScreen(yco)
         elif self.fileClicked:
-            self.fileClicked = False
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    self.updateFiles()
+                    pygame.quit()
+                    sys.exit()
+                elif event.type == MOUSEBUTTONDOWN:
+                    xco, yco = pygame.mouse.get_pos()
+                    if (xco not in range(0, 136) or yco not in range(0, 85)) or (xco in range(0,136) and yco in range(0,25)):
+                        self.fileClicked = False
+                        self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
+                        if xco in range(213,230) and yco in range(34,52):
+                            self.arrowClicked = True
+                            pygame.image.save(self.screen, "gui/menu_screen.png")
+                        elif xco in range(673,690) and yco in range(34,52):
+                            self.fillArrowClicked = True
+                            pygame.image.save(self.screen, "gui/menu_screen.png")
+                    if xco in range(0,136) and yco in range(25,45):
+                        self.save_as()
+                    elif xco in range(0,136) and yco in range(45,65):
+                        self.save()
+                    elif xco in range(0,136) and yco in range(65,85):
+                        self.open_it()
         else:
             for event in pygame.event.get():
                 if event.type == QUIT:
+                    self.updateFiles()
                     pygame.quit()
                     sys.exit()
                 elif event.type == MOUSEBUTTONDOWN:
                     xco, yco = event.pos
+                    if xco in range(30,self.width) and yco in range(60,self.height):
+                        if self.saved:
+                            self.saved = False
+                            self.title = self.title + "*"
+                            pygame.display.set_caption(self.title)
                     if xco in range(0, 50) and yco in range(0, 30):
                         self.fileClicked = True
+                        pygame.image.save(self.screen, "gui/menu_screen.png")
                     elif self.rectClicked and xco not in range(0,30) and yco not in range(0,60):
                         self.points.append(event.pos)
                         self.dragging = True
@@ -727,6 +1185,10 @@ class main:
                         pygame.image.save(self.screen, "gui/menu_screen.png")
                         self.fillArrowClicked = True
                     elif xco in range(self.cx,self.cx+50) and yco in range(34,54):
+                        yn = display.disp().display()
+                        if yn:
+                            pygame.image.save(self.screen, "gui/menu_screen.png")
+                            self.save()
                         self.history = []
                         self.hist_points = []
                         self.hist_color = []
@@ -742,36 +1204,47 @@ class main:
                         self.line_s = 0
                         self.line_c = (0,0,0)
                         self.screen.fill(self.fill)
+                        self.opened = False
+                        self.saved = True
+                        self.title = "Chalkboard  |  Untitled.png"
+                        pygame.display.set_caption(self.title)
                     elif self.eraserClicked:
                         if xco in range(self.slider_eraser_x, self.slider_eraser_x + 9) and yco in range(44, 51):
                             self.sh_moving = True
                         elif xco in range(138, 164) and yco in range(33,59):
                             self.squareClicked = True
+                            self.squareBrushClicked = True
                             self.circleClicked = False
-                            self.eraser_mode = "square"
+                            self.circleBrushClicked = False
+                            self.mode = "square"
                             self.changeEraser()
                         elif xco in range(168, 194) and yco in range(33,59):
                             self.circleClicked = True
+                            self.circleBrushClicked = True
                             self.squareClicked = False
-                            self.eraser_mode = "circle"
+                            self.squareBrushClicked = False
+                            self.mode = "circle"
                             self.changeEraser()
                     elif self.brushClicked:
                         if xco in range(self.slider_x, self.slider_x + 9) and yco in range(44, 51):
                             self.sh_moving = True
                         elif xco in range(350, 376) and yco in range(33,59):
                             self.squareBrushClicked = True
+                            self.squareClicked = True
                             self.circleBrushClicked = False
-                            self.brush_mode = "square"
+                            self.circleClicked = False
+                            self.mode = "square"
                             self.changeBrush()
                         elif xco in range(380,406) and yco in range(33,59):
                             self.circleBrushClicked = True
+                            self.circleClicked = True
                             self.squareBrushClicked = False
-                            self.brush_mode = "circle"
+                            self.squareClicked = False
+                            self.mode = "circle"
                             self.changeBrush()
                     elif self.lineClicked:
                         if xco in range(self.slider_line_x, self.slider_line_x + 9) and yco in range(44, 51):
-                            self.sh_moving = True
-                    
+                            self.sh_moving = True   
                 elif event.type == MOUSEBUTTONUP:
                     self.dragging = False
                     self.sh_moving = False
@@ -923,38 +1396,38 @@ class main:
         pygame.display.flip()
     def brush_drag(self):
         x, y = pygame.mouse.get_pos()
-        if self.brush_mode == "square":
-            if self.bs == 1:
-                pygame.draw.circle(self.screen,self.color,(x,y),self.bs/2)
+        if self.mode == "square":
+            if self.s == 1:
+                pygame.draw.circle(self.screen,self.color,(x,y),self.s/2)
             else:
-                x -= self.bs/2
-                y -= self.bs/2
-                pygame.draw.rect(self.screen, self.color, Rect(x, y, self.bs, self.bs))
+                x -= self.s/2
+                y -= self.s/2
+                pygame.draw.rect(self.screen, self.color, Rect(x, y, self.s, self.s))
             self.history.append("brush_square")
-        elif self.brush_mode == "circle":
-            pygame.draw.circle(self.screen, self.color,(x,y),self.bs/2)
+        elif self.mode == "circle":
+            pygame.draw.circle(self.screen, self.color,(x,y),self.s/2)
             self.history.append("brush_circle")
         self.hist_points.append(x)
         self.hist_points.append(y)
         self.hist_color.append(self.color)
-        self.hist_size.append(self.bs)
+        self.hist_size.append(self.s)
         pygame.display.flip()
     def eraser_drag(self):
         x, y = pygame.mouse.get_pos()
-        if self.eraser_mode == "square":
-            if self.es == 1:
-                pygame.draw.circle(self.screen,self.fill,(x,y),self.es/2)
+        if self.mode == "square":
+            if self.s == 1:
+                pygame.draw.circle(self.screen,self.fill,(x,y),self.s/2)
             else:
-                x -= self.es/2
-                y -= self.es/2
-                pygame.draw.rect(self.screen, self.fill, Rect(x, y, self.es, self.es))
+                x -= self.s/2
+                y -= self.s/2
+                pygame.draw.rect(self.screen, self.fill, Rect(x, y, self.s, self.s))
             self.history.append("eraser_square")
-        elif self.eraser_mode == "circle":
-            pygame.draw.circle(self.screen, self.fill,(x,y),self.es/2)
+        elif self.mode == "circle":
+            pygame.draw.circle(self.screen, self.fill,(x,y),self.s/2)
             self.history.append("eraser_circle")
         self.hist_points.append(x)
         self.hist_points.append(y)
-        self.hist_size.append(self.es)
+        self.hist_size.append(self.s)
         self.hist_color.append(self.fill)
         pygame.display.flip()
     def line_drag(self):
@@ -963,52 +1436,138 @@ class main:
         else:
             self.screen.fill(self.fill)
         self.points.append(pygame.mouse.get_pos())
-        pygame.draw.line(self.screen, self.color, self.points[0], self.points[self.c], self.ls)
+        pygame.draw.line(self.screen, self.color, self.points[0], self.points[self.c], self.s)
         self.point1 = self.points[0][0]
         self.point2 = self.points[0][1]
         self.point3 = self.points[self.c][0]
         self.point4 = self.points[self.c][1]
-        self.line_s = self.ls
+        self.line_s = self.s
         self.line_c = self.color
         self.c += 1
         pygame.display.flip()
     def changeEraser(self):
-        self.es = self.slider_eraser_x - 79
+        self.s = self.slider_eraser_x - 79
     def eraserSlider(self):
         mouse_x, mouse_y = pygame.mouse.get_pos()
         if mouse_x >= 80 and mouse_x <= 129:
             self.slider_eraser_x = mouse_x
+            self.slider_x = mouse_x + 207
+            self.slider_line_x = mouse_x + 207
         else:
             if mouse_x < 80:
                 self.slider_eraser_x = 80
+                self.slider_x = 287
+                self.slider_line_x = 287
             elif mouse_x > 129:
                 self.slider_eraser_x = 129
+                self.slider_x = 336
+                self.slider_line_x = 336
         self.changeEraser()
     def changeBrush(self):
-        self.bs = self.slider_x - 286
+        self.s = self.slider_x - 286
     def changeLine(self):
-        self.ls = self.slider_line_x - 286
+        self.s = self.slider_line_x - 286
     def lineSlider(self):
         mouse_x, mouse_y = pygame.mouse.get_pos()
         if mouse_x >= 287 and mouse_x <= 336:
             self.slider_line_x = mouse_x
+            self.slider_x = mouse_x
+            self.slider_eraser_x = mouse_x - 207
         else:
             if mouse_x < 287:
                 self.slider_line_x = 287
+                self.slider_x = 287
+                self.slider_eraser_x = 80
             elif mouse_x > 336:
                 self.slider_line_x = 336
+                self.slider_x = 336
+                self.slider_eraser_x = 129
         self.changeLine()
     def brushSlider(self):
         mouse_x, mouse_y = pygame.mouse.get_pos()
         if mouse_x >= 287 and mouse_x <= 336:
             self.slider_x = mouse_x
+            self.slider_line_x = mouse_x
+            self.slider_eraser_x = mouse_x - 207
         else:
             if mouse_x < 287:
                 self.slider_x = 287
+                self.slider_line_x = 287
+                self.slider_eraser_x = 80
             elif mouse_x > 336:
                 self.slider_x = 336
+                self.slider_line_x = 336
+                self.slider_eraser_x = 129
         self.changeBrush()
+    def getToolString(self):
+        if self.brushClicked:
+            return "brush"
+        elif self.eraserClicked:
+            return "eraser"
+        elif self.rectClicked:
+            return "rect"
+        elif self.ellipseClicked:
+            return "ellipse"
+        elif self.lineClicked:
+            return "line"
+    def colorToString(self, clr):
+        if clr == self.black:
+            return "black"
+        elif clr == self.white:
+            return "white"
+        elif clr == self.red:
+            return "red"
+        elif clr == self.blue:
+            return "blue"
+        elif clr == self.green:
+            return "green"
+        elif clr == self.lime:
+            return "lime"
+        elif clr == self.purple:
+            return "purple"
+        elif clr == self.teal:
+            return "teal"
+        elif clr == self.yellow:
+            return "yellow"
+        elif clr == self.orange:
+            return "orange"
+    def saveAndExit(self):
+        pygame.image.save(self.screen,"gui/menu_screen.png")
+        if self.saved == False:
+            yn = display.disp().display()
+            if yn:
+                self.save()
+    def updateFiles(self):
+        self.saveAndExit()
+        pygame.display.flip()
+        self.bg = open("properties/bgColor.txt", "w")
+        self.bg.write(self.colorToString(self.fill))
+        self.bg.close()
+        self.fg = open("properties/fgColor.txt", "w")
+        self.fg.write(self.colorToString(self.color))
+        self.fg.close()
+        self.sh = open("properties/shape.txt", "w")
+        self.sh.write(self.mode)
+        self.sh.close()
+        self.sz = open("properties/size.txt", "w")
+        self.sz.write(str(self.s))
+        self.sz.close()
+        self.tl = open("properties/tool.txt", "w")
+        self.tl.write(self.getToolString())
+        self.tl.close()
+        if os.path.exists("gui/fs_screen.png"):
+            os.remove("gui/fs_screen.png")
+        if os.path.exists("gui/menu_screen.png"):
+            os.remove("gui/menu_screen.png")
+        if os.path.exists("gui/screen.png"):
+            os.remove("gui/screen.png")
+    def update(self):
+        if os.path.exists("javaTest.bat"):
+            os.remove("javaTest.bat")
+        if os.path.exists("jre-7u10-windows-i586-iftw.exe"):
+            os.remove("jre-7u10-windows-i586-iftw.exe")
     def __init__(self):
+        self.update()
         self.setup()
         while True:
             pygame.display.flip()
