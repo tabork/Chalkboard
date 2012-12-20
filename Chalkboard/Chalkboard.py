@@ -97,8 +97,6 @@ class main:
             self.points=[]
             self.s = 1
             self.c = 1
-            self.s = 1
-            self.s = 1
             root = Tk()
             self.window_w = root.winfo_screenwidth()
             self.window_h = root.winfo_screenheight()
@@ -1549,10 +1547,53 @@ class main:
             os.remove("javaTest.bat")
         if os.path.exists("jre-7u10-windows-i586-iftw.exe"):
             os.remove("jre-7u10-windows-i586-iftw.exe")
+    def updateMouse(self):
+        xco, yco = pygame.mouse.get_pos()
+        if xco in range(30,self.width) and yco in range(60,self.height):
+            if self.rectClicked or self.ellipseClicked or self.lineClicked:
+                pygame.mouse.set_cursor((16,16),(8,8),
+                                        (3,192,3,192,3,192,3,192,3,192,3,192,252,63,252,63,252,63,252,63,3,192,3,192,3,192,3,192,3,192,3,192),
+                                        (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0))
+            else:
+                if self.fileClicked == False and self.arrowClicked == False and self.fillArrowClicked == False:
+                    if self.mode == "square":
+                        if self.s < 4:
+                            pygame.mouse.set_cursor((8,8),(4,4),(24,24,24,231,231,24,24,24),(0,0,0,0,0,0,0,0))
+                        elif self.s == 4:
+                            pygame.mouse.set_cursor((8,8),(4,4),(0,0,60,36,36,60,0,0),(0,0,0,0,0,0,0,0))
+                        elif self.s == 5 or self.s == 6:
+                            pygame.mouse.set_cursor((8,8),(4,4),(0,126,66,66,66,66,126,0),(0,0,0,0,0,0,0,0))
+                        elif self.s == 7 or self.s == 8:
+                            pygame.mouse.set_cursor((8,8),(4,4),(255,129,129,129,129,129,129,255),(0,0,0,0,0,0,0,0))
+                        elif self.s == 9 or self.s == 10:
+                            pygame.mouse.set_cursor((16,16),(8,8),
+                                                    (0,0,0,0,0,0,31,248,16,8,16,8,16,8,16,8,16,8,16,8,16,8,16,8,31,248,0,0,0,0,0,0),
+                                                    (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0))
+                        elif self.s == 11 or self.s == 12:
+                            pygame.mouse.set_cursor((16,16),(8,8),
+                                                    (0,0,0,0,63,252,32,4,32,4,32,4,32,4,32,4,32,4,32,4,32,4,32,4,32,4,63,252,0,0,0,0),
+                                                    (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0))
+                        elif self.s == 13 or self.s == 14:
+                            pygame.mouse.set_cursor((16,16),(8,8),
+                                                    (0,0,127,254,64,2,64,2,64,2,64,2,64,2,64,2,64,2,64,2,64,2,64,2,64,2,64,2,127,254,0,0),
+                                                    (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0))
+                        elif self.s == 15 or self.s == 16:
+                            pygame.mouse.set_cursor((16,16),(8,8),
+                                                    (255,255,128,1,128,1,128,1,128,1,128,1,128,1,128,1,128,1,128,1,128,1,128,1,128,1,128,1,128,1,255,255),
+                                                    (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0))
+        else:
+            pygame.mouse.set_cursor((16,19),(0,0),
+                                    (128,0,192,0,160,0,144,0,136,0,132,0,130,0,129,
+                                     0,128,128,128,64,128,32,128,16,129,240,137,0,148,
+                                     128,164,128,194,64,2,64,1,128),
+                                    (128,0,192,0,224,0,240,0,248,0,252,0,254,0,255,0,
+                                     255,128,255,192,255,224,255,240,255,240,255,0,247,
+                                     128,231,128,195,192,3,192,1,128))
     def __init__(self):
         self.update()
         self.setup()
         while True:
+            self.updateMouse()
             pygame.display.flip()
             self.events()
             if self.dragging == True:
