@@ -1,15 +1,10 @@
 #
-#Chalkboard 2.1
+#Chalkboard 2.2
 #
 #   Created and Maintained by the Kamakwazee Open Source Team
 #
 #Expected Features:
-#   Saving and loading images
-#   Property saves
-#
-#--GUI repositioned
-#--Need to design Menu pics at top
-#
+#   Custom Cursors
 import pygame, sys, Tkinter, math, os, urllib, tkFileDialog, tkMessageBox, save_as, open_file, display, wx
 from pygame.locals import *
 from Tkinter import *
