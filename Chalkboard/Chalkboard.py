@@ -74,15 +74,12 @@ class main:
         self.saving = False
     def declareVar(self, setup_true_false):
         if setup_true_false == False:
-<<<<<<< HEAD
-=======
             self.saved = True
             self.saving = False
             self.opened = False
             self.opened_file = "Untitled.png"
             self.title = "Chalkboard  |  Untitled.png"
             self.savedname = "Untitled.png"
->>>>>>> 2.1
             self.icon = "gui/icon.gif"
             self.white=(255,255,255)
             self.black=(0, 0, 0)
@@ -170,7 +167,6 @@ class main:
         else:
             self.main_icon = pygame.image.load(self.icon).convert()
             pygame.display.set_icon(self.main_icon)
-<<<<<<< HEAD
             pygame.display.set_caption("Chalkboard", "Chalkboard")
     def gui(self, width, height):
         pygame.display.flip()
@@ -356,7 +352,6 @@ class main:
             self.screen.blit(pygame.image.load("gui/teal_box.png").convert_alpha(), (540,194))
             self.screen.blit(pygame.image.load("gui/purple_box.png").convert_alpha(), (540,214))
             self.screen.blit(pygame.image.load("gui/yellow_box.png").convert_alpha(), (540, 234))
-=======
             pygame.display.set_caption(self.title)
     def getTool(self, t):
         if t == "brush":
@@ -684,7 +679,6 @@ class main:
                 self.screen.blit(pygame.image.load("gui/save_as.png").convert_alpha(), (0,25))
                 self.screen.blit(pygame.image.load("gui/save.png").convert_alpha(), (0,45))
                 self.screen.blit(pygame.image.load("gui/open.png").convert_alpha(), (0, 65))
->>>>>>> 2.1
         pygame.display.flip()
     def setup(self):
         pygame.init()
@@ -909,15 +903,12 @@ class main:
                     if (xco not in range(80, 180) or yco not in range(54, 254)) or (xco in range(213,230) and yco in range(34,52)):
                         self.arrowClicked = False
                         self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
-<<<<<<< HEAD
-=======
                         if xco in range(0,136) and yco in range(0,25):
                             self.fileClicked = True
                             pygame.image.save(self.screen, "gui/menu_screen.png")
                         elif xco in range(673,690) and yco in range(34,52):
                             self.fillArrowClicked = True
                             pygame.image.save(self.screen, "gui/menu_screen.png")
->>>>>>> 2.1
                     elif xco in range(80,180):
                         if yco in range(54, 74):
                             self.whiteSelected = True
@@ -1080,15 +1071,12 @@ class main:
                     if (xco not in range(540, 640) or yco not in range(54, 254)) or (xco in range(673,690) and yco in range(34,52)):
                         self.fillArrowClicked = False
                         self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
-<<<<<<< HEAD
-=======
                         if xco in range(0,136) or yco in range(0,25):
                             self.fileClicked = True
                             pygame.image.save(self.screen, "gui/menu_screen.png")
                         elif xco in range(213,230) and yco in range(34,52):
                             self.arrowClicked = True
                             pygame.image.save(self.screen, "gui/menu_screen.png")
->>>>>>> 2.1
                     elif xco in range(540,640):
                         self.fillScreen(yco)
         elif self.fileClicked:
