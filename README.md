@@ -5,7 +5,7 @@ Drawing Application Coded In Python and Pygame
 
 Project Twitter: www.twitter.com/ChalkboardProj
 
-Project Home Page: http://chalkboard.kamakwazee.com
+Project Home Page: http://chalkboard.kamakwazee.net
 
 **NOTE  It is required for you to properly Sign Off your commits or they will not be accepted.
 
