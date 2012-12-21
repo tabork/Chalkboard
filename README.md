@@ -3,6 +3,10 @@ Chalkboard
 
 Drawing Application Coded In Python and Pygame
 
+Project Twitter: www.twitter.com/ChalkboardProj
+
+Project Home Page: http://chalkboard.kamakwazee.com
+
 **NOTE  It is required for you to properly Sign Off your commits or they will not be accepted.
 
 For any additional help, email the leader at kamakwazee@hotmail.com and he will be glad to help.
