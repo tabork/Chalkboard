@@ -5,17 +5,51 @@ Drawing Application Coded In Python and Pygame
 
 **NOTE  It is required for you to properly Sign Off your commits or they will not be accepted.
 
+For any additional help, email the leader at kamakwazee@hotmail.com and he will be glad to help.
+
+Prerequisites
+==========
+
+You need to have pygame -- www.pygame.org, wx -- www.wxPython.org, and python -- www.python.org all corresponding to 32 bit(windows only) version 2.7.
+
+Contribution Guidelines
+==========
+
+There aren't any specific rules, but comment your changes. Anything not commented was there originally; however, the code is currently in the process of becoming commented.
+
+Also, don't allow for the code to run too far off of the fullscreen IDLE view, and make your styling similar to what is already being used.
+
+Contributor List
+==========
+
+Currently, there is just one person working; however, anyone who says they want to help (even if they don't fork repo) will be added to list:
+
+Tabor Kvasnicka (kamakwazee@hotmail.com)
+
+Installation Instructions
+==========
+
+Windows:
+Download your choice of installer at www.kamakwazee.com/downloads.html.
+
+Ubuntu:
+Download source.
+
+Build Instructions
+==========
+
+For build instructions, you need to email the leader at kamakwazee@hotmail.com.
+
 Changelog:
 ==========
 
 2.1  --  Best update yet. Includes:
-  	
-  	-Save
-		-Open
-		-Title Dynamics
-		-Property saves
-		-Size synchronization
-		-Shape synchronization
+* Save
+* Open
+* Title Dynamics
+* Property saves
+* Size synchronization
+* Shape synchronization
 
 2.0.6  --  Fixes minor file crash
 
