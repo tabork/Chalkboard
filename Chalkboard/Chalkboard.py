@@ -5,10 +5,126 @@
 #
 #Expected Features:
 #   Custom Cursors
-import pygame, sys, Tkinter, math, os, urllib, tkFileDialog, tkMessageBox, save_as, open_file, display, wx
+#
+#Import dependencies
+import pygame, sys, Tkinter, math, os, tkFileDialog, tkMessageBox, save_as, open_file, display, wx, PIL.Image
 from pygame.locals import *
 from Tkinter import *
 class main:
+    #Declare mouse cursors
+    def setupCursors(self):
+        xc = ("   XX   ",
+              "   XX   ",
+              "   XX   ",
+              "XXX  XXX",
+              "XXX  XXX",
+              "   XX   ",
+              "   XX   ",
+              "   XX   ")
+        self.xb = pygame.cursors.compile(xc,black="X",white=".",xor="o")
+        self.xw = pygame.cursors.compile(xc,black=".",white="X",xor="o")
+        x4c = ("        ",
+               "        ",
+               "  XXXX  ",
+               "  X  X  ",
+               "  X  X  ",
+               "  XXXX  ",
+               "        ",
+               "        ")
+        self.x4b = pygame.cursors.compile(x4c,black="X",white=".",xor="o")
+        self.x4w = pygame.cursors.compile(x4c,black=".",white="X",xor="o")
+        x6c = ("        ",
+               " XXXXXX ",
+               " X    X ",
+               " X    X ",
+               " X    X ",
+               " X    X ",
+               " XXXXXX ",
+               "        ")
+        self.x6b = pygame.cursors.compile(x6c,black="X",white=".",xor="o")
+        self.x6w = pygame.cursors.compile(x6c,black=".",white="X",xor="o")
+        x8c = ("XXXXXXXX",
+               "X      X",
+               "X      X",
+               "X      X",
+               "X      X",
+               "X      X",
+               "X      X",
+               "XXXXXXXX")
+        self.x8b = pygame.cursors.compile(x8c,black="X",white=".",xor="o")
+        self.x8w = pygame.cursors.compile(x8c,black=".",white="X",xor="o")
+        x10c = ("                ",
+                "                ",
+                "                ",
+                "   XXXXXXXXXX   ",
+                "   X        X   ",
+                "   X        X   ",
+                "   X        X   ",
+                "   X        X   ",
+                "   X        X   ",
+                "   X        X   ",
+                "   X        X   ",
+                "   X        X   ",
+                "   XXXXXXXXXX   ",
+                "                ",
+                "                ",
+                "                ")
+        self.x10b = pygame.cursors.compile(x10c,black="X",white=".",xor="o")
+        self.x10w = pygame.cursors.compile(x10c,black=".",white="X",xor="o")
+        x12c = ("                ",
+                "                ",
+                "  XXXXXXXXXXXX  ",
+                "  X          X  ",
+                "  X          X  ",
+                "  X          X  ",
+                "  X          X  ",
+                "  X          X  ",
+                "  X          X  ",
+                "  X          X  ",
+                "  X          X  ",
+                "  X          X  ",
+                "  X          X  ",
+                "  XXXXXXXXXXXX  ",
+                "                ",
+                "                ")
+        self.x12b = pygame.cursors.compile(x12c,black="X",white=".",xor="o")
+        self.x12w = pygame.cursors.compile(x12c,black=".",white="X",xor="o")
+        x14c = ("                ",
+                " XXXXXXXXXXXXXX ",
+                " X            X ",
+                " X            X ",
+                " X            X ",
+                " X            X ",
+                " X            X ",
+                " X            X ",
+                " X            X ",
+                " X            X ",
+                " X            X ",
+                " X            X ",
+                " X            X ",
+                " X            X ",
+                " XXXXXXXXXXXXXX ",
+                "                ")
+        self.x14b = pygame.cursors.compile(x14c,black="X",white=".",xor="o")
+        self.x14w = pygame.cursors.compile(x14c,black=".",white="X",xor="o")
+        x16c = ("XXXXXXXXXXXXXXXX",
+                "X              X",
+                "X              X",
+                "X              X",
+                "X              X",
+                "X              X",
+                "X              X",
+                "X              X",
+                "X              X",
+                "X              X",
+                "X              X",
+                "X              X",
+                "X              X",
+                "X              X",
+                "X              X",
+                "XXXXXXXXXXXXXXXX")
+        self.x16b = pygame.cursors.compile(x16c,black="X",white=".",xor="o")
+        self.x16w = pygame.cursors.compile(x16c,black=".",white="X",xor="o")
     def open_it(self):
         self.fileClicked = False
         if self.saved == False:
@@ -96,6 +212,7 @@ class main:
             self.mode = "square"
             self.points=[]
             self.s = 1
+            self.updatedMouse = False
             self.c = 1
             root = Tk()
             self.window_w = root.winfo_screenwidth()
@@ -1549,95 +1666,24 @@ class main:
             os.remove("jre-7u10-windows-i586-iftw.exe")
     def updateMouse(self):
         xco, yco = pygame.mouse.get_pos()
+        pygame.image.save(self.screen,"cursor.png")
         if xco in range(30,self.width) and yco in range(60,self.height):
             if self.rectClicked or self.ellipseClicked or self.lineClicked:
+                self.updatedMouse = False
                 pygame.mouse.set_cursor((16,16),(8,8),
                                         (3,192,3,192,3,192,3,192,3,192,3,192,252,63,252,63,252,63,252,63,3,192,3,192,3,192,3,192,3,192,3,192),
                                         (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0))
             else:
                 if self.fileClicked == False and self.arrowClicked == False and self.fillArrowClicked == False:
-                    if self.mode == "square":
-                        if self.s < 4:
-                            pygame.mouse.set_cursor((8,8),(4,4),(24,24,24,231,231,24,24,24),(0,0,0,0,0,0,0,0))
-                        elif self.s == 4:
-                            pygame.mouse.set_cursor((8,8),(4,4),(0,0,60,36,36,60,0,0),(0,0,0,0,0,0,0,0))
-                        elif self.s == 5 or self.s == 6:
-                            pygame.mouse.set_cursor((8,8),(4,4),(0,126,66,66,66,66,126,0),(0,0,0,0,0,0,0,0))
-                        elif self.s == 7 or self.s == 8:
-                            pygame.mouse.set_cursor((8,8),(4,4),(255,129,129,129,129,129,129,255),(0,0,0,0,0,0,0,0))
-                        elif self.s == 9 or self.s == 10:
-                            pygame.mouse.set_cursor((16,16),(8,8),
-                                                    (0,0,0,0,0,0,31,248,16,8,16,8,16,8,16,8,16,8,16,8,16,8,16,8,31,248,0,0,0,0,0,0),
-                                                    (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0))
-                        elif self.s == 11 or self.s == 12:
-                            pygame.mouse.set_cursor((16,16),(8,8),
-                                                    (0,0,0,0,63,252,32,4,32,4,32,4,32,4,32,4,32,4,32,4,32,4,32,4,32,4,63,252,0,0,0,0),
-                                                    (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0))
-                        elif self.s == 13 or self.s == 14:
-                            pygame.mouse.set_cursor((16,16),(8,8),
-                                                    (0,0,127,254,64,2,64,2,64,2,64,2,64,2,64,2,64,2,64,2,64,2,64,2,64,2,64,2,127,254,0,0),
-                                                    (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0))
-                        elif self.s == 15 or self.s == 16:
-                            pygame.mouse.set_cursor((16,16),(8,8),
-                                                    (255,255,128,1,128,1,128,1,128,1,128,1,128,1,128,1,128,1,128,1,128,1,128,1,128,1,128,1,128,1,255,255),
-                                                    (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0))
-                        elif self.s == 17 or self.s == 18:
-                            pygame.mouse.set_cursor((24,24),(12,12),
-                                                    (0,0,0,0,0,0,0,0,0,31,255,248,16,0,8,16,0,8,16,0,8,16,0,8,16,0,8,16,0,8,16,0,8,16,0,8,
-                                                     16,0,8,16,0,8,16,0,8,16,0,8,16,0,8,16,0,8,16,0,8,16,0,8,31,255,248,0,0,0,0,0,0,0,0,0),
-                                                    (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                                                     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0))
-                        elif self.s == 19 or self.s == 20:
-                            pygame.mouse.set_cursor((24,24),(12,12),
-                                                    (0,0,0,0,0,0,63,255,252,32,0,4,32,0,4,32,0,4,32,0,4,32,0,4,32,0,4,32,0,4,32,0,4,32,0,4
-                                                    ,32,0,4,32,0,4,32,0,4,32,0,4,32,0,4,32,0,4,32,0,4,32,0,4,32,0,4,63,255,252,0,0,0,0,0,0),
-                                                    (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                                                     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0))
-                        elif self.s == 21 or self.s == 22:
-                            pygame.mouse.set_cursor((24,24),(12,12),
-                                                    (0,0,0,127,255,254,64,0,2,64,0,2,64,0,2,64,0,2,64,0,2,64,0,2,64,0,2,64,0,2,64,0,2,64,0,2
-                                                    ,64,0,2,64,0,2,64,0,2,64,0,2,64,0,2,64,0,2,64,0,2,64,0,2,64,0,2,64,0,2,127,255,254,0,0,0),
-                                                    (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                                                     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0))
-                        elif self.s == 23 or self.s == 24:
-                            pygame.mouse.set_cursor((24,24),(12,12),
-                                                    (255,255,255,128,0,1,128,0,1,128,0,1,128,0,1,128,0,1,128,0,1,128,0,1,128,0,1,128,0,1,128,0,1,128,0,1
-                                                    ,128,0,1,128,0,1,128,0,1,128,0,1,128,0,1,128,0,1,128,0,1,128,0,1,128,0,1,128,0,1,128,0,1,255,255,255),
-                                                    (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                                                     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0))
-                        elif self.s == 25 or self.s == 26:
-                            pygame.mouse.set_cursor((32,32),(16,16),
-                                                    (0,0,0,0,0,0,0,0,0,0,0,0,31,255,255,248,16,0,0,8,16,0,0,8,16,0,0,8,16,0,0,8,16,0,0,8,16,0,0,8,16,0,0,8,16,0,0,8
-                                                     ,16,0,0,8,16,0,0,8,16,0,0,8,16,0,0,8,16,0,0,8,16,0,0,8,16,0,0,8,16,0,0,8,16,0,0,8,16,0,0,8
-                                                    ,16,0,0,8,16,0,0,8,16,0,0,8,16,0,0,8,16,0,0,8,16,0,0,8,31,255,255,248,0,0,0,0,0,0,0,0,0,0,0,0),
-                                                    (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-                                                     ,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-                                                     ,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0))
-                        elif self.s == 27 or self.s == 28:
-                            pygame.mouse.set_cursor((32,32),(16,16),
-                                                    (0,0,0,0,0,0,0,0,63,255,255,252,32,0,0,4,32,0,0,4,32,0,0,4,32,0,0,4,32,0,0,4,32,0,0,4,32,0,0,4,32,0,0,4,32,0,0,4
-                                                     ,32,0,0,4,32,0,0,4,32,0,0,4,32,0,0,4,32,0,0,4,32,0,0,4,32,0,0,4,32,0,0,4,32,0,0,4,32,0,0,4,32,0,0,4,32,0,0,4
-                                                     ,32,0,0,4,32,0,0,4,32,0,0,4,32,0,0,4,32,0,0,4,63,255,255,252,0,0,0,0,0,0,0,0),
-                                                    (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-                                                     ,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-                                                     ,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0))
-                        elif self.s == 29 or self.s == 30:
-                            pygame.mouse.set_cursor((32,32),(16,16),
-                                                    (0,0,0,0,127,255,255,254,64,0,0,2,64,0,0,2,64,0,0,2,64,0,0,2,64,0,0,2,64,0,0,2,64,0,0,2,64,0,0,2,64,0,0,2,64,0,0,2
-                                                     ,64,0,0,2,64,0,0,2,64,0,0,2,64,0,0,2,64,0,0,2,64,0,0,2,64,0,0,2,64,0,0,2,64,0,0,2,64,0,0,2,64,0,0,2,64,0,0,2
-                                                     ,64,0,0,2,64,0,0,2,64,0,0,2,64,0,0,2,64,0,0,2,64,0,0,2,127,255,255,254,0,0,0,0),
-                                                    (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-                                                     ,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-                                                     ,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0))
-                        elif self.s == 31 or self.s == 32:
-                            pygame.mouse.set_cursor((32,32),(16,16),
-                                                    (255,255,255,255,128,0,0,1,128,0,0,1,128,0,0,1,128,0,0,1,128,0,0,1,128,0,0,1,128,0,0,1,128,0,0,1,128,0,0,1,128,0,0,1
-                                                     ,128,0,0,1,128,0,0,1,128,0,0,1,128,0,0,1,128,0,0,1,128,0,0,1,128,0,0,1,128,0,0,1,128,0,0,1,128,0,0,1,128,0,0,1
-                                                     ,128,0,0,1,128,0,0,1,128,0,0,1,128,0,0,1,128,0,0,1,128,0,0,1,128,0,0,1,128,0,0,1,128,0,0,1,255,255,255,255),
-                                                    (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-                                                     ,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-                                                     ,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0))
+                    if self.updatedMouse == False:
+                        self.updatedMouse = True
+                        if self.mode == "square":
+                            im = PIL.Image.open("cursor.png")
+                            pix = im.load()
+                            if pix[xco,yco] == (0, 0, 0):
+                                pygame.mouse.set_cursor((8,8),(4,4),*self.x6w)
         else:
+            self.updatedMouse = False
             pygame.mouse.set_cursor((16,19),(0,0),
                                     (128,0,192,0,160,0,144,0,136,0,132,0,130,0,129,
                                      0,128,128,128,64,128,32,128,16,129,240,137,0,148,
@@ -1646,31 +1692,32 @@ class main:
                                      255,128,255,192,255,224,255,240,255,240,255,0,247,
                                      128,231,128,195,192,3,192,1,128))
     def __init__(self):
-        self.update()
-        self.setup()
-        while True:
-            self.updateMouse()
-            pygame.display.flip()
-            self.events()
-            if self.dragging == True:
-                if self.rectClicked:
+        self.update()   #deletes possible existing update files
+        self.setup()    #sets up everything for program
+        self.setupCursors()  #initializes cursors
+        while True:    #Holds program methods
+            self.updateMouse()   #Updates cursor
+            self.events()     #Program events
+            if self.dragging == True:  #mouse dragging
+                self.updatedMouse = False  #mouse needs updated
+                if self.rectClicked:   #If rect tool selected
                     self.rect_drag()
-                elif self.ellipseClicked:
+                elif self.ellipseClicked:  #ellipse tool
                     self.ellipse_drag()
-                elif self.brushClicked:
+                elif self.brushClicked:    #brush tool
                     self.brush_drag()
-                elif self.eraserClicked:
+                elif self.eraserClicked:   #eraser tool
                     self.eraser_drag()
-                elif self.lineClicked:
+                elif self.lineClicked:     #Line tool
                     self.line_drag()
-            pygame.display.flip()
-            if self.sh_moving == True:
-                if self.eraserClicked:
+            pygame.display.flip()         #Update screen
+            if self.sh_moving == True:    #slider moving
+                if self.eraserClicked:    #Eraser tool
                     self.eraserSlider()
-                elif self.brushClicked:
+                elif self.brushClicked:    #brush tool
                     self.brushSlider()
-                elif self.lineClicked:
+                elif self.lineClicked:    #line tool
                     self.lineSlider()
-            self.gui(self.width, self.height)
-            pygame.display.flip()
-main()
+            self.gui(self.width, self.height)   #Update gui
+            pygame.display.flip()         #update screen again
+main()    #initialize program
