@@ -1190,6 +1190,7 @@ class main:
                         self.opened = False
                         self.saved = True
                         self.title = "Chalkboard  |  Untitled.png"
+                        self.placed = False
                         pygame.display.set_caption(self.title)
                     elif self.eraserClicked:
                         if xco in range(self.slider_eraser_x, self.slider_eraser_x + 9) and yco in range(44, 51):
