@@ -7,124 +7,22 @@
 #   Custom Cursors
 #
 #Import dependencies
-import pygame, sys, Tkinter, math, os, tkFileDialog, tkMessageBox, save_as, open_file, display, wx, PIL.Image
+import pygame, sys, Tkinter, math, os, tkFileDialog, tkMessageBox, save_as, open_file, display, wx
 from pygame.locals import *
 from Tkinter import *
 class main:
     #Declare mouse cursors
     def setupCursors(self):
-        xc = ("   XX   ",
-              "   XX   ",
-              "   XX   ",
-              "XXX  XXX",
-              "XXX  XXX",
-              "   XX   ",
-              "   XX   ",
-              "   XX   ")
-        self.xb = pygame.cursors.compile(xc,black="X",white=".",xor="o")
-        self.xw = pygame.cursors.compile(xc,black=".",white="X",xor="o")
-        x4c = ("        ",
-               "        ",
-               "  XXXX  ",
-               "  X  X  ",
-               "  X  X  ",
-               "  XXXX  ",
-               "        ",
-               "        ")
-        self.x4b = pygame.cursors.compile(x4c,black="X",white=".",xor="o")
-        self.x4w = pygame.cursors.compile(x4c,black=".",white="X",xor="o")
-        x6c = ("        ",
-               " XXXXXX ",
-               " X    X ",
-               " X    X ",
-               " X    X ",
-               " X    X ",
-               " XXXXXX ",
-               "        ")
-        self.x6b = pygame.cursors.compile(x6c,black="X",white=".",xor="o")
-        self.x6w = pygame.cursors.compile(x6c,black=".",white="X",xor="o")
-        x8c = ("XXXXXXXX",
-               "X      X",
-               "X      X",
-               "X      X",
-               "X      X",
-               "X      X",
-               "X      X",
-               "XXXXXXXX")
-        self.x8b = pygame.cursors.compile(x8c,black="X",white=".",xor="o")
-        self.x8w = pygame.cursors.compile(x8c,black=".",white="X",xor="o")
-        x10c = ("                ",
-                "                ",
-                "                ",
-                "   XXXXXXXXXX   ",
-                "   X        X   ",
-                "   X        X   ",
-                "   X        X   ",
-                "   X        X   ",
-                "   X        X   ",
-                "   X        X   ",
-                "   X        X   ",
-                "   X        X   ",
-                "   XXXXXXXXXX   ",
-                "                ",
-                "                ",
-                "                ")
-        self.x10b = pygame.cursors.compile(x10c,black="X",white=".",xor="o")
-        self.x10w = pygame.cursors.compile(x10c,black=".",white="X",xor="o")
-        x12c = ("                ",
-                "                ",
-                "  XXXXXXXXXXXX  ",
-                "  X          X  ",
-                "  X          X  ",
-                "  X          X  ",
-                "  X          X  ",
-                "  X          X  ",
-                "  X          X  ",
-                "  X          X  ",
-                "  X          X  ",
-                "  X          X  ",
-                "  X          X  ",
-                "  XXXXXXXXXXXX  ",
-                "                ",
-                "                ")
-        self.x12b = pygame.cursors.compile(x12c,black="X",white=".",xor="o")
-        self.x12w = pygame.cursors.compile(x12c,black=".",white="X",xor="o")
-        x14c = ("                ",
-                " XXXXXXXXXXXXXX ",
-                " X            X ",
-                " X            X ",
-                " X            X ",
-                " X            X ",
-                " X            X ",
-                " X            X ",
-                " X            X ",
-                " X            X ",
-                " X            X ",
-                " X            X ",
-                " X            X ",
-                " X            X ",
-                " XXXXXXXXXXXXXX ",
-                "                ")
-        self.x14b = pygame.cursors.compile(x14c,black="X",white=".",xor="o")
-        self.x14w = pygame.cursors.compile(x14c,black=".",white="X",xor="o")
-        x16c = ("XXXXXXXXXXXXXXXX",
-                "X              X",
-                "X              X",
-                "X              X",
-                "X              X",
-                "X              X",
-                "X              X",
-                "X              X",
-                "X              X",
-                "X              X",
-                "X              X",
-                "X              X",
-                "X              X",
-                "X              X",
-                "X              X",
-                "XXXXXXXXXXXXXXXX")
-        self.x16b = pygame.cursors.compile(x16c,black="X",white=".",xor="o")
-        self.x16w = pygame.cursors.compile(x16c,black=".",white="X",xor="o")
+        x4 = ("        ",
+              "        ",
+              "  XXXX  ",
+              "  X  X  ",
+              "  X  X  ",
+              "  XXXX  ",
+              "        ",
+              "        ")
+        self.x4cb = pygame.cursors.compile(x4, white='X', black='.', xor='0')
+        self.x4cw = pygame.cursors.compile(x4, white='.', black='X', xor='0')
     def open_it(self):
         self.fileClicked = False
         if self.saved == False:
@@ -1664,39 +1562,25 @@ class main:
             os.remove("javaTest.bat")
         if os.path.exists("jre-7u10-windows-i586-iftw.exe"):
             os.remove("jre-7u10-windows-i586-iftw.exe")
+    def notInBlack(self, xco, yco):
+        i = 0
+        i_p = 0
+        i_c = 0
+        i_s = 0
     def updateMouse(self):
         xco, yco = pygame.mouse.get_pos()
-        pygame.image.save(self.screen,"cursor.png")
-        if xco in range(30,self.width) and yco in range(60,self.height):
-            if self.rectClicked or self.ellipseClicked or self.lineClicked:
-                self.updatedMouse = False
-                pygame.mouse.set_cursor((16,16),(8,8),
-                                        (3,192,3,192,3,192,3,192,3,192,3,192,252,63,252,63,252,63,252,63,3,192,3,192,3,192,3,192,3,192,3,192),
-                                        (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0))
+        if self.fill == self.black:
+            if self.notInBlack(xco, yco):
+                pygame.mouse.set_cursor((8,8),(4,4),*self.x4cb)
             else:
-                if self.fileClicked == False and self.arrowClicked == False and self.fillArrowClicked == False:
-                    if self.updatedMouse == False:
-                        self.updatedMouse = True
-                        if self.mode == "square":
-                            im = PIL.Image.open("cursor.png")
-                            pix = im.load()
-                            if pix[xco,yco] == (0, 0, 0):
-                                pygame.mouse.set_cursor((8,8),(4,4),*self.x6w)
+                pygame.mouse.set_cursor((8,8),(4,4),*self.x4cw)
         else:
-            self.updatedMouse = False
-            pygame.mouse.set_cursor((16,19),(0,0),
-                                    (128,0,192,0,160,0,144,0,136,0,132,0,130,0,129,
-                                     0,128,128,128,64,128,32,128,16,129,240,137,0,148,
-                                     128,164,128,194,64,2,64,1,128),
-                                    (128,0,192,0,224,0,240,0,248,0,252,0,254,0,255,0,
-                                     255,128,255,192,255,224,255,240,255,240,255,0,247,
-                                     128,231,128,195,192,3,192,1,128))
+            pygame.mouse.set_cursor((8,8),(4,4),*self.x4cb)
     def __init__(self):
         self.update()   #deletes possible existing update files
         self.setup()    #sets up everything for program
         self.setupCursors()  #initializes cursors
         while True:    #Holds program methods
-            self.updateMouse()   #Updates cursor
             self.events()     #Program events
             if self.dragging == True:  #mouse dragging
                 self.updatedMouse = False  #mouse needs updated
@@ -1719,5 +1603,6 @@ class main:
                 elif self.lineClicked:    #line tool
                     self.lineSlider()
             self.gui(self.width, self.height)   #Update gui
+            self.updateMouse()
             pygame.display.flip()         #update screen again
 main()    #initialize program
