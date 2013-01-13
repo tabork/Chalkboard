@@ -13,16 +13,65 @@ from Tkinter import *
 class main:
     #Declare mouse cursors
     def setupCursors(self):
-        x4 = ("        ",
-              "        ",
-              "  XXXX  ",
-              "  X  X  ",
-              "  X  X  ",
-              "  XXXX  ",
-              "        ",
-              "        ")
-        self.x4cb = pygame.cursors.compile(x4, white='X', black='.', xor='0')
-        self.x4cw = pygame.cursors.compile(x4, white='.', black='X', xor='0')
+        xx = ("   XX   ",
+              "   XX   ",
+              "   XX   ",
+              "XXX  XXX",
+              "XXX  XXX",
+              "   XX   ",
+              "   XX   ",
+              "   XX   ")
+        self.xxcb = pygame.cursors.compile(xx, white='X', black='.',xor='0')
+        self.xxcw = pygame.cursors.compile(xx, white='.', black='X', xor='0')
+        xs4 = ("        ",
+               "        ",
+               "  XXXX  ",
+               "  X  X  ",
+               "  X  X  ",
+               "  XXXX  ",
+               "        ",
+               "        ")
+        self.xs4cb = pygame.cursors.compile(xs4, white='X', black='.', xor='0')
+        self.xs4cw = pygame.cursors.compile(xs4, white='.', black='X', xor='0')
+        xs6 = ("        ",
+               " XXXXXX ",
+               " X    X ",
+               " X    X ",
+               " X    X ",
+               " X    X ",
+               " XXXXXX ",
+               "        ")
+        self.xs6cb = pygame.cursors.compile(xs6, white='X', black='.', xor='0')
+        self.xs6cw = pygame.cursors.compile(xs6, white='.', black='X', xor='0')
+        xs8 = ("XXXXXXXX",
+               "X      X",
+               "X      X",
+               "X      X",
+               "X      X",
+               "X      X",
+               "X      X",
+               "XXXXXXXX")
+        self.xs8cb = pygame.cursors.compile(xs8, white='X', black='.', xor='0')
+        self.xs8cw = pygame.cursors.compile(xs8, white='.', black='X', xor='0')
+        xs10 = ("                ",
+                "                ",
+                "                ",
+                "   XXXXXXXXXX   ",
+                "   X        X   ",
+                "   X        X   ",
+                "   X        X   ",
+                "   X        X   ",
+                "   X        X   ",
+                "   X        X   ",
+                "   X        X   ",
+                "   X        X   ",
+                "   XXXXXXXXXX   ",
+                "                ",
+                "                ",
+                "                ")
+        self.xs10cb = pygame.cursors.compile(xs10, white='X', black='.', xor='0')
+        self.xs10cw = pygame.cursors.compile(xs10, white='.', black='X', xor='0')
+        self.canContinue = True
     def open_it(self):
         self.fileClicked = False
         if self.saved == False:
@@ -110,7 +159,6 @@ class main:
             self.mode = "square"
             self.points=[]
             self.s = 1
-            self.mouseUpdating = True
             self.c = 1
             root = Tk()
             self.window_w = root.winfo_screenwidth()
@@ -695,6 +743,8 @@ class main:
         pygame.display.flip()
     def setup(self):
         pygame.init()
+        self.canContinue = False
+        self.setupCursors()
         self.declareVar(False)
         self.screen = pygame.display.set_mode((self.width,self.height),RESIZABLE,0)
         self.declareVar(True)
@@ -1181,7 +1231,6 @@ class main:
                         pygame.image.save(self.screen, "gui/menu_screen.png")
                         self.fillArrowClicked = True
                     elif xco in range(self.cx,self.cx+50) and yco in range(34,54):
-                        self.mouseUpdating = False
                         yn = display.disp().display()
                         if yn:
                             pygame.image.save(self.screen, "gui/menu_screen.png")
@@ -1565,9 +1614,9 @@ class main:
             os.remove("javaTest.bat")
         if os.path.exists("jre-7u10-windows-i586-iftw.exe"):
             os.remove("jre-7u10-windows-i586-iftw.exe")
-    def notInBlack(self, xco, yco): #Mouse not in black
+    def notInBlackComp(self, xco, yco): #Mouse not in black
         if self.history == [] and self.fill == self.black:
-            return False
+            return "Nothing"
         i = 0
         i_p = 0
         i_c = 0
@@ -1578,53 +1627,97 @@ class main:
             c = self.hist_color
             s = self.hist_size
             if h[i] == "ellipse":
-                if c[i_c] == self.black:
-                    return False
                 if xco in range(p[i_p],p[i_p]+s[i_s]) and yco in range(p[i_p+1],p[i_p+1] + s[i_s+1]):
-                    return True
+                    if c[i_c] == self.black or c[i_c] == self.blue:
+                        return "Color dark"
+                    else:
+                        return "In range"
                 i += 1
                 i_p += 2
                 i_s += 2
                 i_c += 1
             else:
                 i += 1
+        if self.fill != self.black and self.fill != self.blue:
+            return "Fill light, not in range"
+        else:
+            return "Fill dark, not in range"
+    def notInBlack(self, xco, yco):
+        xibc = self.notInBlackComp(xco,yco)
+        if xibc == "Nothing":
+            return False
+        elif xibc == "Color dark":
+            return False
+        elif xibc == "In range":
+            return True
+        elif xibc == "Fill light, not in range":
+            return True
+        elif xibc == "Fill dark, not in range":
+            return False
     def updateMouse(self):
         xco, yco = pygame.mouse.get_pos() #xco = x coordinate, yco = y coordinate of mouse
-        if self.fill == self.black:
-            if self.notInBlack(xco, yco):
-                pygame.mouse.set_cursor((8,8),(4,4),*self.x4cb)
-            else:
-                pygame.mouse.set_cursor((8,8),(4,4),*self.x4cw)
+        if xco in range(0,30) or yco in range(0,60) or self.fileClicked or self.arrowClicked or self.fillArrowClicked:
+            pygame.mouse.set_cursor((16, 19), (0, 0),
+                                    (128,0,192,0,160,0,144,0,136,0,132,0,130,0,129,0,128,128,128,64,128,32,128,16,129,240,137,0,148,128,164,128,194,64,2,64,1,128),
+                                    (128,0,192,0,224,0,240,0,248,0,252,0,254,0,255,0,255,128,255,192,255,224,255,240,255,240,255,0,247,128,231,128,195,192,3,192,1,128))
         else:
-            pygame.mouse.set_cursor((8,8),(4,4),*self.x4cb)
+            if self.notInBlack(xco, yco):
+                if self.ellipseClicked or self.rectClicked or self.lineClicked:
+                    pygame.mouse.set_cursor((8,8),(4,4),*self.xxcb)
+                else:
+                    if self.s < 3:
+                        pygame.mouse.set_cursor((8,8),(4,4),*self.xxcb)
+                    if self.mode == "square":
+                        if self.s == 3 or self.s == 4:
+                            pygame.mouse.set_cursor((8,8),(4,4),*self.xs4cb)
+                        elif self.s == 5 or self.s == 6:
+                            pygame.mouse.set_cursor((8,8),(4,4),*self.xs6cb)
+                        elif self.s == 7 or self.s == 8:
+                            pygame.mouse.set_cursor((8,8),(4,4),*self.xs8cb)
+                        elif self.s == 9 or self.s == 10:
+                            pygame.mouse.set_cursor((16,16),(8,8),*self.xs10cb)
+            else:
+                if self.ellipseClicked or self.rectClicked or self.lineClicked:
+                    pygame.mouse.set_cursor((8,8),(4,4),*self.xxcw)
+                else:
+                    if self.s < 3:
+                        pygame.mouse.set_cursor((8,8),(4,4),*self.xxcw)
+                    if self.mode == "square":
+                        if self.s == 3 or self.s == 4:
+                            pygame.mouse.set_cursor((8,8),(4,4),*self.xs4cw)
+                        elif self.s == 5 or self.s == 6:
+                            pygame.mouse.set_cursor((8,8),(4,4),*self.xs6cw)
+                        elif self.s == 7 or self.s == 8:
+                            pygame.mouse.set_cursor((8,8),(4,4),*self.xs8cw)
+                        elif self.s == 9 or self.s == 10:
+                            pygame.mouse.set_cursor((16,16),(8,8),*self.xs10cw)
     def __init__(self):
         self.update()   #deletes possible existing update files
         self.setup()    #sets up everything for program
-        self.setupCursors()  #initializes cursors
         while True:    #Holds program methods
-            #if self.mouseUpdating:
-                #self.updateMouse()
-            self.events()     #Program events
-            if self.dragging == True:  #mouse dragging
-                self.updatedMouse = False  #mouse needs updated
-                if self.rectClicked:   #If rect tool selected
-                    self.rect_drag()
-                elif self.ellipseClicked:  #ellipse tool
-                    self.ellipse_drag()
-                elif self.brushClicked:    #brush tool
-                    self.brush_drag()
-                elif self.eraserClicked:   #eraser tool
-                    self.eraser_drag()
-                elif self.lineClicked:     #Line tool
-                    self.line_drag()
-            pygame.display.flip()         #Update screen
-            if self.sh_moving == True:    #slider moving
-                if self.eraserClicked:    #Eraser tool
-                    self.eraserSlider()
-                elif self.brushClicked:    #brush tool
-                    self.brushSlider()
-                elif self.lineClicked:    #line tool
-                    self.lineSlider()
-            self.gui(self.width, self.height)   #Update gui
-            pygame.display.flip()         #update screen again
+            if self.canContinue:    #If mouse cursors completely initialized. They should be, but it just makes sure.
+                self.updateMouse()
+                self.events()     #Program events
+                if self.dragging == True:  #mouse dragging
+                    self.updatedMouse = False  #mouse needs updated
+                    if self.rectClicked:   #If rect tool selected
+                        self.rect_drag()
+                    elif self.ellipseClicked:  #ellipse tool
+                        self.ellipse_drag()
+                    elif self.brushClicked:    #brush tool
+                        self.brush_drag()
+                    elif self.eraserClicked:   #eraser tool
+                        self.eraser_drag()
+                    elif self.lineClicked:     #Line tool
+                        self.line_drag()
+                pygame.display.flip()         #Update screen
+                if self.sh_moving == True:    #slider moving
+                    if self.eraserClicked:    #Eraser tool
+                        self.eraserSlider()
+                    elif self.brushClicked:    #brush tool
+                        self.brushSlider()
+                    elif self.lineClicked:    #line tool
+                        self.lineSlider()
+                self.gui(self.width, self.height)   #Update gui
+                pygame.display.flip()         #update screen again
 main()    #initialize program
