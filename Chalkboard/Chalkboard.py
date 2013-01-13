@@ -1204,6 +1204,7 @@ class main:
                         self.opened = False
                         self.saved = True
                         self.title = "Chalkboard  |  Untitled.png"
+                        self.placed = False
                         pygame.display.set_caption(self.title)
                         pygame.display.flip()
                     elif self.eraserClicked:
