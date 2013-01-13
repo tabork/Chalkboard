@@ -110,7 +110,7 @@ class main:
             self.mode = "square"
             self.points=[]
             self.s = 1
-            self.updatedMouse = False
+            self.mouseUpdating = True
             self.c = 1
             root = Tk()
             self.window_w = root.winfo_screenwidth()
@@ -1181,6 +1181,7 @@ class main:
                         pygame.image.save(self.screen, "gui/menu_screen.png")
                         self.fillArrowClicked = True
                     elif xco in range(self.cx,self.cx+50) and yco in range(34,54):
+                        self.mouseUpdating = False
                         yn = display.disp().display()
                         if yn:
                             pygame.image.save(self.screen, "gui/menu_screen.png")
@@ -1204,6 +1205,7 @@ class main:
                         self.saved = True
                         self.title = "Chalkboard  |  Untitled.png"
                         pygame.display.set_caption(self.title)
+                        pygame.display.flip()
                     elif self.eraserClicked:
                         if xco in range(self.slider_eraser_x, self.slider_eraser_x + 9) and yco in range(44, 51):
                             self.sh_moving = True
@@ -1562,13 +1564,31 @@ class main:
             os.remove("javaTest.bat")
         if os.path.exists("jre-7u10-windows-i586-iftw.exe"):
             os.remove("jre-7u10-windows-i586-iftw.exe")
-    def notInBlack(self, xco, yco):
+    def notInBlack(self, xco, yco): #Mouse not in black
+        if self.history == [] and self.fill == self.black:
+            return False
         i = 0
         i_p = 0
         i_c = 0
         i_s = 0
+        while i < len(self.history) and i_p < len(self.hist_points) and i_c < len(self.hist_color) and i_s < len(self.hist_size):
+            h = self.history
+            p = self.hist_points
+            c = self.hist_color
+            s = self.hist_size
+            if h[i] == "ellipse":
+                if c[i_c] == self.black:
+                    return False
+                if xco in range(p[i_p],p[i_p]+s[i_s]) and yco in range(p[i_p+1],p[i_p+1] + s[i_s+1]):
+                    return True
+                i += 1
+                i_p += 2
+                i_s += 2
+                i_c += 1
+            else:
+                i += 1
     def updateMouse(self):
-        xco, yco = pygame.mouse.get_pos()
+        xco, yco = pygame.mouse.get_pos() #xco = x coordinate, yco = y coordinate of mouse
         if self.fill == self.black:
             if self.notInBlack(xco, yco):
                 pygame.mouse.set_cursor((8,8),(4,4),*self.x4cb)
@@ -1581,6 +1601,8 @@ class main:
         self.setup()    #sets up everything for program
         self.setupCursors()  #initializes cursors
         while True:    #Holds program methods
+            #if self.mouseUpdating:
+                #self.updateMouse()
             self.events()     #Program events
             if self.dragging == True:  #mouse dragging
                 self.updatedMouse = False  #mouse needs updated
@@ -1603,6 +1625,5 @@ class main:
                 elif self.lineClicked:    #line tool
                     self.lineSlider()
             self.gui(self.width, self.height)   #Update gui
-            self.updateMouse()
             pygame.display.flip()         #update screen again
 main()    #initialize program
