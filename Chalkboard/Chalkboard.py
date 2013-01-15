@@ -17,6 +17,7 @@ from Tkinter import *
 class main:
     #Declare mouse cursors
     def setupCursors(self):
+        #Cross 8x8
         xx = ("   XX   ",
               "   XX   ",
               "   XX   ",
@@ -27,6 +28,9 @@ class main:
               "   XX   ")
         self.xxcb = pygame.cursors.compile(xx, white='X', black='.',xor='0')
         self.xxcw = pygame.cursors.compile(xx, white='.', black='X', xor='0')
+        #---NOTE--- For the following, the first size is the size displayed,
+        #---NOTE--- and the second size is the size of string.
+        #Square 4x4 8x8
         xs4 = ("        ",
                "        ",
                "  XXXX  ",
@@ -37,6 +41,7 @@ class main:
                "        ")
         self.xs4cb = pygame.cursors.compile(xs4, white='X', black='.', xor='0')
         self.xs4cw = pygame.cursors.compile(xs4, white='.', black='X', xor='0')
+        #Square 6x6 8x8
         xs6 = ("        ",
                " XXXXXX ",
                " X    X ",
@@ -47,6 +52,7 @@ class main:
                "        ")
         self.xs6cb = pygame.cursors.compile(xs6, white='X', black='.', xor='0')
         self.xs6cw = pygame.cursors.compile(xs6, white='.', black='X', xor='0')
+        #Square 8x8 8x8
         xs8 = ("XXXXXXXX",
                "X      X",
                "X      X",
@@ -57,6 +63,7 @@ class main:
                "XXXXXXXX")
         self.xs8cb = pygame.cursors.compile(xs8, white='X', black='.', xor='0')
         self.xs8cw = pygame.cursors.compile(xs8, white='.', black='X', xor='0')
+        #Square 10x10 16x16
         xs10 = ("                ",
                 "                ",
                 "                ",
@@ -75,6 +82,7 @@ class main:
                 "                ")
         self.xs10cb = pygame.cursors.compile(xs10, white='X', black='.', xor='0')
         self.xs10cw = pygame.cursors.compile(xs10, white='.', black='X', xor='0')
+        #Square 12x12 16x16
         xs12 = ("                ",
                 "                ",
                 "  XXXXXXXXXXXX  ",
@@ -93,6 +101,7 @@ class main:
                 "                ")
         self.xs12cb = pygame.cursors.compile(xs12, white='X', black='.', xor='0')
         self.xs12cw = pygame.cursors.compile(xs12, white='.', black='X', xor='0')
+        #Square 14x14 16x16
         xs14 = ("                ",
                 " XXXXXXXXXXXXXX ",
                 " X            X ",
@@ -111,6 +120,7 @@ class main:
                 "                ")
         self.xs14cb = pygame.cursors.compile(xs14, white='X', black='.', xor='0')
         self.xs14cw = pygame.cursors.compile(xs14, white='.', black='X', xor='0')
+        #Square 50x50 56x56
         xs50 = ("                                                        ",
                 "                                                        ",
                 "                                                        ",
@@ -169,6 +179,7 @@ class main:
                 "                                                        ")
         self.xs50cb = pygame.cursors.compile(xs50, white='X', black='.', xor='0')
         self.xs50cw = pygame.cursors.compile(xs50, white='.', black='X', xor='0')
+        #Circle 4x4 8x8
         xc4 = ("        ",
                "        ",
                "   XX   ",
@@ -179,6 +190,7 @@ class main:
                "        ")
         self.xc4cb = pygame.cursors.compile(xc4, white='X', black='.', xor='0')
         self.xc4cw = pygame.cursors.compile(xc4, white='.', black='X', xor='0')
+        #Circle 6x6 8x8
         xc6 = ("        ",
                "  XXXX  ",
                " X    X ",
@@ -189,6 +201,7 @@ class main:
                "        ")
         self.xc6cb = pygame.cursors.compile(xc6, white='X', black='.', xor='0')
         self.xc6cw = pygame.cursors.compile(xc6, white='.', black='X', xor='0')
+        #Circle 8x8 8x8
         xc8 = ("  XXXX  ",
                " X    X ",
                "X      X",
@@ -199,6 +212,7 @@ class main:
                "  XXXX  ")
         self.xc8cb = pygame.cursors.compile(xc8, white='X', black='.', xor='0')
         self.xc8cw = pygame.cursors.compile(xc8, white='.', black='X', xor='0')
+        #Circle 10x10 16x16
         xc10 = ("                ",
                 "                ",
                 "                ",
@@ -217,6 +231,7 @@ class main:
                 "                ")
         self.xc10cb = pygame.cursors.compile(xc10, white='X', black='.', xor='0')
         self.xc10cw = pygame.cursors.compile(xc10, white='.', black='X', xor='0')
+        #Circle 12x12 16x16
         xc12 = ("                ",
                 "                ",
                 "      XXXX      ",
@@ -235,6 +250,7 @@ class main:
                 "                ")
         self.xc12cb = pygame.cursors.compile(xc12, white='X', black='.', xor='0')
         self.xc12cw = pygame.cursors.compile(xc12, white='.', black='X', xor='0')
+        #Circle 14x14 16x16
         xc14 = ("                ",
                 "     XXXXXX     ",
                 "    X      X    ",
@@ -253,21 +269,22 @@ class main:
                 "                ")
         self.xc14cb = pygame.cursors.compile(xc14, white='X', black='.', xor='0')
         self.xc14cw = pygame.cursors.compile(xc14, white='.', black='X', xor='0')
-        self.canContinue = True
+        self.canContinue = True  #Allow for continuing
+    #Open file
     def open_it(self):
-        self.fileClicked = False
-        if self.saved == False:
-            yn = display.disp().display()
-            if yn:
-                self.save()
-        self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
-        pygame.display.flip()
-        fn = open_file.open_f().openfile()
-        if fn != None:
-            self.opened = True
-            self.opened_file = fn
-            self.savedname = fn
-            loaded = pygame.image.load(fn)
+        self.fileClicked = False #First make the file menu go away
+        if self.saved == False:  #If it is already saved,
+            yn = display.disp().display() #ask if user wants to save
+            if yn: #If yes,
+                self.save() #run self.save method
+        self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0)) #Place the temporary menu_screen.png file on screen.
+        pygame.display.flip() #Update screen
+        fn = open_file.open_f().openfile() #Display open dialog and store file in fn
+        if fn != None: #If fn equals something,
+            self.opened = True #set self.opened to True
+            self.opened_file = fn #Make the self.opened_file equal to the file in fn
+            self.savedname = fn  #Also make fn the saved name
+            loaded = pygame.image.load(fn) #Load the image user opened
             pygame.transform.scale(loaded,(self.width-30,self.height-60))
             self.screen.blit(loaded,(30,60))
             self.saved = True
@@ -2027,7 +2044,7 @@ class main:
         self.setup()    #sets up everything for program
         while True:    #Holds program methods
             if self.canContinue:    #If mouse cursors completely initialized. They should be, but it just makes sure.
-                self.updateMouse()
+                self.updateMouse() #Update mouse cursors
                 self.events()     #Program events
                 if self.dragging == True:  #mouse dragging
                     self.updatedMouse = False  #mouse needs updated
