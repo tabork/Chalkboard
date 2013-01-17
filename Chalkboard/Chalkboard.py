@@ -888,7 +888,7 @@ class main:
             self.screen.fill(self.fill)
         if self.saved:
             self.saved = False
-            self.title = self.title + "*"
+            self.title = self.title + "**"
             pygame.display.set_caption(self.title)
         self.redraw(self.history, self.hist_points, self.hist_color, self.hist_size)
     def events(self):
@@ -1113,7 +1113,7 @@ class main:
                     if xco in range(30,self.width) and yco in range(60,self.height):
                         if self.saved:
                             self.saved = False
-                            self.title = self.title + "*"
+                            self.title = self.title + "**"
                             pygame.display.set_caption(self.title)
                     if xco in range(0, 50) and yco in range(0, 30):
                         self.fileClicked = True
