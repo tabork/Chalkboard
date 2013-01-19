@@ -120,6 +120,133 @@ class main:
                 "                ")
         self.xs14cb = pygame.cursors.compile(xs14, white='X', black='.', xor='0')
         self.xs14cw = pygame.cursors.compile(xs14, white='.', black='X', xor='0')
+        #Square 16x16 16x16
+        xs16 = ("XXXXXXXXXXXXXXXX",
+                "X              X",
+                "X              X",
+                "X              X",
+                "X              X",
+                "X              X",
+                "X              X",
+                "X              X",
+                "X              X",
+                "X              X",
+                "X              X",
+                "X              X",
+                "X              X",
+                "X              X",
+                "X              X",
+                "XXXXXXXXXXXXXXXX")
+        self.xs16cb = pygame.cursors.compile(xs16, white='X', black='.', xor='0')
+        self.xs16cw = pygame.cursors.compile(xs16, white='.', black='X', xor='0')
+        #Square 18x18 24x24
+        xs18 = ("                        ",
+                "                        ",
+                "                        ",
+                "   XXXXXXXXXXXXXXXXXX   ",
+                "   X                X   ",
+                "   X                X   ",
+                "   X                X   ",
+                "   X                X   ",
+                "   X                X   ",
+                "   X                X   ",
+                "   X                X   ",
+                "   X                X   ",
+                "   X                X   ",
+                "   X                X   ",
+                "   X                X   ",
+                "   X                X   ",
+                "   X                X   ",
+                "   X                X   ",
+                "   X                X   ",
+                "   X                X   ",
+                "   XXXXXXXXXXXXXXXXXX   ",
+                "                        ",
+                "                        ",
+                "                        ")
+        self.xs18cb = pygame.cursors.compile(xs18, white='X', black='.', xor='0')
+        self.xs18cw = pygame.cursors.compile(xs18, white='.', black='X', xor='0')
+        #Square 20x20 24x24
+        xs20 = ("                        ",
+                "                        ",
+                "  XXXXXXXXXXXXXXXXXXXX  ",
+                "  X                  X  ",
+                "  X                  X  ",
+                "  X                  X  ",
+                "  X                  X  ",
+                "  X                  X  ",
+                "  X                  X  ",
+                "  X                  X  ",
+                "  X                  X  ",
+                "  X                  X  ",
+                "  X                  X  ",
+                "  X                  X  ",
+                "  X                  X  ",
+                "  X                  X  ",
+                "  X                  X  ",
+                "  X                  X  ",
+                "  X                  X  ",
+                "  X                  X  ",
+                "  X                  X  ",
+                "  XXXXXXXXXXXXXXXXXXXX  ",
+                "                        ",
+                "                        ")
+        self.xs20cb = pygame.cursors.compile(xs20, white='X', black='.', xor='0')
+        self.xs20cw = pygame.cursors.compile(xs20, white='.', black='X', xor='0')
+        #Square 22x22 24x24
+        xs22 = ("                        ",
+                " XXXXXXXXXXXXXXXXXXXXXX ",
+                " X                    X ",
+                " X                    X ",
+                " X                    X ",
+                " X                    X ",
+                " X                    X ",
+                " X                    X ",
+                " X                    X ",
+                " X                    X ",
+                " X                    X ",
+                " X                    X ",
+                " X                    X ",
+                " X                    X ",
+                " X                    X ",
+                " X                    X ",
+                " X                    X ",
+                " X                    X ",
+                " X                    X ",
+                " X                    X ",
+                " X                    X ",
+                " X                    X ",
+                " XXXXXXXXXXXXXXXXXXXXXX ",
+                "                        ")
+        self.xs22cb = pygame.cursors.compile(xs22, white='X', black='.', xor='0')
+        self.xs22cw = pygame.cursors.compile(xs22, white='.', black='X', xor='0')
+        #Square 24x24 24x24
+        xs24 = ("XXXXXXXXXXXXXXXXXXXXXXXX",
+                "X                      X",
+                "X                      X",
+                "X                      X",
+                "X                      X",
+                "X                      X",
+                "X                      X",
+                "X                      X",
+                "X                      X",
+                "X                      X",
+                "X                      X",
+                "X                      X",
+                "X                      X",
+                "X                      X",
+                "X                      X",
+                "X                      X",
+                "X                      X",
+                "X                      X",
+                "X                      X",
+                "X                      X",
+                "X                      X",
+                "X                      X",
+                "X                      X",
+                "XXXXXXXXXXXXXXXXXXXXXXXX")
+        self.xs24cb = pygame.cursors.compile(xs24, white='X', black='.', xor='0')
+        self.xs24cw = pygame.cursors.compile(xs24, white='.', black='X', xor='0')
         #Square 50x50 56x56
         xs50 = ("                                                        ",
                 "                                                        ",
@@ -269,6 +396,133 @@ class main:
                 "                ")
         self.xc14cb = pygame.cursors.compile(xc14, white='X', black='.', xor='0')
         self.xc14cw = pygame.cursors.compile(xc14, white='.', black='X', xor='0')
+        #Circle 16x16 16x16
+        xc16 = ("     XXXXXX     ",
+                "   XX      XX   ",
+                "  X          X  ",
+                " X            X ",
+                " X            X ",
+                "X              X",
+                "X              X",
+                "X              X",
+                "X              X",
+                "X              X",
+                "X              X",
+                " X            X ",
+                " X            X ",
+                "  X          X  ",
+                "   XX      XX   ",
+                "     XXXXXX     ")
+        self.xc16cb = pygame.cursors.compile(xc16, white='X', black='.', xor='0')
+        self.xc16cw = pygame.cursors.compile(xc16, white='.', black='X', xor='0')
+        #Circle 18x18 24x24
+        xc18 = ("                        ",
+                "                        ",
+                "                        ",
+                "         XXXXXX         ",
+                "       XX      XX       ",
+                "      X          X      ",
+                "     X            X     ",
+                "    X              X    ",
+                "    X              X    ",
+                "   X                X   ",
+                "   X                X   ",
+                "   X                X   ",
+                "   X                X   ",
+                "   X                X   ",
+                "   X                X   ",
+                "    X              X    ",
+                "    X              X    ",
+                "     X            X     ",
+                "      X          X      ",
+                "       XX      XX       ",
+                "         XXXXXX         ",
+                "                        ",
+                "                        ",
+                "                        ")
+        self.xc18cb = pygame.cursors.compile(xc18, white='X', black='.', xor='0')
+        self.xc18cw = pygame.cursors.compile(xc18, white='.', black='X', xor='0')
+        #Circle 20x20 24x24
+        xc20 = ("                        ",
+                "                        ",
+                "         XXXXXX         ",
+                "       XX      XX       ",
+                "     XX          XX     ",
+                "    X              X    ",
+                "    X              X    ",
+                "   X                X   ",
+                "   X                X   ",
+                "  X                  X  ",
+                "  X                  X  ",
+                "  X                  X  ",
+                "  X                  X  ",
+                "  X                  X  ",
+                "  X                  X  ",
+                "   X                X   ",
+                "   X                X   ",
+                "    X              X    ",
+                "    X              X    ",
+                "     XX          XX     ",
+                "       XX      XX       ",
+                "         XXXXXX         ",
+                "                        ",
+                "                        ")
+        self.xc20cb = pygame.cursors.compile(xc20, white='X', black='.', xor='0')
+        self.xc20cw = pygame.cursors.compile(xc20, white='.', black='X', xor='0')
+        #Circle 22x22 24x24
+        xc22 = ("                        ",
+                "         XXXXXX         ",
+                "      XXX      XXX      ",
+                "     X            X     ",
+                "    X              X    ",
+                "   X                X   ",
+                "  X                  X  ",
+                "  X                  X  ",
+                "  X                  X  ",
+                " X                    X ",
+                " X                    X ",
+                " X                    X ",
+                " X                    X ",
+                " X                    X ",
+                " X                    X ",
+                "  X                  X  ",
+                "  X                  X  ",
+                "  X                  X  ",
+                "   X                X   ",
+                "    X              X    ",
+                "     X            X     ",
+                "      XXX      XXX      ",
+                "         XXXXXX         ",
+                "                        ")
+        self.xc22cb = pygame.cursors.compile(xc22, white='X', black='.', xor='0')
+        self.xc22cw = pygame.cursors.compile(xc22, white='.', black='X', xor='0')
+        #Circle 24x24 24x24
+        xc24 = ("         XXXXXX         ",
+                "      XXX      XXX      ",
+                "     X            X     ",
+                "    X              X    ",
+                "   X                X   ",
+                "  X                  X  ",
+                " X                    X ",
+                " X                    X ",
+                " X                    X ",
+                "X                      X",
+                "X                      X",
+                "X                      X",
+                "X                      X",
+                "X                      X",
+                "X                      X",
+                " X                    X ",
+                " X                    X ",
+                " X                    X ",
+                "  X                  X  ",
+                "   X                X   ",
+                "    X              X    ",
+                "     X            X     ",
+                "      XXX      XXX      ",
+                "         XXXXXX         ")
+        self.xc24cb = pygame.cursors.compile(xc24, white='X', black='.', xor='0')
+        self.xc24cw = pygame.cursors.compile(xc24, white='.', black='X', xor='0')
         self.canContinue = True  #Allow for continuing
     #Open file
     def open_it(self):
@@ -1266,11 +1520,13 @@ class main:
                     elif xco in range(673,690) and yco in range(34,52): #Fill arrow clicked
                         pygame.image.save(self.screen, "gui/menu_screen.png")
                         self.fillArrowClicked = True
-                    elif xco in range(self.cx,self.cx+50) and yco in range(34,54): #Clear clicked
-                        yn = display.disp().display() #Display the save question
-                        if yn: #If yes, save
-                            pygame.image.save(self.screen, "gui/menu_screen.png")
-                            self.save()
+                    #Clear
+                    elif xco in range(self.cx,self.cx+50) and yco in range(34,54):
+                        if self.saved == False:
+                            yn = display.disp().display() #Display the save question
+                            if yn: #If yes, save
+                                pygame.image.save(self.screen, "gui/menu_screen.png")
+                                self.save()
                         #Reset redraw and shape creation variables
                         self.history = []
                         self.hist_points = []
@@ -1838,6 +2094,16 @@ class main:
                                 pygame.mouse.set_cursor((16,16),(8,8),*self.xs12cb)
                             elif self.s == 13 or self.s == 14:
                                 pygame.mouse.set_cursor((16,16),(8,8),*self.xs14cb)
+                            elif self.s == 15 or self.s == 16:
+                                pygame.mouse.set_cursor((16,16),(8,8),*self.xs16cb)
+                            elif self.s == 17 or self.s == 18:
+                                pygame.mouse.set_cursor((24,24),(12,12),*self.xs18cb)
+                            elif self.s == 19 or self.s == 20:
+                                pygame.mouse.set_cursor((24,24),(12,12),*self.xs20cb)
+                            elif self.s == 21 or self.s == 22:
+                                pygame.mouse.set_cursor((24,24),(12,12),*self.xs22cb)
+                            elif self.s == 23 or self.s == 24:
+                                pygame.mouse.set_cursor((24,24),(12,12),*self.xs24cb)
                             elif self.s == 49 or self.s == 50:
                                 pygame.mouse.set_cursor((56,56),(28,28),*self.xs50cb)
                         else:
@@ -1853,6 +2119,16 @@ class main:
                                 pygame.mouse.set_cursor((16,16),(8,8),*self.xc12cb)
                             elif self.s == 13 or self.s == 14:
                                 pygame.mouse.set_cursor((16,16),(8,8),*self.xc14cb)
+                            elif self.s == 15 or self.s == 16:
+                                pygame.mouse.set_cursor((16,16),(8,8),*self.xc16cb)
+                            elif self.s == 17 or self.s == 18:
+                                pygame.mouse.set_cursor((24,24),(12,12),*self.xc18cb)
+                            elif self.s == 19 or self.s == 20:
+                                pygame.mouse.set_cursor((24,24),(12,12),*self.xc20cb)
+                            elif self.s == 21 or self.s == 22:
+                                pygame.mouse.set_cursor((24,24),(12,12),*self.xc22cb)
+                            elif self.s == 23 or self.s == 24:
+                                pygame.mouse.set_cursor((24,24),(12,12),*self.xc24cb)
                 else:
                     #White cursors
                     if self.ellipseClicked or self.rectClicked or self.lineClicked:
@@ -1873,6 +2149,16 @@ class main:
                                 pygame.mouse.set_cursor((16,16),(8,8),*self.xs12cw)
                             elif self.s == 13 or self.s == 14:
                                 pygame.mouse.set_cursor((16,16),(8,8),*self.xs14cw)
+                            elif self.s == 15 or self.s == 16:
+                                pygame.mouse.set_cursor((16,16),(8,8),*self.xs16cw)
+                            elif self.s == 17 or self.s == 18:
+                                pygame.mouse.set_cursor((24,24),(12,12),*self.xs18cw)
+                            elif self.s == 19 or self.s == 20:
+                                pygame.mouse.set_cursor((24,24),(12,12),*self.xs20cw)
+                            elif self.s == 21 or self.s == 22:
+                                pygame.mouse.set_cursor((24,24),(12,12),*self.xs22cw)
+                            elif self.s == 23 or self.s == 24:
+                                pygame.mouse.set_cursor((24,24),(12,12),*self.xs24cw)
                             elif self.s == 49 or self.s == 50:
                                 pygame.mouse.set_cursor((56,56),(28,28),*self.xs50cw)
                         else:
@@ -1888,6 +2174,16 @@ class main:
                                 pygame.mouse.set_cursor((16,16),(8,8),*self.xc12cw)
                             elif self.s == 13 or self.s == 14:
                                 pygame.mouse.set_cursor((16,16),(8,8),*self.xc14cw)
+                            elif self.s == 15 or self.s == 16:
+                                pygame.mouse.set_cursor((16,16),(8,8),*self.xc16cw)
+                            elif self.s == 17 or self.s == 18:
+                                pygame.mouse.set_cursor((24,24),(12,12),*self.xc18cw)
+                            elif self.s == 19 or self.s == 20:
+                                pygame.mouse.set_cursor((24,24),(12,12),*self.xc20cw)
+                            elif self.s == 21 or self.s == 22:
+                                pygame.mouse.set_cursor((24,24),(12,12),*self.xc22cw)
+                            elif self.s == 23 or self.s == 24:
+                                pygame.mouse.set_cursor((24,24),(12,12),*self.xc24cw)
     def __init__(self):
         self.update()   #deletes possible existing update files
         self.setup()    #sets up everything for program
