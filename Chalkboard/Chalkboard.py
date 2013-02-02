@@ -317,6 +317,76 @@ class main:
                 "                                ")
         self.xs28cb = pygame.cursors.compile(xs28, white='X', black='.', xor='0')
         self.xs28cw = pygame.cursors.compile(xs28, white='.', black='X', xor='0')
+        #Square 30x30 32x32
+        xs30 = ("                                ",
+                " XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ",
+                " X                            X ",
+                " X                            X ",
+                " X                            X ",
+                " X                            X ",
+                " X                            X ",
+                " X                            X ",
+                " X                            X ",
+                " X                            X ",
+                " X                            X ",
+                " X                            X ",
+                " X                            X ",
+                " X                            X ",
+                " X                            X ",
+                " X                            X ",
+                " X                            X ",
+                " X                            X ",
+                " X                            X ",
+                " X                            X ",
+                " X                            X ",
+                " X                            X ",
+                " X                            X ",
+                " X                            X ",
+                " X                            X ",
+                " X                            X ",
+                " X                            X ",
+                " X                            X ",
+                " X                            X ",
+                " X                            X ",
+                " XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ",
+                "                                ")
+        self.xs30cb = pygame.cursors.compile(xs30, white='X', black='.', xor='0')
+        self.xs30cw = pygame.cursors.compile(xs30, white='.', black='X', xor='0')
+        #Square 32x32
+        xs32 = ("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+                "X                              X",
+                "X                              X",
+                "X                              X",
+                "X                              X",
+                "X                              X",
+                "X                              X",
+                "X                              X",
+                "X                              X",
+                "X                              X",
+                "X                              X",
+                "X                              X",
+                "X                              X",
+                "X                              X",
+                "X                              X",
+                "X                              X",
+                "X                              X",
+                "X                              X",
+                "X                              X",
+                "X                              X",
+                "X                              X",
+                "X                              X",
+                "X                              X",
+                "X                              X",
+                "X                              X",
+                "X                              X",
+                "X                              X",
+                "X                              X",
+                "X                              X",
+                "X                              X",
+                "X                              X",
+                "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+        self.xs32cb = pygame.cursors.compile(xs32, white='X', black='.', xor='0')
+        self.xs32w = pygame.cursors.compile(xs32, white='.', black='X', xor='0')
         #Square 50x50 56x56
         xs50 = ("                                                        ",
                 "                                                        ",
@@ -1324,168 +1394,170 @@ class main:
                     pygame.quit() #Quit Program
                     sys.exit()
                 elif event.type == MOUSEBUTTONDOWN: #If the mouse is down
-                    xco, yco = pygame.mouse.get_pos() #Get mouse position
-                    if (xco not in range(80, 180) or yco not in range(54, 254)) or (xco in range(213,230) and yco in range(34,52)):
-                        self.arrowClicked = False
-                        self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
-                        if xco in range(0,136) and yco in range(0,25):
-                            self.fileClicked = True
-                            pygame.image.save(self.screen, "gui/menu_screen.png")
-                        elif xco in range(673,690) and yco in range(34,52):
-                            self.fillArrowClicked = True
-                            pygame.image.save(self.screen, "gui/menu_screen.png")
-                    elif xco in range(80,180): #if within the color choices
-                        #Change the color of the brush to selected color
-                        if yco in range(54, 74):
-                            self.whiteSelected = True
-                            self.blackSelected = False
-                            self.redSelected = False
-                            self.orangeSelected = False
-                            self.limeSelected = False
-                            self.greenSelected = False
-                            self.blueSelected = False
-                            self.tealSelected = False
-                            self.purpleSelected = False
-                            self.yellowSelected = False
+                    (button1, button2, button3) = pygame.mouse.get_pressed()
+                    if button1:
+                        xco, yco = pygame.mouse.get_pos() #Get mouse position
+                        if (xco not in range(80, 180) or yco not in range(54, 254)) or (xco in range(213,230) and yco in range(34,52)):
                             self.arrowClicked = False
                             self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
-                            self.color = self.white
-                            self.changeBrush()
-                        elif yco in range(75,94):
-                            self.whiteSelected = False
-                            self.blackSelected = True
-                            self.redSelected = False
-                            self.orangeSelected = False
-                            self.limeSelected = False
-                            self.greenSelected = False
-                            self.blueSelected = False
-                            self.tealSelected = False
-                            self.purpleSelected = False
-                            self.yellowSelected = False
-                            self.arrowClicked = False
-                            self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
-                            self.color = self.black
-                            self.changeBrush()
-                        elif yco in range(95,114):
-                            self.whiteSelected = False
-                            self.blackSelected = False
-                            self.redSelected = True
-                            self.orangeSelected = False
-                            self.limeSelected = False
-                            self.greenSelected = False
-                            self.blueSelected = False
-                            self.tealSelected = False
-                            self.purpleSelected = False
-                            self.yellowSelected = False
-                            self.arrowClicked = False
-                            self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
-                            self.color = self.red
-                            self.changeBrush()
-                        elif yco in range(115,134):
-                            self.whiteSelected = False
-                            self.blackSelected = False
-                            self.redSelected = False
-                            self.orangeSelected = True
-                            self.limeSelected = False
-                            self.greenSelected = False
-                            self.blueSelected = False
-                            self.tealSelected = False
-                            self.purpleSelected = False
-                            self.yellowSelected = False
-                            self.arrowClicked = False
-                            self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
-                            self.color = self.orange
-                            self.changeBrush()
-                        elif yco in range(135,154):
-                            self.whiteSelected = False
-                            self.blackSelected = False
-                            self.redSelected = False
-                            self.orangeSelected = False
-                            self.limeSelected = True
-                            self.greenSelected = False
-                            self.blueSelected = False
-                            self.tealSelected = False
-                            self.purpleSelected = False
-                            self.yellowSelected = False
-                            self.arrowClicked = False
-                            self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
-                            self.color = self.lime
-                            self.changeBrush()
-                        elif yco in range(155, 174):
-                            self.whiteSelected = False
-                            self.blackSelected = False
-                            self.redSelected = False
-                            self.orangeSelected = False
-                            self.limeSelected = False
-                            self.greenSelected = True
-                            self.blueSelected = False
-                            self.tealSelected = False
-                            self.purpleSelected = False
-                            self.yellowSelected = False
-                            self.arrowClicked = False
-                            self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
-                            self.color = self.green
-                            self.changeBrush()
-                        elif yco in range(175,194):
-                            self.whiteSelected = False
-                            self.blackSelected = False
-                            self.redSelected = False
-                            self.orangeSelected = False
-                            self.limeSelected = False
-                            self.greenSelected = False
-                            self.blueSelected = True
-                            self.tealSelected = False
-                            self.purpleSelected = False
-                            self.yellowSelected = False
-                            self.arrowClicked = False
-                            self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
-                            self.color = self.blue
-                            self.changeBrush()
-                        elif yco in range(195,214):
-                            self.whiteSelected = False
-                            self.blackSelected = False
-                            self.redSelected = False
-                            self.orangeSelected = False
-                            self.limeSelected = False
-                            self.greenSelected = False
-                            self.blueSelected = False
-                            self.tealSelected = True
-                            self.purpleSelected = False
-                            self.yellowSelected = False
-                            self.arrowClicked = False
-                            self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
-                            self.color = self.teal
-                            self.changeBrush()
-                        elif yco in range(215, 234):
-                            self.whiteSelected = False
-                            self.blackSelected = False
-                            self.redSelected = False
-                            self.orangeSelected = False
-                            self.limeSelected = False
-                            self.greenSelected = False
-                            self.blueSelected = False
-                            self.tealSelected = False
-                            self.purpleSelected = True
-                            self.yellowSelected = False
-                            self.arrowClicked = False
-                            self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
-                            self.color = self.purple
-                            self.changeBrush()
-                        elif yco in range(235, 254):
-                            self.whiteSelected = False
-                            self.blackSelected = False
-                            self.redSelected = False
-                            self.orangeSelected = False
-                            self.limeSelected = False
-                            self.greenSelected = False
-                            self.blueSelected = False
-                            self.tealSelected = False
-                            self.purpleSelected = False
-                            self.yellowSelected = True
-                            self.arrowClicked = False
-                            self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
-                            self.color = self.yellow
-                            self.changeBrush()
+                            if xco in range(0,136) and yco in range(0,25):
+                                self.fileClicked = True
+                                pygame.image.save(self.screen, "gui/menu_screen.png")
+                            elif xco in range(673,690) and yco in range(34,52):
+                                self.fillArrowClicked = True
+                                pygame.image.save(self.screen, "gui/menu_screen.png")
+                        elif xco in range(80,180): #if within the color choices
+                            #Change the color of the brush to selected color
+                            if yco in range(54, 74):
+                                self.whiteSelected = True
+                                self.blackSelected = False
+                                self.redSelected = False
+                                self.orangeSelected = False
+                                self.limeSelected = False
+                                self.greenSelected = False
+                                self.blueSelected = False
+                                self.tealSelected = False
+                                self.purpleSelected = False
+                                self.yellowSelected = False
+                                self.arrowClicked = False
+                                self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
+                                self.color = self.white
+                                self.changeBrush()
+                            elif yco in range(75,94):
+                                self.whiteSelected = False
+                                self.blackSelected = True
+                                self.redSelected = False
+                                self.orangeSelected = False
+                                self.limeSelected = False
+                                self.greenSelected = False
+                                self.blueSelected = False
+                                self.tealSelected = False
+                                self.purpleSelected = False
+                                self.yellowSelected = False
+                                self.arrowClicked = False
+                                self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
+                                self.color = self.black
+                                self.changeBrush()
+                            elif yco in range(95,114):
+                                self.whiteSelected = False
+                                self.blackSelected = False
+                                self.redSelected = True
+                                self.orangeSelected = False
+                                self.limeSelected = False
+                                self.greenSelected = False
+                                self.blueSelected = False
+                                self.tealSelected = False
+                                self.purpleSelected = False
+                                self.yellowSelected = False
+                                self.arrowClicked = False
+                                self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
+                                self.color = self.red
+                                self.changeBrush()
+                            elif yco in range(115,134):
+                                self.whiteSelected = False
+                                self.blackSelected = False
+                                self.redSelected = False
+                                self.orangeSelected = True
+                                self.limeSelected = False
+                                self.greenSelected = False
+                                self.blueSelected = False
+                                self.tealSelected = False
+                                self.purpleSelected = False
+                                self.yellowSelected = False
+                                self.arrowClicked = False
+                                self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
+                                self.color = self.orange
+                                self.changeBrush()
+                            elif yco in range(135,154):
+                                self.whiteSelected = False
+                                self.blackSelected = False
+                                self.redSelected = False
+                                self.orangeSelected = False
+                                self.limeSelected = True
+                                self.greenSelected = False
+                                self.blueSelected = False
+                                self.tealSelected = False
+                                self.purpleSelected = False
+                                self.yellowSelected = False
+                                self.arrowClicked = False
+                                self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
+                                self.color = self.lime
+                                self.changeBrush()
+                            elif yco in range(155, 174):
+                                self.whiteSelected = False
+                                self.blackSelected = False
+                                self.redSelected = False
+                                self.orangeSelected = False
+                                self.limeSelected = False
+                                self.greenSelected = True
+                                self.blueSelected = False
+                                self.tealSelected = False
+                                self.purpleSelected = False
+                                self.yellowSelected = False
+                                self.arrowClicked = False
+                                self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
+                                self.color = self.green
+                                self.changeBrush()
+                            elif yco in range(175,194):
+                                self.whiteSelected = False
+                                self.blackSelected = False
+                                self.redSelected = False
+                                self.orangeSelected = False
+                                self.limeSelected = False
+                                self.greenSelected = False
+                                self.blueSelected = True
+                                self.tealSelected = False
+                                self.purpleSelected = False
+                                self.yellowSelected = False
+                                self.arrowClicked = False
+                                self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
+                                self.color = self.blue
+                                self.changeBrush()
+                            elif yco in range(195,214):
+                                self.whiteSelected = False
+                                self.blackSelected = False
+                                self.redSelected = False
+                                self.orangeSelected = False
+                                self.limeSelected = False
+                                self.greenSelected = False
+                                self.blueSelected = False
+                                self.tealSelected = True
+                                self.purpleSelected = False
+                                self.yellowSelected = False
+                                self.arrowClicked = False
+                                self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
+                                self.color = self.teal
+                                self.changeBrush()
+                            elif yco in range(215, 234):
+                                self.whiteSelected = False
+                                self.blackSelected = False
+                                self.redSelected = False
+                                self.orangeSelected = False
+                                self.limeSelected = False
+                                self.greenSelected = False
+                                self.blueSelected = False
+                                self.tealSelected = False
+                                self.purpleSelected = True
+                                self.yellowSelected = False
+                                self.arrowClicked = False
+                                self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
+                                self.color = self.purple
+                                self.changeBrush()
+                            elif yco in range(235, 254):
+                                self.whiteSelected = False
+                                self.blackSelected = False
+                                self.redSelected = False
+                                self.orangeSelected = False
+                                self.limeSelected = False
+                                self.greenSelected = False
+                                self.blueSelected = False
+                                self.tealSelected = False
+                                self.purpleSelected = False
+                                self.yellowSelected = True
+                                self.arrowClicked = False
+                                self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
+                                self.color = self.yellow
+                                self.changeBrush()
         elif self.fillArrowClicked: #If the fill arrow is clicked
             for event in pygame.event.get():
                 if event.type == QUIT: #If the X is clicked
@@ -1493,18 +1565,20 @@ class main:
                     pygame.quit() #Quit program
                     sys.exit()
                 elif event.type == MOUSEBUTTONDOWN: #If the mouse is down
-                    xco, yco = pygame.mouse.get_pos() #Get mouse position
-                    if (xco not in range(540, 640) or yco not in range(54, 254)) or (xco in range(673,690) and yco in range(34,52)):
-                        self.fillArrowClicked = False
-                        self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
-                        if xco in range(0,136) or yco in range(0,25):
-                            self.fileClicked = True
-                            pygame.image.save(self.screen, "gui/menu_screen.png")
-                        elif xco in range(213,230) and yco in range(34,52):
-                            self.arrowClicked = True
-                            pygame.image.save(self.screen, "gui/menu_screen.png")
-                    elif xco in range(540,640): #If within fill color options
-                        self.fillScreen(yco) #Fill screen
+                    (button1, button2, button3) = pygame.mouse.get_pressed()
+                    if button1:
+                        xco, yco = pygame.mouse.get_pos() #Get mouse position
+                        if (xco not in range(540, 640) or yco not in range(54, 254)) or (xco in range(673,690) and yco in range(34,52)):
+                            self.fillArrowClicked = False
+                            self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
+                            if xco in range(0,136) or yco in range(0,25):
+                                self.fileClicked = True
+                                pygame.image.save(self.screen, "gui/menu_screen.png")
+                            elif xco in range(213,230) and yco in range(34,52):
+                                self.arrowClicked = True
+                                pygame.image.save(self.screen, "gui/menu_screen.png")
+                        elif xco in range(540,640): #If within fill color options
+                            self.fillScreen(yco) #Fill screen
         elif self.fileClicked: #If file menu button clicked
             for event in pygame.event.get():
                 if event.type == QUIT: #If the X is clicked
@@ -1512,22 +1586,24 @@ class main:
                     pygame.quit() #Quit program
                     sys.exit()
                 elif event.type == MOUSEBUTTONDOWN: #If mouse is down
-                    xco, yco = pygame.mouse.get_pos() #Get mouse position
-                    if (xco not in range(0, 136) or yco not in range(0, 85)) or (xco in range(0,136) and yco in range(0,25)):
-                        self.fileClicked = False
-                        self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
-                        if xco in range(213,230) and yco in range(34,52):
-                            self.arrowClicked = True
-                            pygame.image.save(self.screen, "gui/menu_screen.png")
-                        elif xco in range(673,690) and yco in range(34,52):
-                            self.fillArrowClicked = True
-                            pygame.image.save(self.screen, "gui/menu_screen.png")
-                    if xco in range(0,136) and yco in range(25,45): #Save as
-                        self.save_as()
-                    elif xco in range(0,136) and yco in range(45,65): #Save
-                        self.save()
-                    elif xco in range(0,136) and yco in range(65,85): #Open
-                        self.open_it()
+                    (button1, button2, button3) = pygame.mouse.get_pressed()
+                    if button1:
+                        xco, yco = pygame.mouse.get_pos() #Get mouse position
+                        if (xco not in range(0, 136) or yco not in range(0, 85)) or (xco in range(0,136) and yco in range(0,25)):
+                            self.fileClicked = False
+                            self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
+                            if xco in range(213,230) and yco in range(34,52):
+                                self.arrowClicked = True
+                                pygame.image.save(self.screen, "gui/menu_screen.png")
+                            elif xco in range(673,690) and yco in range(34,52):
+                                self.fillArrowClicked = True
+                                pygame.image.save(self.screen, "gui/menu_screen.png")
+                        if xco in range(0,136) and yco in range(25,45): #Save as
+                            self.save_as()
+                        elif xco in range(0,136) and yco in range(45,65): #Save
+                            self.save()
+                        elif xco in range(0,136) and yco in range(65,85): #Open
+                            self.open_it()
         else: #Normal events
             for event in pygame.event.get():
                 if event.type == QUIT: #If X is clicked
@@ -1535,134 +1611,136 @@ class main:
                     pygame.quit() #Quit program
                     sys.exit()
                 elif event.type == MOUSEBUTTONDOWN: #If mouse is down
-                    xco, yco = event.pos #Get the event position
-                    if xco in range(30,self.width) and yco in range(60,self.height): #If in canvas
-                        if self.saved: #If saved
-                            self.saved = False #saved set to false
-                            self.title = self.title + "*" #Add * to title to symbolize edit
-                            pygame.display.set_caption(self.title)
-                    if xco in range(0, 50) and yco in range(0, 30): #File clicked
-                        self.fileClicked = True
-                        pygame.image.save(self.screen, "gui/menu_screen.png") #Save temporary image
-                    #Drawing events
-                    elif self.rectClicked and xco not in range(0,30) and yco not in range(0,60):
-                        self.points.append(event.pos)
-                        self.dragging = True
-                    elif self.ellipseClicked and xco not in range(0,30) and yco not in range(0,60):
-                        self.points.append(event.pos)
-                        self.dragging = True
-                    elif self.brushClicked and xco not in range(0,30) and yco not in range(0,60):
-                        self.dragging = True
-                    elif self.eraserClicked and xco not in range(0,30) and yco not in range(0,60):
-                        self.dragging = True
-                    elif self.lineClicked and xco not in range(0,30) and yco not in range(0,60):
-                        self.points.append(event.pos)
-                        self.dragging = True
-                    #Tool changing events
-                    elif xco in range(3, 30) and yco in range(120, 150): #Rectangle
-                        self.rectClicked = True
-                        self.brushClicked = False
-                        self.eraserClicked = False
-                        self.lineClicked = False
-                        self.ellipseClicked = False
-                    elif xco in range(3,30) and yco in range(60, 87): #Brush
-                        self.rectClicked = False
-                        self.brushClicked = True
-                        self.eraserClicked = False
-                        self.lineClicked = False
-                        self.ellipseClicked = False
-                    elif xco in range(3,30) and yco in range(90, 117): #Eraser
-                        self.rectClicked = False
-                        self.brushClicked = False
-                        self.eraserClicked = True
-                        self.lineClicked = False
-                        self.ellipseClicked = False
-                    elif xco in range(3,30) and yco in range(150, 175): #Ellipse
-                        self.rectClicked = False
-                        self.brushClicked = False
-                        self.eraserClicked = False
-                        self.lineClicked = False
-                        self.ellipseClicked = True
-                    elif xco in range(3,30) and yco in range(180, 206): #Line
-                        self.rectClicked = False
-                        self.brushClicked = False
-                        self.eraserClicked = False
-                        self.lineClicked = True
-                        self.ellipseClicked = False
-                    elif xco in range(213,230) and yco in range(34,52): #Color arrow clicked
-                        if self.eraserClicked == False: #If eraser isn't selected
-                            pygame.image.save(self.screen, "gui/menu_screen.png")
-                            self.arrowClicked = True
-                    elif xco in range(673,690) and yco in range(34,52): #Fill arrow clicked
-                        pygame.image.save(self.screen, "gui/menu_screen.png")
-                        self.fillArrowClicked = True
-                    #Clear
-                    elif xco in range(self.cx,self.cx+50) and yco in range(34,54):
-                        if self.saved == False:
-                            yn = display.disp().display() #Display the save question
-                            if yn: #If yes, save
+                    (button1, button2, button3) = pygame.mouse.get_pressed()
+                    if button1:
+                        xco, yco = event.pos #Get the event position
+                        if xco in range(30,self.width) and yco in range(60,self.height): #If in canvas
+                            if self.saved: #If saved
+                                self.saved = False #saved set to false
+                                self.title = self.title + "*" #Add * to title to symbolize edit
+                                pygame.display.set_caption(self.title)
+                        if xco in range(0, 50) and yco in range(0, 30): #File clicked
+                            self.fileClicked = True
+                            pygame.image.save(self.screen, "gui/menu_screen.png") #Save temporary image
+                        #Drawing events
+                        elif self.rectClicked and xco not in range(0,30) and yco not in range(0,60):
+                            self.points.append(event.pos)
+                            self.dragging = True
+                        elif self.ellipseClicked and xco not in range(0,30) and yco not in range(0,60):
+                            self.points.append(event.pos)
+                            self.dragging = True
+                        elif self.brushClicked and xco not in range(0,30) and yco not in range(0,60):
+                            self.dragging = True
+                        elif self.eraserClicked and xco not in range(0,30) and yco not in range(0,60):
+                            self.dragging = True
+                        elif self.lineClicked and xco not in range(0,30) and yco not in range(0,60):
+                            self.points.append(event.pos)
+                            self.dragging = True
+                        #Tool changing events
+                        elif xco in range(3, 30) and yco in range(120, 150): #Rectangle
+                            self.rectClicked = True
+                            self.brushClicked = False
+                            self.eraserClicked = False
+                            self.lineClicked = False
+                            self.ellipseClicked = False
+                        elif xco in range(3,30) and yco in range(60, 87): #Brush
+                            self.rectClicked = False
+                            self.brushClicked = True
+                            self.eraserClicked = False
+                            self.lineClicked = False
+                            self.ellipseClicked = False
+                        elif xco in range(3,30) and yco in range(90, 117): #Eraser
+                            self.rectClicked = False
+                            self.brushClicked = False
+                            self.eraserClicked = True
+                            self.lineClicked = False
+                            self.ellipseClicked = False
+                        elif xco in range(3,30) and yco in range(150, 175): #Ellipse
+                            self.rectClicked = False
+                            self.brushClicked = False
+                            self.eraserClicked = False
+                            self.lineClicked = False
+                            self.ellipseClicked = True
+                        elif xco in range(3,30) and yco in range(180, 206): #Line
+                            self.rectClicked = False
+                            self.brushClicked = False
+                            self.eraserClicked = False
+                            self.lineClicked = True
+                            self.ellipseClicked = False
+                        elif xco in range(213,230) and yco in range(34,52): #Color arrow clicked
+                            if self.eraserClicked == False: #If eraser isn't selected
                                 pygame.image.save(self.screen, "gui/menu_screen.png")
-                                self.save()
-                        #Reset redraw and shape creation variables
-                        self.history = []
-                        self.hist_points = []
-                        self.hist_color = []
-                        self.hist_size = []
-                        self.ell_type = 0
-                        self.point1 = 0
-                        self.point2 = 0
-                        self.point3 = 0
-                        self.point4 = 0
-                        self.rect_w = 0
-                        self.rect_h = 0
-                        self.rect_c = self.black
-                        self.line_s = 0
-                        self.line_c = (0,0,0)
-                        #Reset screen, title, opened, saved, and placed variables
-                        self.screen.fill(self.fill)
-                        self.opened = False
-                        self.saved = True
-                        self.title = "Chalkboard  |  Untitled.png"
-                        self.placed = False
-                        pygame.display.set_caption(self.title)
-                        pygame.display.flip()
-                    elif self.eraserClicked: #if the eraser is selected
-                        if xco in range(self.slider_eraser_x, self.slider_eraser_x + 9) and yco in range(44, 51): #slider handle clicked
-                            self.sh_moving = True
-                        elif xco in range(138, 164) and yco in range(33,59): #Square mode selected, change eraser
-                            self.squareClicked = True
-                            self.squareBrushClicked = True
-                            self.circleClicked = False
-                            self.circleBrushClicked = False
-                            self.mode = "square"
-                            self.changeEraser()
-                        elif xco in range(168, 194) and yco in range(33,59): #Circle mode selected, change eraser
-                            self.circleClicked = True
-                            self.circleBrushClicked = True
-                            self.squareClicked = False
-                            self.squareBrushClicked = False
-                            self.mode = "circle"
-                            self.changeEraser()
-                    elif self.brushClicked: #If brush selected
-                        if xco in range(self.slider_x, self.slider_x + 9) and yco in range(44, 51): #slider handle clicked
-                            self.sh_moving = True
-                        elif xco in range(350, 376) and yco in range(33,59): #Square mode selected, change brush
-                            self.squareBrushClicked = True
-                            self.squareClicked = True
-                            self.circleBrushClicked = False
-                            self.circleClicked = False
-                            self.mode = "square"
-                            self.changeBrush()
-                        elif xco in range(380,406) and yco in range(33,59): #Circle mode selected, change brush
-                            self.circleBrushClicked = True
-                            self.circleClicked = True
-                            self.squareBrushClicked = False
-                            self.squareClicked = False
-                            self.mode = "circle"
-                            self.changeBrush()
-                    elif self.lineClicked: #If line selected
-                        if xco in range(self.slider_line_x, self.slider_line_x + 9) and yco in range(44, 51): #slider handle clicked
-                            self.sh_moving = True   
+                                self.arrowClicked = True
+                        elif xco in range(673,690) and yco in range(34,52): #Fill arrow clicked
+                            pygame.image.save(self.screen, "gui/menu_screen.png")
+                            self.fillArrowClicked = True
+                        #Clear
+                        elif xco in range(self.cx,self.cx+50) and yco in range(34,54):
+                            if self.saved == False:
+                                yn = display.disp().display() #Display the save question
+                                if yn: #If yes, save
+                                    pygame.image.save(self.screen, "gui/menu_screen.png")
+                                    self.save()
+                            #Reset redraw and shape creation variables
+                            self.history = []
+                            self.hist_points = []
+                            self.hist_color = []
+                            self.hist_size = []
+                            self.ell_type = 0
+                            self.point1 = 0
+                            self.point2 = 0
+                            self.point3 = 0
+                            self.point4 = 0
+                            self.rect_w = 0
+                            self.rect_h = 0
+                            self.rect_c = self.black
+                            self.line_s = 0
+                            self.line_c = (0,0,0)
+                            #Reset screen, title, opened, saved, and placed variables
+                            self.screen.fill(self.fill)
+                            self.opened = False
+                            self.saved = True
+                            self.title = "Chalkboard  |  Untitled.png"
+                            self.placed = False
+                            pygame.display.set_caption(self.title)
+                            pygame.display.flip()
+                        elif self.eraserClicked: #if the eraser is selected
+                            if xco in range(self.slider_eraser_x, self.slider_eraser_x + 9) and yco in range(44, 51): #slider handle clicked
+                                self.sh_moving = True
+                            elif xco in range(138, 164) and yco in range(33,59): #Square mode selected, change eraser
+                                self.squareClicked = True
+                                self.squareBrushClicked = True
+                                self.circleClicked = False
+                                self.circleBrushClicked = False
+                                self.mode = "square"
+                                self.changeEraser()
+                            elif xco in range(168, 194) and yco in range(33,59): #Circle mode selected, change eraser
+                                self.circleClicked = True
+                                self.circleBrushClicked = True
+                                self.squareClicked = False
+                                self.squareBrushClicked = False
+                                self.mode = "circle"
+                                self.changeEraser()
+                        elif self.brushClicked: #If brush selected
+                            if xco in range(self.slider_x, self.slider_x + 9) and yco in range(44, 51): #slider handle clicked
+                                self.sh_moving = True
+                            elif xco in range(350, 376) and yco in range(33,59): #Square mode selected, change brush
+                                self.squareBrushClicked = True
+                                self.squareClicked = True
+                                self.circleBrushClicked = False
+                                self.circleClicked = False
+                                self.mode = "square"
+                                self.changeBrush()
+                            elif xco in range(380,406) and yco in range(33,59): #Circle mode selected, change brush
+                                self.circleBrushClicked = True
+                                self.circleClicked = True
+                                self.squareBrushClicked = False
+                                self.squareClicked = False
+                                self.mode = "circle"
+                                self.changeBrush()
+                        elif self.lineClicked: #If line selected
+                            if xco in range(self.slider_line_x, self.slider_line_x + 9) and yco in range(44, 51): #slider handle clicked
+                                self.sh_moving = True   
                 elif event.type == MOUSEBUTTONUP: #If mouse up
                     #Reset dragging and moving
                     self.dragging = False
