@@ -386,7 +386,7 @@ class main:
                 "X                              X",
                 "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
         self.xs32cb = pygame.cursors.compile(xs32, white='X', black='.', xor='0')
-        self.xs32w = pygame.cursors.compile(xs32, white='.', black='X', xor='0')
+        self.xs32cw = pygame.cursors.compile(xs32, white='.', black='X', xor='0')
         #Square 50x50 56x56
         xs50 = ("                                                        ",
                 "                                                        ",
@@ -2258,6 +2258,14 @@ class main:
                                 pygame.mouse.set_cursor((24,24),(12,12),*self.xs22cb)
                             elif self.s == 23 or self.s == 24:
                                 pygame.mouse.set_cursor((24,24),(12,12),*self.xs24cb)
+                            elif self.s == 25 or self.s == 26:
+                                pygame.mouse.set_cursor((32,32),(16,16),*self.xs26cb)
+                            elif self.s == 27 or self.s == 28:
+                                pygame.mouse.set_cursor((32,32),(16,16),*self.xs28cb)
+                            elif self.s == 29 or self.s == 30:
+                                pygame.mouse.set_cursor((32,32),(16,16),*self.xs30cb)
+                            elif self.s == 31 or self.s == 32:
+                                pygame.mouse.set_cursor((32,32),(16,16),*self.xs32cb)
                             elif self.s == 49 or self.s == 50:
                                 pygame.mouse.set_cursor((56,56),(28,28),*self.xs50cb)
                         else:
@@ -2313,6 +2321,14 @@ class main:
                                 pygame.mouse.set_cursor((24,24),(12,12),*self.xs22cw)
                             elif self.s == 23 or self.s == 24:
                                 pygame.mouse.set_cursor((24,24),(12,12),*self.xs24cw)
+                            elif self.s == 25 or self.s == 26:
+                                pygame.mouse.set_cursor((32,32),(16,16),*self.xs26cw)
+                            elif self.s == 27 or self.s == 28:
+                                pygame.mouse.set_cursor((32,32),(16,16),*self.xs28cw)
+                            elif self.s == 29 or self.s == 30:
+                                pygame.mouse.set_cursor((32,32),(16,16),*self.xs30cw)
+                            elif self.s == 31 or self.s == 32:
+                                pygame.mouse.set_cursor((32,32),(16,16),*self.xs32cw)
                             elif self.s == 49 or self.s == 50:
                                 pygame.mouse.set_cursor((56,56),(28,28),*self.xs50cw)
                         else:
