@@ -5,10 +5,8 @@
 #           -Tabor Kvasnicka   ]----Currently, only person
 #
 #Expected Features:
-<<<<<<< HEAD
 #   Custom Cursors
 import pygame, sys, Tkinter, math, os, urllib, tkFileDialog, tkMessageBox, save_as, open_file, display, wx
-=======
 #   Custom Cursors -- Will be finished in about a weak
 #                       Currently an eraser cover problem                                ]
 #                       Line cursor color change not complete                            ]---------Will be completed in 2.3 along with additional unknown features
@@ -16,7 +14,6 @@ import pygame, sys, Tkinter, math, os, urllib, tkFileDialog, tkMessageBox, save_
 #
 #Import dependencies
 import pygame, sys, Tkinter, math, os, tkFileDialog, tkMessageBox, save_as, open_file, display, wx
->>>>>>> 2.2
 from pygame.locals import *
 from Tkinter import *
 class main:
@@ -1688,11 +1685,7 @@ class main:
         self.saving = False #Set saving to True so gui can proceed to update
     #Declare all the global variables used in the application-----Most self explanatory.
     def declareVar(self, setup_true_false):
-<<<<<<< HEAD
-        if setup_true_false == False:
-=======
         if setup_true_false == False: #If pygame and the screen aren't initialized
->>>>>>> 2.2
             self.saved = True
             self.saving = False
             self.opened = False
@@ -1786,7 +1779,6 @@ class main:
             self.line_s = 0
             self.line_c = (0,0,0)
             self.cx = 810
-<<<<<<< HEAD
         else:
             self.main_icon = pygame.image.load(self.icon).convert()
             pygame.display.set_icon(self.main_icon)
@@ -2113,13 +2105,11 @@ class main:
         self.getTool(t)
         self.screen.fill(self.fill)
         pygame.display.flip()
-=======
         else: #Otherwise
             self.main_icon = pygame.image.load(self.icon).convert() #Load icon
             pygame.display.set_icon(self.main_icon) #Apply icon
             pygame.display.set_caption("Chalkboard", "Chalkboard") #Set caption
     #Update gui
->>>>>>> 2.2
     def gui(self, width, height):
         if self.saving == False:
             pygame.display.flip()
@@ -2682,7 +2672,6 @@ class main:
                     self.updateFiles() #Update files
                     pygame.quit() #Quit Program
                     sys.exit()
-<<<<<<< HEAD
                 elif event.type == MOUSEBUTTONDOWN:
                     xco, yco = pygame.mouse.get_pos()
                     if (xco not in range(80, 180) or yco not in range(54, 254)) or (xco in range(213,230) and yco in range(34,52)):
@@ -2766,13 +2755,11 @@ class main:
                             self.tealSelected = False
                             self.purpleSelected = False
                             self.yellowSelected = False
-=======
                 elif event.type == MOUSEBUTTONDOWN: #If the mouse is down
                     (button1, button2, button3) = pygame.mouse.get_pressed()
                     if button1:
                         xco, yco = pygame.mouse.get_pos() #Get mouse position
                         if (xco not in range(80, 180) or yco not in range(54, 254)) or (xco in range(213,230) and yco in range(34,52)):
->>>>>>> 2.2
                             self.arrowClicked = False
                             self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
                             if xco in range(0,136) and yco in range(0,25):
@@ -2960,7 +2947,6 @@ class main:
                     self.updateFiles() #Update files
                     pygame.quit() #Quit program
                     sys.exit()
-<<<<<<< HEAD
                 elif event.type == MOUSEBUTTONDOWN:
                     xco, yco = pygame.mouse.get_pos()
                     if (xco not in range(540, 640) or yco not in range(54, 254)) or (xco in range(673,690) and yco in range(34,52)):
@@ -2975,7 +2961,6 @@ class main:
                     elif xco in range(540,640):
                         self.fillScreen(yco)
         elif self.fileClicked:
-=======
                 elif event.type == MOUSEBUTTONDOWN: #If mouse is down
                     (button1, button2, button3) = pygame.mouse.get_pressed()
                     if button1:
@@ -2996,7 +2981,6 @@ class main:
                         elif xco in range(0,136) and yco in range(65,85): #Open
                             self.open_it()
         else: #Normal events
->>>>>>> 2.2
             for event in pygame.event.get():
                 if event.type == QUIT: #If X is clicked
                     self.updateFiles() #Update files
@@ -3095,7 +3079,6 @@ class main:
                             self.title = "Chalkboard  |  Untitled.png"
                             self.placed = False
                             pygame.display.set_caption(self.title)
-<<<<<<< HEAD
                     if xco in range(0, 50) and yco in range(0, 30):
                         self.fileClicked = True
                         pygame.image.save(self.screen, "gui/menu_screen.png")
@@ -3211,7 +3194,6 @@ class main:
                         if xco in range(self.slider_line_x, self.slider_line_x + 9) and yco in range(44, 51):
                             self.sh_moving = True   
                 elif event.type == MOUSEBUTTONUP:
-=======
                             pygame.display.flip()
                         elif self.eraserClicked: #if the eraser is selected
                             if xco in range(self.slider_eraser_x, self.slider_eraser_x + 9) and yco in range(44, 51): #slider handle clicked
@@ -3252,7 +3234,6 @@ class main:
                                 self.sh_moving = True   
                 elif event.type == MOUSEBUTTONUP: #If mouse up
                     #Reset dragging and moving
->>>>>>> 2.2
                     self.dragging = False
                     self.sh_moving = False
                     self.placed = True
