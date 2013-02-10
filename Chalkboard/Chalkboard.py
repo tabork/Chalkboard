@@ -559,6 +559,210 @@ class main:
                 "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
         self.xs40cb = pygame.cursors.compile(xs40, white='X', black='.', xor='0')
         self.xs40cw = pygame.cursors.compile(xs40, white='.', black='X', xor='0')
+        #Square 42x42 48x48
+        xs42 = ("                                                ",
+                "                                                ",
+                "                                                ",
+                "   XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX   ",
+                "                                                ",
+                "                                                ",
+                "                                                ")
+        self.xs42cb = pygame.cursors.compile(xs42, white='X', black='.', xor='0')
+        self.xs42cw = pygame.cursors.compile(xs42, white='.', black='X', xor='0')
+        #Square 44x44 48x48
+        xs44 = ("                                                ",
+                "                                                ",
+                "  XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX  ",
+                "                                                ",
+                "                                                ")
+        self.xs44cb = pygame.cursors.compile(xs44, white='X', black='.', xor='0')
+        self.xs44cw = pygame.cursors.compile(xs44, white='.', black='X', xor='0')
+        #Square 46x46 48x48
+        xs46 = ("                                                ",
+                " XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ",
+                "                                                ")
+        self.xs46cb = pygame.cursors.compile(xs46, white='X', black='.', xor='0')
+        self.xs46cw = pygame.cursors.compile(xs46, white='.', black='X', xor='0')
+        #Square 48x48 48x48
+        xs48 = ("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+        self.xs48cb = pygame.cursors.compile(xs48, white='X', black='.', xor='0')
+        self.xs48cw = pygame.cursors.compile(xs48, white='.', black='X', xor='0')
         #Square 50x50 56x56
         xs50 = ("                                                        ",
                 "                                                        ",
@@ -1147,6 +1351,269 @@ class main:
                 "                XXXXXXXX                ")
         self.xc40cb = pygame.cursors.compile(xc40, white='X', black='.', xor='0')
         self.xc40cw = pygame.cursors.compile(xc40, white='.', black='X', xor='0')
+        #Circle 42x42 48x48
+        xc42 = ("                                                ",
+                "                                                ",
+                "                                                ",
+                "                   XXXXXXXXXX                   ",
+                "                XXX          XXX                ",
+                "              XX                XX              ",
+                "            XX                    XX            ",
+                "           X                        X           ",
+                "          X                          X          ",
+                "         X                            X         ",
+                "        X                              X        ",
+                "       X                                X       ",
+                "      X                                  X      ",
+                "      X                                  X      ",
+                "     X                                    X     ",
+                "     X                                    X     ",
+                "    X                                      X    ",
+                "    X                                      X    ",
+                "    X                                      X    ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "    X                                      X    ",
+                "    X                                      X    ",
+                "    X                                      X    ",
+                "     X                                    X     ",
+                "     X                                    X     ",
+                "      X                                  X      ",
+                "      X                                  X      ",
+                "       X                                X       ",
+                "        X                              X        ",
+                "         X                            X         ",
+                "          X                          X          ",
+                "           X                        X           ",
+                "            XX                    XX            ",
+                "              XX                XX              ",
+                "                XXX          XXX                ",
+                "                   XXXXXXXXXX                   ",
+                "                                                ",
+                "                                                ",
+                "                                                ")
+        self.xc42cb = pygame.cursors.compile(xc42, white='X', black='.', xor='0')
+        self.xc42cw = pygame.cursors.compile(xc42, white='.', black='X', xor='0')
+        #Circle 44x44 48x48
+        xc44 = ("                                                ",
+                "                                                ",
+                "                   XXXXXXXXXX                   ",
+                "                XXX          XXX                ",
+                "              XX                XX              ",
+                "            XX                    XX            ",
+                "           X                        X           ",
+                "         XX                          XX         ",
+                "        X                              X        ",
+                "       X                                X       ",
+                "       X                                X       ",
+                "      X                                  X      ",
+                "     X                                    X     ",
+                "     X                                    X     ",
+                "    X                                      X    ",
+                "    X                                      X    ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "    X                                      X    ",
+                "    X                                      X    ",
+                "     X                                    X     ",
+                "     X                                    X     ",
+                "      X                                  X      ",
+                "       X                                X       ",
+                "       X                                X       ",
+                "        X                              X        ",
+                "         XX                          XX         ",
+                "           X                        X           ",
+                "            XX                    XX            ",
+                "              XX                XX              ",
+                "                XXX          XXX                ",
+                "                   XXXXXXXXXX                   ",
+                "                                                ",
+                "                                                ")
+        self.xc44cb = pygame.cursors.compile(xc44, white='X', black='.', xor='0')
+        self.xc44cw = pygame.cursors.compile(xc44, white='.', black='X', xor='0')
+        #Circle 46x46 48x48
+        xc46 = ("                                                ",
+                "                   XXXXXXXXXX                   ",
+                "                XXX          XXX                ",
+                "              XX                XX              ",
+                "            XX                    XX            ",
+                "          XX                        XX          ",
+                "         X                            X         ",
+                "        X                              X        ",
+                "       X                                X       ",
+                "      X                                  X      ",
+                "     X                                    X     ",
+                "     X                                    X     ",
+                "    X                                      X    ",
+                "    X                                      X    ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "   X                                        X   ",
+                "   X                                        X   ",
+                "    X                                      X    ",
+                "    X                                      X    ",
+                "     X                                    X     ",
+                "     X                                    X     ",
+                "      X                                  X      ",
+                "       X                                X       ",
+                "        X                              X        ",
+                "         X                            X         ",
+                "          XX                        XX          ",
+                "            XX                    XX            ",
+                "              XX                XX              ",
+                "                XXX          XXX                ",
+                "                   XXXXXXXXXX                   ",
+                "                                                ")
+        self.xc46cb = pygame.cursors.compile(xc46, white='X', black='.', xor='0')
+        self.xc46cw = pygame.cursors.compile(xc46, white='.', black='X', xor='0')
+        #Circle 48x48 48x48
+        xc48 = ("                   XXXXXXXXXX                   ",
+                "                XXX          XXX                ",
+                "             XXX                XXX             ",
+                "            X                      X            ",
+                "          XX                        XX          ",
+                "         X                            X         ",
+                "        X                              X        ",
+                "       X                                X       ",
+                "      X                                  X      ",
+                "     X                                    X     ",
+                "    X                                      X    ",
+                "    X                                      X    ",
+                "   X                                        X   ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                "X                                              X",
+                " X                                            X ",
+                " X                                            X ",
+                " X                                            X ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "  X                                          X  ",
+                "   X                                        X   ",
+                "    X                                      X    ",
+                "    X                                      X    ",
+                "     X                                    X     ",
+                "      X                                  X      ",
+                "       X                                X       ",
+                "        X                              X        ",
+                "         X                            X         ",
+                "          XX                        XX          ",
+                "            X                      X            ",
+                "             XXX                XXX             ",
+                "                XXX          XXX                ",
+                "                   XXXXXXXXXX                   ")
+        self.xc48cb = pygame.cursors.compile(xc48, white='X', black='.', xor='0')
+        self.xc48cw = pygame.cursors.compile(xc48, white='.', black='X', xor='0')
+        #Circle 50x50 56x56
+        xc50 = ("                                                        ",
+                "                                                        ",
+                "                                                        ",
+                "                       XXXXXXXXXX                       ",
+                "                   XXXX          XXXX                   ",
+                "                 XX                  XX                 ",
+                "               XX                      XX               ",
+                "              X                          X              ",
+                "            XX                            XX            ",
+                "           X                                X           ",
+                "          X                                  X          ",
+                "         X                                    X         ",
+                "        X                                      X        ",
+                "        X                                      X        ",
+                "       X                                        X       ",
+                "      X                                          X      ",
+                "      X                                          X      ",
+                "     X                                            X     ",
+                "     X                                            X     ",
+                "    X                                              X    ",
+                "    X                                              X    ",
+                "    X                                              X    ",
+                "    X                                              X    ",
+                "   X                                                X   ",
+                "   X                                                X   ",
+                "   X                                                X   ",
+                "   X                                                X   ",
+                "   X                                                X   ",
+                "   X                                                X   ",
+                "   X                                                X   ",
+                "   X                                                X   ",
+                "   X                                                X   ",
+                "   X                                                X   ",
+                "    X                                              X    ",
+                "    X                                              X    ",
+                "    X                                              X    ",
+                "    X                                              X    ",
+                "     X                                            X     ",
+                "     X                                            X     ",
+                "      X                                          X      ",
+                "      X                                          X      ",
+                "       X                                        X       ",
+                "        X                                      X        ",
+                "        X                                      X        ",
+                "         X                                    X         ",
+                "          X                                  X          ",
+                "           X                                X           ",
+                "            XX                            XX            ",
+                "              X                          X              ",
+                "               XX                      XX               ",
+                "                 XX                  XX                 ",
+                "                   XXXX          XXXX                   ",
+                "                       XXXXXXXXXX                       ",
+                "                                                        ",
+                "                                                        ",
+                "                                                        ")
+        self.xc50cb = pygame.cursors.compile(xc50, white='X', black='.', xor='0')
+        self.xc50cw = pygame.cursors.compile(xc50, white='.', black='X', xor='0')
         self.canContinue = True  #Allow for continuing
     #Open file
     def open_it(self):
@@ -2758,6 +3225,14 @@ class main:
                                 pygame.mouse.set_cursor((40,40),(20,20),*self.xs38cb)
                             elif self.s == 39 or self.s == 40:
                                 pygame.mouse.set_cursor((40,40),(20,20),*self.xs40cb)
+                            elif self.s == 41 or self.s == 42:
+                                pygame.mouse.set_cursor((48,48),(24,24),*self.xs42cb)
+                            elif self.s == 43 or self.s == 44:
+                                pygame.mouse.set_cursor((48,48),(24,24),*self.xs44cb)
+                            elif self.s == 45 or self.s == 46:
+                                pygame.mouse.set_cursor((48,48),(24,24),*self.xs46cb)
+                            elif self.s == 47 or self.s == 48:
+                                pygame.mouse.set_cursor((48,48),(24,24),*self.xs48cb)
                             elif self.s == 49 or self.s == 50:
                                 pygame.mouse.set_cursor((56,56),(28,28),*self.xs50cb)
                         else:
@@ -2799,6 +3274,16 @@ class main:
                                 pygame.mouse.set_cursor((40,40),(20,20),*self.xc38cb)
                             elif self.s == 39 or self.s == 40:
                                 pygame.mouse.set_cursor((40,40),(20,20),*self.xc40cb)
+                            elif self.s == 41 or self.s == 42:
+                                pygame.mouse.set_cursor((48,48),(24,24),*self.xc42cb)
+                            elif self.s == 43 or self.s == 44:
+                                pygame.mouse.set_cursor((48,48),(24,24),*self.xc44cb)
+                            elif self.s == 45 or self.s == 46:
+                                pygame.mouse.set_cursor((48,48),(24,24),*self.xc46cb)
+                            elif self.s == 47 or self.s == 48:
+                                pygame.mouse.set_cursor((48,48),(24,24),*self.xc48cb)
+                            elif self.s == 49 or self.s == 50:
+                                pygame.mouse.set_cursor((56,56),(28,28),*self.xc50cb)
                 else:
                     #White cursors
                     if self.ellipseClicked or self.rectClicked or self.lineClicked:
@@ -2845,6 +3330,14 @@ class main:
                                 pygame.mouse.set_cursor((40,40),(20,20),*self.xs38cw)
                             elif self.s == 39 or self.s == 40:
                                 pygame.mouse.set_cursor((40,40),(20,20),*self.xs40cw)
+                            elif self.s == 41 or self.s == 42:
+                                pygame.mouse.set_cursor((48,48),(24,24),*self.xs42cw)
+                            elif self.s == 43 or self.s == 44:
+                                pygame.mouse.set_cursor((48,48),(24,24),*self.xs44cw)
+                            elif self.s == 45 or self.s == 46:
+                                pygame.mouse.set_cursor((48,48),(24,24),*self.xs46cw)
+                            elif self.s == 47 or self.s == 48:
+                                pygame.mouse.set_cursor((48,48),(24,24),*self.xs48cw)
                             elif self.s == 49 or self.s == 50:
                                 pygame.mouse.set_cursor((56,56),(28,28),*self.xs50cw)
                         else:
@@ -2886,6 +3379,16 @@ class main:
                                 pygame.mouse.set_cursor((40,40),(20,20),*self.xc38cw)
                             elif self.s == 39 or self.s == 40:
                                 pygame.mouse.set_cursor((40,40),(20,20),*self.xc40cw)
+                            elif self.s == 41 or self.s == 42:
+                                pygame.mouse.set_cursor((48,48),(24,24),*self.xc42cw)
+                            elif self.s == 43 or self.s == 44:
+                                pygame.mouse.set_cursor((48,48),(24,24),*self.xc44cw)
+                            elif self.s == 45 or self.s == 46:
+                                pygame.mouse.set_cursor((48,48),(24,24),*self.xc46cw)
+                            elif self.s == 47 or self.s == 48:
+                                pygame.mouse.set_cursor((48,48),(24,24),*self.xc48cw)
+                            elif self.s == 49 or self.s == 50:
+                                pygame.mouse.set_cursor((56,56),(28,28),*self.xc50cw)
     def __init__(self):
         self.update()   #deletes possible existing update files
         self.setup()    #sets up everything for program
