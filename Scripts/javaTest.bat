@@ -10,7 +10,7 @@ goto existing
 
 :install
 echo installing
-jre-7u10-windows-i586-iftw.exe
+jre-7u13-windows-i586-iftw.exe
 goto existing
 
 :existing

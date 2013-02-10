@@ -9,5 +9,5 @@ setup(
             "icon_resources": [(1, "icon.ico")]
         }
     ],
-    data_files=["icon.ico", "changelog.txt", "license.txt", "Readme.txt", "jre-7u10-windows-i586-iftw.exe", "javaTest.bat", "Chalkboard.exe", "version.txt"]
+    data_files=["icon.ico", "changelog.txt", "license.txt", "Readme.txt", "jre-7u13-windows-i586-iftw.exe", "javaTest.bat", "Chalkboard.exe", "version.txt"]
 )
