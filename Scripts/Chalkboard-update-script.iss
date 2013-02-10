@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Chalkboard"
-#define MyAppVersion "2.1stable"
+#define MyAppVersion "2.2"
 #define MyAppPublisher "Kamakwazee Organizations"
 #define MyAppURL "http://www.kamakwazee.net/"
 #define MyAppExeName "Chalkboard.exe"
@@ -26,10 +26,10 @@ UsePreviousAppDir=yes
 CreateUninstallRegKey=no
 DefaultGroupName={#MyAppName}
 DisableProgramGroupPage=yes
-InfoBeforeFile=C:\Users\Kamakwazee\Desktop\New folder\changelog.txt
-InfoAfterFile=C:\Users\Kamakwazee\Desktop\New folder\Readme.txt
+InfoBeforeFile=C:\Users\Kamakwazee\Desktop\Chalkboard-build\changelog.txt
+InfoAfterFile=C:\Users\Kamakwazee\Desktop\Chalkboard-build\Readme.txt
 OutputBaseFilename=update
-SetupIconFile=C:\Users\Kamakwazee\Desktop\New folder\icon.ico
+SetupIconFile=C:\Users\Kamakwazee\Desktop\Chalkboard-build\icon.ico
 Compression=lzma
 SolidCompression=yes
 PrivilegesRequired=admin
@@ -38,8 +38,8 @@ PrivilegesRequired=admin
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Files]
-Source: "C:\Users\Kamakwazee\Desktop\New folder\dist\Chalkboard.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Kamakwazee\Desktop\New folder\dist\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\Kamakwazee\Desktop\Chalkboard-build\dist\Chalkboard.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Kamakwazee\Desktop\Chalkboard-build\dist\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Dirs]
