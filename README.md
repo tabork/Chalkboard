@@ -49,6 +49,8 @@ For build instructions, you need to email the leader at kamakwazee@hotmail.com.
 Changelog:
 ==========
 
+2.2 -- Custom Mouse Cursors
+
 2.1  --  Best update yet. Includes:
 * Save
 * Open
