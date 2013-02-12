@@ -1,19 +1,18 @@
 #
-#Chalkboard 2.2
+#Chalkboard 2.3
 #
 #   Created and Maintained by the Kamakwazee Open Source Team
 #           -Tabor Kvasnicka   ]----Currently, only person
 #
 #Expected Features:
-#   Custom Cursors
-import pygame, sys, Tkinter, math, os, urllib, tkFileDialog, tkMessageBox, save_as, open_file, display, wx
-#   Custom Cursors -- Will be finished in about a weak
-#                       Currently an eraser cover problem                                ]
-#                       Line cursor color change not complete                            ]---------Will be completed in 2.3 along with additional unknown features
-#                       Circle and ellipses treated as rectangles in cursor color change ]
+#   Line color changing
+#   Circle/Ellipse color changing fix
+#   Shape outline
+#   Stamping
+#   Text
 #
 #Import dependencies
-import pygame, sys, Tkinter, math, os, tkFileDialog, tkMessageBox, save_as, open_file, display, wx
+import pygame, sys, Tkinter, math, os, save_as, open_file, display, wx
 from pygame.locals import *
 from Tkinter import *
 class main:
