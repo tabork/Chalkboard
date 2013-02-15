@@ -8,7 +8,7 @@
 #   Line color changing
 #   Circle/Ellipse color changing fix
 #   Shape outline
-#   Stamping
+#   Stamping/Clip art
 #   Text
 #
 #Import dependencies
@@ -1616,6 +1616,25 @@ class main:
                 "                                                        ")
         self.xc50cb = pygame.cursors.compile(xc50, white='X', black='.', xor='0')
         self.xc50cw = pygame.cursors.compile(xc50, white='.', black='X', xor='0')
+        #Text 16x16
+        xt16 = ("XXXX    XXXXXXXX",
+                "XXX     XXXXXXXX",
+                "XX         XX   ",
+                "X          XX   ",
+                "           XX   ",
+                "           XX   ",
+                "           XX   ",
+                "           XX   ",
+                "           XX   ",
+                "           XX   ",
+                "                ",
+                "                ",
+                "                ",
+                "                ",
+                "                ",
+                "                ")
+        self.xt16cb = pygame.cursors.compile(xt16, white='X', black='.', xor='0')
+        self.xt16cw = pygame.cursors.compile(xt16, white='.', black='X', xor='0')
         self.canContinue = True  #Allow for continuing
     #Open file
     def open_it(self):
@@ -1927,6 +1946,10 @@ class main:
                 self.screen.blit(pygame.image.load("gui/size_txt.png").convert_alpha(), (240, 35))
                 self.screen.blit(pygame.image.load("gui/slider.png").convert_alpha(), (290,38))
                 self.screen.blit(pygame.image.load("gui/slider_handle.png").convert_alpha(), (self.slider_line_x, 44))
+            if self.textClicked == False:
+                self.screen.blit(pygame.image.load("gui/text.png").convert_alpha(), (3, 210))
+            else:
+                self.screen.blit(pygame.image.load("gui/text_clicked.png").convert_alpha(), (3, 210))
             self.screen.blit(pygame.image.load("gui/fill_txt.png").convert_alpha(), (450, 33))
             if self.blackFillSelected:
                 self.screen.blit(pygame.image.load("gui/black_box.png").convert_alpha(), (540,34))
@@ -2128,6 +2151,7 @@ class main:
         self.setupCursors() #Setup all the mouse cursors
         self.declareVar(False) #Declare variables before screen
         self.screen = pygame.display.set_mode((self.width,self.height),RESIZABLE,0) #Setup screen
+        pygame.display.set_caption("Chalkboard | Untitled.png")
         self.declareVar(True) #Declare variables after screen
         self.getProperties() #Get the property values
         self.gui(self.width, self.height) #Add gui
@@ -2618,26 +2642,12 @@ class main:
                                 pygame.image.save(self.screen, "gui/menu_screen.png")
                         elif xco in range(540,640): #If within fill color options
                             self.fillScreen(yco) #Fill screen
-        elif self.fileClicked: #If file menu button clicked
+        elif self.fileClicked:
             for event in pygame.event.get():
                 if event.type == QUIT: #If the X is clicked
                     self.updateFiles() #Update files
-                    pygame.quit() #Quit program
+                    pygame.quit()
                     sys.exit()
-                elif event.type == MOUSEBUTTONDOWN:
-                    xco, yco = pygame.mouse.get_pos()
-                    if (xco not in range(540, 640) or yco not in range(54, 254)) or (xco in range(673,690) and yco in range(34,52)):
-                        self.fillArrowClicked = False
-                        self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
-                        if xco in range(0,136) or yco in range(0,25):
-                            self.fileClicked = True
-                            pygame.image.save(self.screen, "gui/menu_screen.png")
-                        elif xco in range(213,230) and yco in range(34,52):
-                            self.arrowClicked = True
-                            pygame.image.save(self.screen, "gui/menu_screen.png")
-                    elif xco in range(540,640):
-                        self.fillScreen(yco)
-        elif self.fileClicked:
                 elif event.type == MOUSEBUTTONDOWN: #If mouse is down
                     (button1, button2, button3) = pygame.mouse.get_pressed()
                     if button1:
@@ -2696,30 +2706,42 @@ class main:
                             self.eraserClicked = False
                             self.lineClicked = False
                             self.ellipseClicked = False
+                            self.textClicked = False
                         elif xco in range(3,30) and yco in range(60, 87): #Brush
                             self.rectClicked = False
                             self.brushClicked = True
                             self.eraserClicked = False
                             self.lineClicked = False
                             self.ellipseClicked = False
+                            self.textClicked = False
                         elif xco in range(3,30) and yco in range(90, 117): #Eraser
                             self.rectClicked = False
                             self.brushClicked = False
                             self.eraserClicked = True
                             self.lineClicked = False
                             self.ellipseClicked = False
+                            self.textClicked = False
                         elif xco in range(3,30) and yco in range(150, 175): #Ellipse
                             self.rectClicked = False
                             self.brushClicked = False
                             self.eraserClicked = False
                             self.lineClicked = False
                             self.ellipseClicked = True
+                            self.textClicked = False
                         elif xco in range(3,30) and yco in range(180, 206): #Line
                             self.rectClicked = False
                             self.brushClicked = False
                             self.eraserClicked = False
                             self.lineClicked = True
                             self.ellipseClicked = False
+                            self.textClicked = False
+                        elif xco in range(3,30) and yco in range(210,236): #Text
+                            self.rectClicked = False
+                            self.brushClicked = False
+                            self.eraserClicked = False
+                            self.lineClicked = False
+                            self.ellipseClicked = False
+                            self.textClicked = True
                         elif xco in range(213,230) and yco in range(34,52): #Color arrow clicked
                             if self.eraserClicked == False: #If eraser isn't selected
                                 pygame.image.save(self.screen, "gui/menu_screen.png")
@@ -2870,45 +2892,6 @@ class main:
                     elif self.lineClicked:
                         if xco in range(self.slider_line_x, self.slider_line_x + 9) and yco in range(44, 51):
                             self.sh_moving = True   
-                elif event.type == MOUSEBUTTONUP:
-                            pygame.display.flip()
-                        elif self.eraserClicked: #if the eraser is selected
-                            if xco in range(self.slider_eraser_x, self.slider_eraser_x + 9) and yco in range(44, 51): #slider handle clicked
-                                self.sh_moving = True
-                            elif xco in range(138, 164) and yco in range(33,59): #Square mode selected, change eraser
-                                self.squareClicked = True
-                                self.squareBrushClicked = True
-                                self.circleClicked = False
-                                self.circleBrushClicked = False
-                                self.mode = "square"
-                                self.changeEraser()
-                            elif xco in range(168, 194) and yco in range(33,59): #Circle mode selected, change eraser
-                                self.circleClicked = True
-                                self.circleBrushClicked = True
-                                self.squareClicked = False
-                                self.squareBrushClicked = False
-                                self.mode = "circle"
-                                self.changeEraser()
-                        elif self.brushClicked: #If brush selected
-                            if xco in range(self.slider_x, self.slider_x + 9) and yco in range(44, 51): #slider handle clicked
-                                self.sh_moving = True
-                            elif xco in range(350, 376) and yco in range(33,59): #Square mode selected, change brush
-                                self.squareBrushClicked = True
-                                self.squareClicked = True
-                                self.circleBrushClicked = False
-                                self.circleClicked = False
-                                self.mode = "square"
-                                self.changeBrush()
-                            elif xco in range(380,406) and yco in range(33,59): #Circle mode selected, change brush
-                                self.circleBrushClicked = True
-                                self.circleClicked = True
-                                self.squareBrushClicked = False
-                                self.squareClicked = False
-                                self.mode = "circle"
-                                self.changeBrush()
-                        elif self.lineClicked: #If line selected
-                            if xco in range(self.slider_line_x, self.slider_line_x + 9) and yco in range(44, 51): #slider handle clicked
-                                self.sh_moving = True   
                 elif event.type == MOUSEBUTTONUP: #If mouse up
                     #Reset dragging and moving
                     self.dragging = False
@@ -3180,6 +3163,8 @@ class main:
             return "ellipse"
         elif self.lineClicked:
             return "line"
+        elif self.textClicked:
+            return "text"
     def colorToString(self, clr): #Get selected color to string to store in properties
         if clr == self.black:
             return "black"
@@ -3400,6 +3385,8 @@ class main:
                     #Black cursors
                     if self.ellipseClicked or self.rectClicked or self.lineClicked:
                         pygame.mouse.set_cursor((8,8),(4,4),*self.xxcb)
+                    elif self.textClicked:
+                        pygame.mouse.set_cursor((16,16),(0,0),*self.xt16cb)
                     else:
                         if self.s < 3:
                             pygame.mouse.set_cursor((8,8),(4,4),*self.xxcb)
@@ -3505,6 +3492,8 @@ class main:
                     #White cursors
                     if self.ellipseClicked or self.rectClicked or self.lineClicked:
                         pygame.mouse.set_cursor((8,8),(4,4),*self.xxcw)
+                    elif self.textClicked:
+                        pygame.mouse.set_cursor((16,16),(0,0),*self.xt16cw)
                     else:
                         if self.s < 3:
                             pygame.mouse.set_cursor((8,8),(4,4),*self.xxcw)
@@ -3608,22 +3597,22 @@ class main:
                                 pygame.mouse.set_cursor((56,56),(28,28),*self.xc50cw)
     def getFontName(self, font):
         #Taken from: http://www.starrhorne.com/2012/01/18/how-to-extract-font-names-from-ttf-files-using-python-and-our-old-friend-the-command-line.html
-	name = ""
-	family = ""
-	for record in font['name'].names:
-		if record.nameID == FONT_SPECIFIER_NAME_ID and not name:
-			if '\000' in record.string:
-				name = unicode(record.string, 'utf-16-be').encode('utf-8')
-			else:
-				name = record.string
-		elif record.nameID == FONT_SPECIFIER_FAMILY_ID and not family:
-			if '\000' in record.string:
-				family = unicode(record.string, 'utf-16-be').encode('utf-8')
-			else:
-				family = record.string
-		if name and family:
-			break
-	return name, family
+        name = ""
+        family = ""
+        for record in font['name'].names:
+            if record.nameID == FONT_SPECIFIER_NAME_ID and not name:
+                    if '\000' in record.string:
+                            name = unicode(record.string, 'utf-16-be').encode('utf-8')
+                    else:
+                            name = record.string
+            elif record.nameID == FONT_SPECIFIER_FAMILY_ID and not family:
+                    if '\000' in record.string:
+                            family = unicode(record.string, 'utf-16-be').encode('utf-8')
+                    else:
+                            family = record.string
+            if name and family:
+                    break
+        return name, family
     def __init__(self):
         self.update()   #deletes possible existing update files
         self.setup()    #sets up everything for program
