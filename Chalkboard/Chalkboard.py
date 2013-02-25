@@ -1816,7 +1816,10 @@ class main:
             self.rect_c = self.black
             self.line_s = 0
             self.line_c = (0,0,0)
-            self.cx = 810
+            self.cx = self.width-50 #Clear button position
+            self.fax = self.cx-22 #Fill arrow position
+            self.fx = self.fax-136 #Fill positions
+            self.ffx = self.fx-100 #Fill text position
             self.fontNames = []
             self.fontPositions = []
             self.fontArrowClicked = False
@@ -2011,28 +2014,28 @@ class main:
                 t = f.render(self.selectedFont, 1, self.black)
                 self.screen.blit(t, (36, 36))
                 self.screen.blit(pygame.image.load("gui/arrow.png").convert_alpha(), (238, 34))
-            self.screen.blit(pygame.image.load("gui/fill_txt.png").convert_alpha(), (450, 33))
+            self.screen.blit(pygame.image.load("gui/fill_txt.png").convert_alpha(), (self.ffx, 33))
             if self.blackFillSelected:
-                self.screen.blit(pygame.image.load("gui/black_box.png").convert_alpha(), (540,34))
+                self.screen.blit(pygame.image.load("gui/black_box.png").convert_alpha(), (self.fx,34))
             elif self.whiteFillSelected:
-                self.screen.blit(pygame.image.load("gui/white_box.png").convert_alpha(), (540,34))
+                self.screen.blit(pygame.image.load("gui/white_box.png").convert_alpha(), (self.fx,34))
             elif self.redFillSelected:
-                self.screen.blit(pygame.image.load("gui/red_box.png").convert_alpha(), (540,34))
+                self.screen.blit(pygame.image.load("gui/red_box.png").convert_alpha(), (self.fx,34))
             elif self.limeFillSelected:
-                self.screen.blit(pygame.image.load("gui/lime_box.png").convert_alpha(), (540,34))
+                self.screen.blit(pygame.image.load("gui/lime_box.png").convert_alpha(), (self.fx,34))
             elif self.greenFillSelected:
-                self.screen.blit(pygame.image.load("gui/green_box.png").convert_alpha(), (540,34))
+                self.screen.blit(pygame.image.load("gui/green_box.png").convert_alpha(), (self.fx,34))
             elif self.orangeFillSelected:
-                self.screen.blit(pygame.image.load("gui/orange_box.png").convert_alpha(), (540,34))
+                self.screen.blit(pygame.image.load("gui/orange_box.png").convert_alpha(), (self.fx,34))
             elif self.blueFillSelected:
-                self.screen.blit(pygame.image.load("gui/blue_box.png").convert_alpha(), (540,34))
+                self.screen.blit(pygame.image.load("gui/blue_box.png").convert_alpha(), (self.fx,34))
             elif self.yellowFillSelected:
-                self.screen.blit(pygame.image.load("gui/yellow_box.png").convert_alpha(), (540,34))
+                self.screen.blit(pygame.image.load("gui/yellow_box.png").convert_alpha(), (self.fx,34))
             elif self.tealFillSelected:
-                self.screen.blit(pygame.image.load("gui/teal_box.png").convert_alpha(), (540,34))
+                self.screen.blit(pygame.image.load("gui/teal_box.png").convert_alpha(), (self.fx,34))
             elif self.purpleFillSelected:
-                self.screen.blit(pygame.image.load("gui/purple_box.png").convert_alpha(), (540,34))
-            self.screen.blit(pygame.image.load("gui/arrow.png").convert_alpha(), (673, 34))
+                self.screen.blit(pygame.image.load("gui/purple_box.png").convert_alpha(), (self.fx,34))
+            self.screen.blit(pygame.image.load("gui/arrow.png").convert_alpha(), (self.fax, 34))
             self.screen.blit(pygame.image.load("gui/clear.png").convert_alpha(), (self.cx,34))
             if self.arrowClicked:
                 self.screen.blit(pygame.image.load("gui/white_box.png").convert_alpha(), (80,54))
@@ -2046,16 +2049,16 @@ class main:
                 self.screen.blit(pygame.image.load("gui/purple_box.png").convert_alpha(), (80,214))
                 self.screen.blit(pygame.image.load("gui/yellow_box.png").convert_alpha(), (80, 234))
             if self.fillArrowClicked:
-                self.screen.blit(pygame.image.load("gui/white_box.png").convert_alpha(), (540,54))
-                self.screen.blit(pygame.image.load("gui/black_box.png").convert_alpha(), (540,74))
-                self.screen.blit(pygame.image.load("gui/red_box.png").convert_alpha(), (540,94))
-                self.screen.blit(pygame.image.load("gui/orange_box.png").convert_alpha(), (540,114))
-                self.screen.blit(pygame.image.load("gui/lime_box.png").convert_alpha(), (540,134))
-                self.screen.blit(pygame.image.load("gui/green_box.png").convert_alpha(), (540,154))
-                self.screen.blit(pygame.image.load("gui/blue_box.png").convert_alpha(), (540,174))
-                self.screen.blit(pygame.image.load("gui/teal_box.png").convert_alpha(), (540,194))
-                self.screen.blit(pygame.image.load("gui/purple_box.png").convert_alpha(), (540,214))
-                self.screen.blit(pygame.image.load("gui/yellow_box.png").convert_alpha(), (540, 234))
+                self.screen.blit(pygame.image.load("gui/white_box.png").convert_alpha(), (self.fx,54))
+                self.screen.blit(pygame.image.load("gui/black_box.png").convert_alpha(), (self.fx,74))
+                self.screen.blit(pygame.image.load("gui/red_box.png").convert_alpha(), (self.fx,94))
+                self.screen.blit(pygame.image.load("gui/orange_box.png").convert_alpha(), (self.fx,114))
+                self.screen.blit(pygame.image.load("gui/lime_box.png").convert_alpha(), (self.fx,134))
+                self.screen.blit(pygame.image.load("gui/green_box.png").convert_alpha(), (self.fx,154))
+                self.screen.blit(pygame.image.load("gui/blue_box.png").convert_alpha(), (self.fx,174))
+                self.screen.blit(pygame.image.load("gui/teal_box.png").convert_alpha(), (self.fx,194))
+                self.screen.blit(pygame.image.load("gui/purple_box.png").convert_alpha(), (self.fx,214))
+                self.screen.blit(pygame.image.load("gui/yellow_box.png").convert_alpha(), (self.fx, 234))
                 pygame.display.set_caption(self.title)
             if self.fileClicked:
                 self.screen.blit(pygame.image.load("gui/save_as.png").convert_alpha(), (0,25))
@@ -2229,8 +2232,6 @@ class main:
         i_f = 0
         if self.opened: #If a file is opened
             self.screen.blit(pygame.image.load(self.opened_file),(30,60)) #Add file
-        #Something is preventing the text to be added
-        #Must be fixed before release
         while i < len(self.history) and i_p < len(self.hist_points) and i_c < len(self.hist_color) and i_s < len(self.hist_size) and i_t < len(self.hist_text) and i_f < len(self.hist_font): #While the incr. values below length of arrays
             #Detect history value
             if h[i] == "brush_square":
@@ -2273,11 +2274,11 @@ class main:
                 ct = cf.render(t[i_t], 1, c[i_c])
                 self.screen.blit(ct, (p[i_p], p[i_p+1]))
                 i_p += 2
+                i_s += 1
             i_c += 1
             i += 1
             i_t += 1
             i_f += 1
-            """
     #Fill screen
     def fillScreen(self, yco):
         #Detects which color selected then fills screen with the color.
@@ -2460,7 +2461,7 @@ class main:
                             if xco in range(0,136) and yco in range(0,25):
                                 self.fileClicked = True
                                 pygame.image.save(self.screen, "gui/menu_screen.png")
-                            elif xco in range(673,690) and yco in range(34,52):
+                            elif xco in range(self.fax,self.fax+17) and yco in range(34,52):
                                 self.fillArrowClicked = True
                                 pygame.image.save(self.screen, "gui/menu_screen.png")
                         elif xco in range(80,180): #if within the color choices
@@ -2625,7 +2626,7 @@ class main:
                     (button1, button2, button3) = pygame.mouse.get_pressed()
                     if button1:
                         xco, yco = pygame.mouse.get_pos() #Get mouse position
-                        if (xco not in range(540, 640) or yco not in range(54, 254)) or (xco in range(673,690) and yco in range(34,52)):
+                        if (xco not in range(self.fx,self.fx+131) or yco not in range(54, 254)) or (xco in range(self.fax,self.fax+17) and yco in range(34,52)):
                             self.fillArrowClicked = False
                             self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
                             if xco in range(0,136) or yco in range(0,25):
@@ -2634,7 +2635,7 @@ class main:
                             elif xco in range(213,230) and yco in range(34,52):
                                 self.arrowClicked = True
                                 pygame.image.save(self.screen, "gui/menu_screen.png")
-                        elif xco in range(540,640): #If within fill color options
+                        elif xco in range(self.fx,self.fx+131): #If within fill color options
                             self.fillScreen(yco) #Fill screen
         elif self.fileClicked: #If file menu button clicked
             for event in pygame.event.get():
@@ -2652,7 +2653,7 @@ class main:
                             if xco in range(213,230) and yco in range(34,52):
                                 self.arrowClicked = True
                                 pygame.image.save(self.screen, "gui/menu_screen.png")
-                            elif xco in range(673,690) and yco in range(34,52):
+                            elif xco in range(self.fax,self.fax+17) and yco in range(34,52):
                                 self.fillArrowClicked = True
                                 pygame.image.save(self.screen, "gui/menu_screen.png")
                         if xco in range(0,136) and yco in range(25,45): #Save as
@@ -2726,6 +2727,7 @@ class main:
                         self.hist_text.append(self.text)
                         self.hist_font.append(self.selectedFont)
                         self.hist_color.append(self.color)
+                        self.hist_size.append(0)
                         self.points = []
                         self.text = ""
                         self.typing = False
@@ -2830,7 +2832,7 @@ class main:
                             if self.eraserClicked == False: #If eraser isn't selected
                                 pygame.image.save(self.screen, "gui/menu_screen.png")
                                 self.arrowClicked = True
-                        elif xco in range(673,690) and yco in range(34,52): #Fill arrow clicked
+                        elif xco in range(self.fax,self.fax+17) and yco in range(34,52): #Fill arrow clicked
                             pygame.image.save(self.screen, "gui/menu_screen.png")
                             self.fillArrowClicked = True
                         #Clear
@@ -2968,19 +2970,12 @@ class main:
                     pygame.display.flip() #Update screen
                     self.width, self.height = event.size #set the width and height to the event size for the gui
                     if self.width < self.window_w/2: #If the width is less than half of the total screen size
-                        #Set it to half of the default screen size so the clear button isn't compressed
-                        self.cx = self.window_w/2-70
-                        self.cx = int(self.cx)
                         self.width = self.window_w/2;
                         self.screen = pygame.display.set_mode((self.width,self.height), RESIZABLE, 0)
-                    elif self.width < 1080: #If the width is below 1080
-                        self.cx = self.width*.90 #Place the clear x at 90% of the current window
-                        self.cx = int(math.floor(self.cx)) #Round down
-                    else:
-                        #Otherwise set it to 75% and round down
-                        self.cx = self.width*0.75
-                        self.cx = math.floor(self.cx)
-                        self.cx = int(self.cx)
+                    self.cx = self.width-50 #Clear button position
+                    self.fax = self.cx-22 #Fill arrow position
+                    self.fx = self.fax-136 #Fill positions
+                    self.ffx = self.fx-100 #Fill text position
                     if self.height < 185: #If the height is less than 185, set it to 185
                         self.height = 185
                         self.screen = pygame.display.set_mode((self.width,self.height),RESIZABLE,0)
