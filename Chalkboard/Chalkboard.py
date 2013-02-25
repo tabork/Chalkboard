@@ -1636,6 +1636,22 @@ class main:
         self.xt16cb = pygame.cursors.compile(xt16, white='X', black='.', xor='0')
         self.xt16cw = pygame.cursors.compile(xt16, white='.', black='X', xor='0')
         self.canContinue = True  #Allow for continuing
+    #Initialize fonts
+    def setupFonts(self):
+        fa = pygame.font.get_fonts()
+        i = 0
+        while i < len(fa):
+            c = list(pygame.font.match_font(fa[i]))
+            if (c[len(c)-1] == 'f' or c[len(c)-1] == 'F'):
+                fn = self.getFontName(ttLib.TTFont(pygame.font.match_font(fa[i])))[0]
+                if fn != "Wingdings 3" and fn != "Wingdings 2" and fn != "Wingdings" and fn != "Symbol":
+                    self.fontNames.append(fn)
+            i += 1
+        ii = 0
+        pos = 55
+        while ii < ((len(self.fontNames))*20):
+            self.fontPositions.append(pos + ii)
+            ii += 20
     #Open file
     def open_it(self):
         self.fileClicked = False #First make the file menu go away
@@ -1785,6 +1801,8 @@ class main:
             self.hist_points = []
             self.hist_color = []
             self.hist_size = []
+            self.hist_font = []
+            self.hist_text = []
             self.ell_type = 0
             self.rc = 0
             self.rw = 0
@@ -1799,10 +1817,47 @@ class main:
             self.line_s = 0
             self.line_c = (0,0,0)
             self.cx = 810
+            self.fontNames = []
+            self.fontPositions = []
+            self.fontArrowClicked = False
+            self.selectedFont = "Times New Roman"
+            self.font = pygame.font.SysFont(self.selectedFont, 12, False, False)
+            self.text = ""
+            self.typing = False
+            self.shift = False
         else: #Otherwise
             self.main_icon = pygame.image.load(self.icon).convert() #Load icon
             pygame.display.set_icon(self.main_icon) #Apply icon
             pygame.display.set_caption(self.title) #Set caption
+    #Scroll font up
+    def scrollFontUp(self):
+        if self.fontPositions[0] != 55:
+            newPos = []
+            for i in self.fontPositions:
+                newPos.append(i+20)
+            self.fontPositions = newPos
+    #Scroll font down
+    def scrollFontDown(self):
+        if self.fontPositions[len(self.fontPositions)-1] != 155:
+            newPos = []
+            for i in self.fontPositions:
+                newPos.append(i-20)
+            self.fontPositions = newPos
+    #Update Font Menu
+    def updateFontGui(self):
+        i = 0
+        i_l = 0
+        while i < len(self.fontNames) and i_l < len(self.fontPositions):
+            if self.fontPositions[i_l] >= 55 and self.fontPositions[i_l] <= 155:
+                f = pygame.font.SysFont(self.fontNames[i], 12, False, False);
+                t = f.render(self.fontNames[i], 1, self.black)
+                pygame.draw.rect(self.screen, self.white, Rect(35,self.fontPositions[i_l],200,20))
+                self.screen.blit(t, (35, self.fontPositions[i_l]))
+                pygame.display.flip()
+            i += 1
+            i_l += 1
+        self.screen.blit(pygame.image.load("gui/up.png").convert_alpha(), (235, 75))
+        self.screen.blit(pygame.image.load("gui/down.png").convert_alpha(), (235, 155))
     #Update gui
     def gui(self, width, height):
         if self.saving == False:
@@ -1950,6 +2005,12 @@ class main:
                 self.screen.blit(pygame.image.load("gui/text.png").convert_alpha(), (3, 210))
             else:
                 self.screen.blit(pygame.image.load("gui/text_clicked.png").convert_alpha(), (3, 210))
+                pygame.draw.rect(self.screen, self.black, Rect(34,34,202,22))
+                pygame.draw.rect(self.screen, self.white, Rect(35,35,200,20))
+                f = pygame.font.SysFont(self.selectedFont, 12, False, False)
+                t = f.render(self.selectedFont, 1, self.black)
+                self.screen.blit(t, (36, 36))
+                self.screen.blit(pygame.image.load("gui/arrow.png").convert_alpha(), (238, 34))
             self.screen.blit(pygame.image.load("gui/fill_txt.png").convert_alpha(), (450, 33))
             if self.blackFillSelected:
                 self.screen.blit(pygame.image.load("gui/black_box.png").convert_alpha(), (540,34))
@@ -2000,6 +2061,8 @@ class main:
                 self.screen.blit(pygame.image.load("gui/save_as.png").convert_alpha(), (0,25))
                 self.screen.blit(pygame.image.load("gui/save.png").convert_alpha(), (0,45))
                 self.screen.blit(pygame.image.load("gui/open.png").convert_alpha(), (0, 65))
+        if self.fontArrowClicked:
+            self.updateFontGui()
         pygame.display.flip()
     #Get the value of the tool property sheet
     def getTool(self, t):
@@ -2150,25 +2213,25 @@ class main:
         self.canContinue = False #declare the self.canContinue variable
         self.setupCursors() #Setup all the mouse cursors
         self.declareVar(False) #Declare variables before screen
+        self.setupFonts()
         self.screen = pygame.display.set_mode((self.width,self.height),RESIZABLE,0) #Setup screen
         self.declareVar(True) #Declare variables after screen
         self.getProperties() #Get the property values
         self.gui(self.width, self.height) #Add gui
     #Redraw after fillscreen
-    def redraw(self, h, p, c, s):
+    def redraw(self, h, p, c, s, t, f):
         #Incrementation values
         i = 0
         i_p = 0
         i_c = 0
         i_s = 0
+        i_t = 0
+        i_f = 0
         if self.opened: #If a file is opened
             self.screen.blit(pygame.image.load(self.opened_file),(30,60)) #Add file
-        while i < len(self.history) and i_p < len(self.hist_points) and i_c < len(self.hist_color) and i_s < len(self.hist_size): #While the incr. values below length of arrays
-            #Smaller array names
-            h = self.history
-            p = self.hist_points
-            c = self.hist_color
-            s = self.hist_size
+        #Something is preventing the text to be added
+        #Must be fixed before release
+        while i < len(self.history) and i_p < len(self.hist_points) and i_c < len(self.hist_color) and i_s < len(self.hist_size) and i_t < len(self.hist_text) and i_f < len(self.hist_font): #While the incr. values below length of arrays
             #Detect history value
             if h[i] == "brush_square":
                 if s[i_s] == 1:
@@ -2204,8 +2267,17 @@ class main:
                 pygame.draw.line(self.screen, c[i_c], (p[i_p], p[i_p+1]), (p[i_p+2], p[i_p+3]), s[i_s])
                 i_p += 4
                 i_s += 1
+            elif h[i] == "text":
+                print("init")
+                cf = pygame.font.SysFont(f[i_f], 12, False, False)
+                ct = cf.render(t[i_t], 1, c[i_c])
+                self.screen.blit(ct, (p[i_p], p[i_p+1]))
+                i_p += 2
             i_c += 1
             i += 1
+            i_t += 1
+            i_f += 1
+            """
     #Fill screen
     def fillScreen(self, yco):
         #Detects which color selected then fills screen with the color.
@@ -2363,7 +2435,13 @@ class main:
             self.saved = False #Set saved to false
             self.title = self.title + "*" #Add * to title to symbolize edit
             pygame.display.set_caption(self.title)
-        self.redraw(self.history, self.hist_points, self.hist_color, self.hist_size) #Redraw
+        self.redraw(self.history, self.hist_points, self.hist_color, self.hist_size, self.hist_text, self.hist_font) #Redraw
+    def getFontAtPos(self, p):
+        i = 0
+        while i < len(self.fontPositions):
+            if self.fontPositions[i] == p:
+                return self.fontNames[i]
+            i += 1
     #Events
     def events(self):
         if self.arrowClicked: #If the color arrow is clicked
@@ -2583,7 +2661,7 @@ class main:
                             self.save()
                         elif xco in range(0,136) and yco in range(65,85): #Open
                             self.open_it()
-        else: #Normal events
+        elif self.fontArrowClicked:
             for event in pygame.event.get():
                 if event.type == QUIT: #If X is clicked
                     self.updateFiles() #Update files
@@ -2592,17 +2670,103 @@ class main:
                 elif event.type == MOUSEBUTTONDOWN: #If mouse is down
                     (button1, button2, button3) = pygame.mouse.get_pressed()
                     if button1:
+                        xco, yco = event.pos
+                        if xco in range(238, 304) and yco in range(34, 60):
+                            self.screen.blit(pygame.image.load("gui/t_screen.png").convert_alpha(), (0,0))
+                            self.fontArrowClicked = False
+                        elif xco in range(35, 235) and yco in range(55, 175):
+                            if yco in range(55, 75):
+                                self.selectedFont = self.getFontAtPos(55)
+                            elif yco in range(75, 95):
+                                self.selectedFont = self.getFontAtPos(75)
+                            elif yco in range(95, 115):
+                                self.selectedFont = self.getFontAtPos(95)
+                            elif yco in range(115, 135):
+                                self.selectedFont = self.getFontAtPos(115)
+                            elif yco in range(135, 155):
+                                self.selectedFont = self.getFontAtPos(135)
+                            elif yco in range(155, 175):
+                                self.selectedFont = self.getFontAtPos(155)
+                            self.screen.blit(pygame.image.load("gui/t_screen.png").convert_alpha(), (0,0))
+                            self.fontArrowClicked = False
+                        elif xco in range(235, 245):
+                            if yco in range(75, 85):
+                                self.scrollFontUp()
+                            elif yco in range(155, 165):
+                                self.scrollFontDown()
+                            else:
+                                self.screen.blit(pygame.image.load("gui/t_screen.png").convert_alpha(), (0,0))
+                                self.fontArrowClicked = False
+                        else:
+                            self.screen.blit(pygame.image.load("gui/t_screen.png").convert_alpha(), (0,0))
+                            self.fontArrowClicked = False
+        elif self.typing:
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    self.updateFiles() #Update files
+                    pygame.quit() #Quit program
+                    sys.exit()
+                elif event.type == KEYDOWN:
+                    if event.key == K_LSHIFT or event.key == K_RSHIFT:
+                        self.shift = True
+                    if event.key == K_a:
+                        if self.shift:
+                            self.text += 'A'
+                        else:
+                            self.text += 'a'
+                    if event.key == K_b:
+                        if self.shift:
+                            self.text += 'B'
+                        else:
+                            self.text += 'b'
+                    if event.key == K_RETURN:
+                        self.history.append("text")
+                        self.hist_points.append(self.points[0][0])
+                        self.hist_points.append(self.points[0][1])
+                        self.hist_text.append(self.text)
+                        self.hist_font.append(self.selectedFont)
+                        self.hist_color.append(self.color)
+                        self.points = []
+                        self.text = ""
+                        self.typing = False
+                        i = 0
+                        while i < len(self.history):
+                            print(self.history[i])
+                            i += 1
+                        i_t = 0
+                        while i_t < len(self.hist_text):
+                            print(self.hist_text[i_t])
+                            i_t += 1
+                        i_f = 0
+                        while i_f < len(self.hist_font):
+                            print(self.hist_font[i_f])
+                            i_f += 1
+                    print(self.text)
+                elif event.type == KEYUP:
+                    if event.key == K_LSHIFT or event.key == K_RSHIFT:
+                        self.shift = False
+        else: #Normal events
+            for event in pygame.event.get():
+                if event.type == QUIT: #If X is clicked
+                    self.updateFiles() #Update files
+                    pygame.quit() #Quit program
+                    sys.exit()
+                elif event.type == MOUSEBUTTONDOWN: #If mouse is down
+                    print(str(self.textClicked) + "\t" + str(self.typing))
+                    (button1, button2, button3) = pygame.mouse.get_pressed()
+                    if button1:
                         xco, yco = event.pos #Get the event position
+                        print(str(xco) + "," + str(yco))
                         if xco in range(30,self.width) and yco in range(60,self.height): #If in canvas
                             if self.saved: #If saved
                                 self.saved = False #saved set to false
                                 self.title = self.title + "*" #Add * to title to symbolize edit
                                 pygame.display.set_caption(self.title)
-                        if xco in range(0, 50) and yco in range(0, 30): #File clicked
+                        elif xco in range(0, 50) and yco in range(0, 30): #File clicked
                             self.fileClicked = True
                             pygame.image.save(self.screen, "gui/menu_screen.png") #Save temporary image
                         #Drawing events
-                        elif self.rectClicked and xco not in range(0,30) and yco not in range(0,60):
+                        if self.rectClicked and xco not in range(0,30) and yco not in range(0,60):
                             self.points.append(event.pos)
                             self.dragging = True
                         elif self.ellipseClicked and xco not in range(0,30) and yco not in range(0,60):
@@ -2615,6 +2779,10 @@ class main:
                         elif self.lineClicked and xco not in range(0,30) and yco not in range(0,60):
                             self.points.append(event.pos)
                             self.dragging = True
+                        elif self.textClicked and xco not in range(0,30) and yco not in range(0,60):
+                            print("typing = True")
+                            self.points.append(event.pos)
+                            self.typing = True
                         #Tool changing events
                         elif xco in range(3, 30) and yco in range(120, 150): #Rectangle
                             self.rectClicked = True
@@ -2677,6 +2845,8 @@ class main:
                             self.hist_points = []
                             self.hist_color = []
                             self.hist_size = []
+                            self.hist_text = []
+                            self.hist_font = []
                             self.ell_type = 0
                             self.point1 = 0
                             self.point2 = 0
@@ -2731,7 +2901,11 @@ class main:
                                 self.changeBrush()
                         elif self.lineClicked: #If line selected
                             if xco in range(self.slider_line_x, self.slider_line_x + 9) and yco in range(44, 51): #slider handle clicked
-                                self.sh_moving = True   
+                                self.sh_moving = True
+                        elif self.textClicked:
+                            if xco in range(238, 304) and yco in range(34, 60):
+                                pygame.image.save(self.screen, "gui/t_screen.png")
+                                self.fontArrowClicked = True
                 elif event.type == MOUSEBUTTONUP: #If mouse up
                     #Reset dragging and moving
                     self.dragging = False
@@ -2749,6 +2923,8 @@ class main:
                         self.hist_size.append(self.rect_w)
                         self.hist_size.append(self.rect_h)
                         self.hist_color.append(self.rect_c)
+                        self.hist_text.append("none")
+                        self.hist_font.append("none")
                     elif self.ellipseClicked:
                         if self.ell_type != 2:
                             self.history.append("ellipse")
@@ -2757,6 +2933,8 @@ class main:
                             self.hist_size.append(self.rect_w)
                             self.hist_size.append(self.rect_h)
                             self.hist_color.append(self.rect_c)
+                            self.hist_text.append("none")
+                            self.hist_font.append("none")
                         else:
                             self.history.append("line")
                             self.hist_points.append(self.point1)
@@ -2765,6 +2943,7 @@ class main:
                             self.hist_points.append(self.point4)
                             self.hist_size.append(4)
                             self.hist_color.append(self.line_c)
+                            self.hist_text.append("none")
                     elif self.lineClicked:
                         self.history.append("line")
                         self.hist_points.append(self.point1)
@@ -2773,6 +2952,8 @@ class main:
                         self.hist_points.append(self.point4)
                         self.hist_size.append(self.line_s)
                         self.hist_color.append(self.line_c)
+                        self.hist_text.append("none")
+                        self.hist_font.append("none")
                     #Reset draw points
                     self.point1 = 0
                     self.point2 = 0
@@ -2904,6 +3085,8 @@ class main:
         self.hist_points.append(y)
         self.hist_color.append(self.color)
         self.hist_size.append(self.s)
+        self.hist_text.append("none")
+        self.hist_font.append("none")
         pygame.display.flip()
     def eraser_drag(self): #Eraser dragging
         x, y = pygame.mouse.get_pos()
@@ -2922,6 +3105,8 @@ class main:
         self.hist_points.append(y)
         self.hist_size.append(self.s)
         self.hist_color.append(self.fill)
+        self.hist_text.append("none")
+        self.hist_font.append("none")
         pygame.display.flip()
     def line_drag(self): #Line dragging
         if self.placed == True:
@@ -3056,6 +3241,8 @@ class main:
             os.remove("gui/menu_screen.png")
         if os.path.exists("gui/screen.png"):
             os.remove("gui/screen.png")
+        if os.path.exists("gui/t_screen.png"):
+            os.remove("gui/t_screen.png")
     def update(self): #Delete existing java files
         if os.path.exists("javaTest.bat"):
             os.remove("javaTest.bat")
@@ -3070,11 +3257,15 @@ class main:
         i_p = 0
         i_c = 0
         i_s = 0
-        while i < len(self.history) and i_p < len(self.hist_points) and i_c < len(self.hist_color) and i_s < len(self.hist_size):
+        i_t = 0
+        i_f = 0
+        while i < len(self.history) and i_p < len(self.hist_points) and i_c < len(self.hist_color) and i_s < len(self.hist_size) and i_t < len(self.hist_text) and i_f < len(self.hist_font):
             h = self.history
             p = self.hist_points
             c = self.hist_color #not needed. Just incremented
             s = self.hist_size
+            t = self.hist_text
+            f = self.hist_font
             if h[i] == "eraser_square":
                 #Square eraser
                 if xco in range(p[i_p],p[i_p]+s[i_s]) and yco in range(p[i_p+1],p[i_p+1]+s[i_s]):
@@ -3107,6 +3298,12 @@ class main:
                 i_p += 2
                 i_c += 1
                 i_s += 1
+            elif h[i] == "text":
+                i += 1
+                i_p += 2
+                i_c += 1
+            i_t += 1
+            i_f += 1
         return False
     def notInBlackComp(self, xco, yco): #Mouse not in black
         if self.history == [] and self.fill == self.black:
@@ -3115,7 +3312,9 @@ class main:
         i_p = 0
         i_c = 0
         i_s = 0
-        while i < len(self.history) and i_p < len(self.hist_points) and i_c < len(self.hist_color) and i_s < len(self.hist_size):
+        i_t = 0
+        i_f = 0
+        while i < len(self.history) and i_p < len(self.hist_points) and i_c < len(self.hist_color) and i_s < len(self.hist_size) and i_t < len(self.hist_text) and i_f < len(self.hist_font):
             h = self.history
             p = self.hist_points
             c = self.hist_color
@@ -3191,6 +3390,12 @@ class main:
                 i_p += 2
                 i_s += 1
                 i_c += 1
+            elif h[i] == "text":
+                i += 1
+                i_p += 2
+                i_c += 1
+            i_t += 1
+            i_f += 1
         if self.fill != self.black and self.fill != self.blue:
             return "Fill light, not in range"
         else:
@@ -3216,7 +3421,7 @@ class main:
             pygame.mouse.set_cursor((8,8),(4,4),(0,0,0,0,0,0,0,0),(0,0,0,0,0,0,0,0))
         else:
             xco, yco = pygame.mouse.get_pos() #xco = x coordinate, yco = y coordinate of mouse
-            if xco in range(0,30) or yco in range(0,60) or self.fileClicked or self.arrowClicked or self.fillArrowClicked:
+            if xco in range(0,30) or yco in range(0,60) or self.fileClicked or self.arrowClicked or self.fillArrowClicked or self.fontArrowClicked:
                 pygame.mouse.set_cursor((16, 19), (0, 0),
                                         (128,0,192,0,160,0,144,0,136,0,132,0,130,0,129,0,128,128,128,64,128,32,128,16,129,240,137,0,148,128,164,128,194,64,2,64,1,128),
                                         (128,0,192,0,224,0,240,0,248,0,252,0,254,0,255,0,255,128,255,192,255,224,255,240,255,240,255,0,247,128,231,128,195,192,3,192,1,128))
@@ -3437,6 +3642,8 @@ class main:
                                 pygame.mouse.set_cursor((56,56),(28,28),*self.xc50cw)
     def getFontName(self, font):
         #Taken from: http://www.starrhorne.com/2012/01/18/how-to-extract-font-names-from-ttf-files-using-python-and-our-old-friend-the-command-line.html
+        FONT_SPECIFIER_NAME_ID = 4
+        FONT_SPECIFIER_FAMILY_ID = 1
         name = ""
         family = ""
         for record in font['name'].names:
@@ -3453,15 +3660,24 @@ class main:
             if name and family:
                     break
         return name, family
+    def typer(self):
+        self.typePos = (self.points[0][0],self.points[0][1])
+        self.font = pygame.font.SysFont(self.selectedFont, 12, False, False)
+        tr = self.font.render(self.text, 1, self.color)
+        self.screen.blit(tr, self.typePos)
+        print(str(self.typePos[0]) + "," + str(self.typePos[1]) + "\t" + self.text)
     def __init__(self):
         self.update()   #deletes possible existing update files
         self.setup()    #sets up everything for program
+        i = 0
+        while i < len(self.fontPositions):
+            print(self.fontNames[i] + "         " + str(self.fontPositions[i]))
+            i+= 1
         while True:    #Holds program methods
             if self.canContinue:    #If mouse cursors completely initialized. They should be, but it just makes sure.
                 self.updateMouse() #Update mouse cursors
                 self.events()     #Program events
                 if self.dragging == True:  #mouse dragging
-                    self.updatedMouse = False  #mouse needs updated
                     if self.rectClicked:   #If rect tool selected
                         self.rect_drag()
                     elif self.ellipseClicked:  #ellipse tool
@@ -3472,6 +3688,8 @@ class main:
                         self.eraser_drag()
                     elif self.lineClicked:     #Line tool
                         self.line_drag()
+                if self.typing == True:
+                    self.typer()
                 pygame.display.flip()         #Update screen
                 if self.sh_moving == True:    #slider moving
                     if self.eraserClicked:    #Eraser tool
