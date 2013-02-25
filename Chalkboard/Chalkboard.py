@@ -1820,10 +1820,11 @@ class main:
             self.fax = self.cx-22 #Fill arrow position
             self.fx = self.fax-136 #Fill positions
             self.ffx = self.fx-100 #Fill text position
+            #Text tool variables
             self.fontNames = []
             self.fontPositions = []
             self.fontArrowClicked = False
-            self.selectedFont = "Times New Roman"
+            self.selectedFont = "Times New Roman" #May change in properties
             self.font = pygame.font.SysFont(self.selectedFont, 12, False, False)
             self.text = ""
             self.typing = False
@@ -2208,6 +2209,13 @@ class main:
             t = "brush"
         tf.close()
         self.getTool(t)
+        if os.path.exists("properties/font.txt"):
+            ft = open("properties/font.txt", "r")
+            self.selectedFont = ft.read()
+        else:
+            ft = open("properties/font.txt", "w")
+            ft.write("Times New Roman")
+            self.selectedFont = "Times New Roman"
         self.screen.fill(self.fill)
         pygame.display.flip()
     #Setup application
@@ -3230,6 +3238,9 @@ class main:
         self.tl = open("properties/tool.txt", "w")
         self.tl.write(self.getToolString())
         self.tl.close()
+        self.ft = open("properties/font.txt", "w")
+        self.ft.write(self.selectedFont)
+        self.ft.close()
         if os.path.exists("gui/fs_screen.png"):
             os.remove("gui/fs_screen.png")
         if os.path.exists("gui/menu_screen.png"):
