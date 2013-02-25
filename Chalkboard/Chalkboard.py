@@ -5,10 +5,7 @@
 #           -Tabor Kvasnicka   ]----Currently, only person
 #
 #Expected Features:
-#   Custom Cursors -- Will be finished in about a weak
-#                       Currently an eraser cover problem                                ]
-#                       Line cursor color change not complete                            ]---------Will be completed in 2.3 along with additional unknown features
-#                       Circle and ellipses treated as rectangles in cursor color change ]
+#   Custom Cursors -- finished
 #
 #Import dependencies
 import pygame, sys, Tkinter, math, os, tkFileDialog, tkMessageBox, save_as, open_file, display, wx
