@@ -11,6 +11,8 @@
 #   Stamping/Clip art
 #   Text
 #
+#Text tool complete
+#
 #Import dependencies
 import pygame, sys, Tkinter, math, os, save_as, open_file, display, wx
 from fontTools import ttLib
@@ -1788,7 +1790,6 @@ class main:
             self.purpleFillSelected = False
             #slider x locations
             self.slider_x = 287
-            self.slider_line_x = 287
             self.slider_eraser_x = 80
             self.sh_moving = False #Slider handle moving
             #Whether or not the square or circle is brush/eraser mode is selected
@@ -1855,13 +1856,13 @@ class main:
             if self.fontPositions[i_l] >= 55 and self.fontPositions[i_l] <= 155:
                 f = pygame.font.SysFont(self.fontNames[i], 12, False, False);
                 t = f.render(self.fontNames[i], 1, self.black)
-                pygame.draw.rect(self.screen, self.white, Rect(35,self.fontPositions[i_l],200,20))
-                self.screen.blit(t, (35, self.fontPositions[i_l]))
+                pygame.draw.rect(self.screen, self.white, Rect(564,self.fontPositions[i_l],200,20))
+                self.screen.blit(t, (564, self.fontPositions[i_l]))
                 pygame.display.flip()
             i += 1
             i_l += 1
-        self.screen.blit(pygame.image.load("gui/up.png").convert_alpha(), (235, 75))
-        self.screen.blit(pygame.image.load("gui/down.png").convert_alpha(), (235, 155))
+        self.screen.blit(pygame.image.load("gui/up.png").convert_alpha(), (764, 75))
+        self.screen.blit(pygame.image.load("gui/down.png").convert_alpha(), (764, 155))
     #Update gui
     def gui(self, width, height):
         if self.saving == False:
@@ -2004,17 +2005,45 @@ class main:
                 self.screen.blit(pygame.image.load("gui/arrow.png").convert_alpha(), (213,34))
                 self.screen.blit(pygame.image.load("gui/size_txt.png").convert_alpha(), (240, 35))
                 self.screen.blit(pygame.image.load("gui/slider.png").convert_alpha(), (290,38))
-                self.screen.blit(pygame.image.load("gui/slider_handle.png").convert_alpha(), (self.slider_line_x, 44))
+                self.screen.blit(pygame.image.load("gui/slider_handle.png").convert_alpha(), (self.slider_x, 44))
             if self.textClicked == False:
                 self.screen.blit(pygame.image.load("gui/text.png").convert_alpha(), (3, 210))
             else:
                 self.screen.blit(pygame.image.load("gui/text_clicked.png").convert_alpha(), (3, 210))
-                pygame.draw.rect(self.screen, self.black, Rect(34,34,202,22))
-                pygame.draw.rect(self.screen, self.white, Rect(35,35,200,20))
+                flf = pygame.font.SysFont("Arial", 17, False, False)
+                fl = flf.render("Font", 1, self.black)
+                self.screen.blit(fl, (527, 34))
+                pygame.draw.rect(self.screen, self.black, Rect(563,34,202,22))
+                pygame.draw.rect(self.screen, self.white, Rect(564,35,200,20))
                 f = pygame.font.SysFont(self.selectedFont, 12, False, False)
                 t = f.render(self.selectedFont, 1, self.black)
-                self.screen.blit(t, (36, 36))
-                self.screen.blit(pygame.image.load("gui/arrow.png").convert_alpha(), (238, 34))
+                self.screen.blit(t, (566, 36))
+                self.screen.blit(pygame.image.load("gui/arrow.png").convert_alpha(), (770, 34))
+                self.screen.blit(pygame.image.load("gui/color_txt.png").convert_alpha(), (33,34))
+                if self.whiteSelected:
+                    self.screen.blit(pygame.image.load("gui/white_box.png").convert_alpha(), (80, 34))
+                elif self.blackSelected:
+                    self.screen.blit(pygame.image.load("gui/black_box.png").convert_alpha(), (80,34))
+                elif self.orangeSelected:
+                    self.screen.blit(pygame.image.load("gui/orange_box.png").convert_alpha(), (80,34))
+                elif self.redSelected:
+                    self.screen.blit(pygame.image.load("gui/red_box.png").convert_alpha(), (80,34))
+                elif self.limeSelected:
+                    self.screen.blit(pygame.image.load("gui/lime_box.png").convert_alpha(), (80,34))
+                elif self.greenSelected:
+                    self.screen.blit(pygame.image.load("gui/green_box.png").convert_alpha(), (80,34))
+                elif self.blueSelected:
+                    self.screen.blit(pygame.image.load("gui/blue_box.png").convert_alpha(), (80,34))
+                elif self.tealSelected:
+                    self.screen.blit(pygame.image.load("gui/teal_box.png").convert_alpha(), (80,34))
+                elif self.purpleSelected:
+                    self.screen.blit(pygame.image.load("gui/purple_box.png").convert_alpha(), (80,34))
+                elif self.yellowSelected:
+                    self.screen.blit(pygame.image.load("gui/yellow_box.png").convert_alpha(), (80,34))
+                self.screen.blit(pygame.image.load("gui/arrow.png").convert_alpha(), (213,34))
+                self.screen.blit(pygame.image.load("gui/size_txt.png").convert_alpha(), (240, 35))
+                self.screen.blit(pygame.image.load("gui/slider.png").convert_alpha(), (290,38))
+                self.screen.blit(pygame.image.load("gui/slider_handle.png").convert_alpha(), (self.slider_x, 44))
             self.screen.blit(pygame.image.load("gui/fill_txt.png").convert_alpha(), (self.ffx, 33))
             if self.blackFillSelected:
                 self.screen.blit(pygame.image.load("gui/black_box.png").convert_alpha(), (self.fx,34))
@@ -2199,7 +2228,7 @@ class main:
         self.s = int(sz)
         self.slider_x = 286 + self.s
         self.slider_eraser_x = 79 + self.s
-        self.slider_line_x = 286 + self.s
+        self.slider_x = 286 + self.s
         if os.path.exists("properties/tool.txt"):
             tf = open("properties/tool.txt", "r")
             t = tf.read()
@@ -2278,7 +2307,7 @@ class main:
                 i_s += 1
             elif h[i] == "text":
                 print("init")
-                cf = pygame.font.SysFont(f[i_f], 12, False, False)
+                cf = pygame.font.SysFont(f[i_f], s[i_s], False, False)
                 ct = cf.render(t[i_t], 1, c[i_c])
                 self.screen.blit(ct, (p[i_p], p[i_p+1]))
                 i_p += 2
@@ -2488,7 +2517,6 @@ class main:
                                 self.arrowClicked = False
                                 self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
                                 self.color = self.white
-                                self.changeBrush()
                             elif yco in range(75,94):
                                 self.whiteSelected = False
                                 self.blackSelected = True
@@ -2503,7 +2531,6 @@ class main:
                                 self.arrowClicked = False
                                 self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
                                 self.color = self.black
-                                self.changeBrush()
                             elif yco in range(95,114):
                                 self.whiteSelected = False
                                 self.blackSelected = False
@@ -2518,7 +2545,6 @@ class main:
                                 self.arrowClicked = False
                                 self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
                                 self.color = self.red
-                                self.changeBrush()
                             elif yco in range(115,134):
                                 self.whiteSelected = False
                                 self.blackSelected = False
@@ -2533,7 +2559,6 @@ class main:
                                 self.arrowClicked = False
                                 self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
                                 self.color = self.orange
-                                self.changeBrush()
                             elif yco in range(135,154):
                                 self.whiteSelected = False
                                 self.blackSelected = False
@@ -2548,7 +2573,6 @@ class main:
                                 self.arrowClicked = False
                                 self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
                                 self.color = self.lime
-                                self.changeBrush()
                             elif yco in range(155, 174):
                                 self.whiteSelected = False
                                 self.blackSelected = False
@@ -2563,7 +2587,6 @@ class main:
                                 self.arrowClicked = False
                                 self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
                                 self.color = self.green
-                                self.changeBrush()
                             elif yco in range(175,194):
                                 self.whiteSelected = False
                                 self.blackSelected = False
@@ -2578,7 +2601,6 @@ class main:
                                 self.arrowClicked = False
                                 self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
                                 self.color = self.blue
-                                self.changeBrush()
                             elif yco in range(195,214):
                                 self.whiteSelected = False
                                 self.blackSelected = False
@@ -2593,7 +2615,6 @@ class main:
                                 self.arrowClicked = False
                                 self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
                                 self.color = self.teal
-                                self.changeBrush()
                             elif yco in range(215, 234):
                                 self.whiteSelected = False
                                 self.blackSelected = False
@@ -2608,7 +2629,6 @@ class main:
                                 self.arrowClicked = False
                                 self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
                                 self.color = self.purple
-                                self.changeBrush()
                             elif yco in range(235, 254):
                                 self.whiteSelected = False
                                 self.blackSelected = False
@@ -2623,7 +2643,6 @@ class main:
                                 self.arrowClicked = False
                                 self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
                                 self.color = self.yellow
-                                self.changeBrush()
         elif self.fillArrowClicked: #If the fill arrow is clicked
             for event in pygame.event.get():
                 if event.type == QUIT: #If the X is clicked
@@ -2680,10 +2699,10 @@ class main:
                     (button1, button2, button3) = pygame.mouse.get_pressed()
                     if button1:
                         xco, yco = event.pos
-                        if xco in range(238, 304) and yco in range(34, 60):
+                        if xco in range(770, 787) and yco in range(34, 60):
                             self.screen.blit(pygame.image.load("gui/t_screen.png").convert_alpha(), (0,0))
                             self.fontArrowClicked = False
-                        elif xco in range(35, 235) and yco in range(55, 175):
+                        elif xco in range(565, 765) and yco in range(55, 175):
                             if yco in range(55, 75):
                                 self.selectedFont = self.getFontAtPos(55)
                             elif yco in range(75, 95):
@@ -2698,7 +2717,7 @@ class main:
                                 self.selectedFont = self.getFontAtPos(155)
                             self.screen.blit(pygame.image.load("gui/t_screen.png").convert_alpha(), (0,0))
                             self.fontArrowClicked = False
-                        elif xco in range(235, 245):
+                        elif xco in range(765, 775):
                             if yco in range(75, 85):
                                 self.scrollFontUp()
                             elif yco in range(155, 165):
@@ -2728,6 +2747,135 @@ class main:
                             self.text += 'B'
                         else:
                             self.text += 'b'
+                    if event.key == K_c:
+                        if self.shift:
+                            self.text += 'C'
+                        else:
+                            self.text += 'c'
+                    if event.key == K_d:
+                        if self.shift:
+                            self.text += 'D'
+                        else:
+                            self.text += 'd'
+                    if event.key == K_e:
+                        if self.shift:
+                            self.text += 'E'
+                        else:
+                            self.text += 'e'
+                    if event.key == K_f:
+                        if self.shift:
+                            self.text += 'F'
+                        else:
+                            self.text += 'f'
+                    if event.key == K_g:
+                        if self.shift:
+                            self.text += 'G'
+                        else:
+                            self.text += 'g'
+                    if event.key == K_h:
+                        if self.shift:
+                            self.text += 'H'
+                        else:
+                            self.text += 'h'
+                    if event.key == K_i:
+                        if self.shift:
+                            self.text += 'I'
+                        else:
+                            self.text += 'i'
+                    if event.key == K_j:
+                        if self.shift:
+                            self.text += 'J'
+                        else:
+                            self.text += 'j'
+                    if event.key == K_k:
+                        if self.shift:
+                            self.text += 'K'
+                        else:
+                            self.text += 'k'
+                    if event.key == K_l:
+                        if self.shift:
+                            self.text += 'L'
+                        else:
+                            self.text += 'l'
+                    if event.key == K_m:
+                        if self.shift:
+                            self.text += 'M'
+                        else:
+                            self.text += 'm'
+                    if event.key == K_n:
+                        if self.shift:
+                            self.text += 'N'
+                        else:
+                            self.text += 'n'
+                    if event.key == K_o:
+                        if self.shift:
+                            self.text += 'O'
+                        else:
+                            self.text += 'o'
+                    if event.key == K_p:
+                        if self.shift:
+                            self.text += 'P'
+                        else:
+                            self.text += 'p'
+                    if event.key == K_q:
+                        if self.shift:
+                            self.text += 'Q'
+                        else:
+                            self.text += 'q'
+                    if event.key == K_r:
+                        if self.shift:
+                            self.text += 'R'
+                        else:
+                            self.text += 'r'
+                    if event.key == K_s:
+                        if self.shift:
+                            self.text += 'S'
+                        else:
+                            self.text += 's'
+                    if event.key == K_t:
+                        if self.shift:
+                            self.text += 'T'
+                        else:
+                            self.text += 't'
+                    if event.key == K_u:
+                        if self.shift:
+                            self.text += 'U'
+                        else:
+                            self.text += 'u'
+                    if event.key == K_v:
+                        if self.shift:
+                            self.text += 'V'
+                        else:
+                            self.text += 'v'
+                    if event.key == K_w:
+                        if self.shift:
+                            self.text += 'W'
+                        else:
+                            self.text += 'w'
+                    if event.key == K_x:
+                        if self.shift:
+                            self.text += 'X'
+                        else:
+                            self.text += 'x'
+                    if event.key == K_y:
+                        if self.shift:
+                            self.text += 'Y'
+                        else:
+                            self.text += 'y'
+                    if event.key == K_z:
+                        if self.shift:
+                            self.text += 'Z'
+                        else:
+                            self.text += 'z'
+                    if event.key == K_SPACE:
+                        self.text += ' '
+                    if event.key == K_BACKSPACE:
+                        c = list(self.text)
+                        self.text = ""
+                        i = 0
+                        while i < len(c)-1:
+                            self.text += c[i]
+                            i += 1
                     if event.key == K_RETURN:
                         self.history.append("text")
                         self.hist_points.append(self.points[0][0])
@@ -2735,7 +2883,7 @@ class main:
                         self.hist_text.append(self.text)
                         self.hist_font.append(self.selectedFont)
                         self.hist_color.append(self.color)
-                        self.hist_size.append(0)
+                        self.hist_size.append(self.s)
                         self.points = []
                         self.text = ""
                         self.typing = False
@@ -2792,6 +2940,7 @@ class main:
                         elif self.textClicked and xco not in range(0,30) and yco not in range(0,60):
                             print("typing = True")
                             self.points.append(event.pos)
+                            pygame.image.save(self.screen, "gui/typing.png")
                             self.typing = True
                         #Tool changing events
                         elif xco in range(3, 30) and yco in range(120, 150): #Rectangle
@@ -2884,14 +3033,12 @@ class main:
                                 self.circleClicked = False
                                 self.circleBrushClicked = False
                                 self.mode = "square"
-                                self.changeEraser()
                             elif xco in range(168, 194) and yco in range(33,59): #Circle mode selected, change eraser
                                 self.circleClicked = True
                                 self.circleBrushClicked = True
                                 self.squareClicked = False
                                 self.squareBrushClicked = False
                                 self.mode = "circle"
-                                self.changeEraser()
                         elif self.brushClicked: #If brush selected
                             if xco in range(self.slider_x, self.slider_x + 9) and yco in range(44, 51): #slider handle clicked
                                 self.sh_moving = True
@@ -2901,19 +3048,19 @@ class main:
                                 self.circleBrushClicked = False
                                 self.circleClicked = False
                                 self.mode = "square"
-                                self.changeBrush()
                             elif xco in range(380,406) and yco in range(33,59): #Circle mode selected, change brush
                                 self.circleBrushClicked = True
                                 self.circleClicked = True
                                 self.squareBrushClicked = False
                                 self.squareClicked = False
                                 self.mode = "circle"
-                                self.changeBrush()
                         elif self.lineClicked: #If line selected
-                            if xco in range(self.slider_line_x, self.slider_line_x + 9) and yco in range(44, 51): #slider handle clicked
+                            if xco in range(self.slider_x, self.slider_x + 9) and yco in range(44, 51): #slider handle clicked
                                 self.sh_moving = True
                         elif self.textClicked:
-                            if xco in range(238, 304) and yco in range(34, 60):
+                            if xco in range(self.slider_x, self.slider_x + 9) and yco in range(44, 51): #slider handle clicked:
+                                self.sh_moving = True
+                            elif xco in range(770, 787) and yco in range(34, 60):
                                 pygame.image.save(self.screen, "gui/t_screen.png")
                                 self.fontArrowClicked = True
                 elif event.type == MOUSEBUTTONUP: #If mouse up
@@ -3126,60 +3273,33 @@ class main:
         self.line_c = self.color
         self.c += 1
         pygame.display.flip()
-    def changeEraser(self): #Change the eraser
-        self.s = self.slider_eraser_x - 79
-    def eraserSlider(self): #Eraser slider
-        mouse_x, mouse_y = pygame.mouse.get_pos()
-        if mouse_x >= 80 and mouse_x <= 129:
-            self.slider_eraser_x = mouse_x
-            self.slider_x = mouse_x + 207
-            self.slider_line_x = mouse_x + 207
+    def slider(self): #Slider
+        if self.eraserClicked:
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            if mouse_x >= 80 and mouse_x <= 129:
+                self.slider_eraser_x = mouse_x
+                self.slider_x = mouse_x + 207
+            else:
+                if mouse_x < 80:
+                    self.slider_eraser_x = 80
+                    self.slider_x = 287
+                elif mouse_x > 129:
+                    self.slider_eraser_x = 129
+                    self.slider_x = 336
+            self.s = self.slider_eraser_x - 79
         else:
-            if mouse_x < 80:
-                self.slider_eraser_x = 80
-                self.slider_x = 287
-                self.slider_line_x = 287
-            elif mouse_x > 129:
-                self.slider_eraser_x = 129
-                self.slider_x = 336
-                self.slider_line_x = 336
-        self.changeEraser()
-    def changeBrush(self): #Change the brush
-        self.s = self.slider_x - 286
-    def changeLine(self): #Change the line
-        self.s = self.slider_line_x - 286
-    def lineSlider(self): #Line slider
-        mouse_x, mouse_y = pygame.mouse.get_pos()
-        if mouse_x >= 287 and mouse_x <= 336:
-            self.slider_line_x = mouse_x
-            self.slider_x = mouse_x
-            self.slider_eraser_x = mouse_x - 207
-        else:
-            if mouse_x < 287:
-                self.slider_line_x = 287
-                self.slider_x = 287
-                self.slider_eraser_x = 80
-            elif mouse_x > 336:
-                self.slider_line_x = 336
-                self.slider_x = 336
-                self.slider_eraser_x = 129
-        self.changeLine()
-    def brushSlider(self): #Brush slider
-        mouse_x, mouse_y = pygame.mouse.get_pos()
-        if mouse_x >= 287 and mouse_x <= 336:
-            self.slider_x = mouse_x
-            self.slider_line_x = mouse_x
-            self.slider_eraser_x = mouse_x - 207
-        else:
-            if mouse_x < 287:
-                self.slider_x = 287
-                self.slider_line_x = 287
-                self.slider_eraser_x = 80
-            elif mouse_x > 336:
-                self.slider_x = 336
-                self.slider_line_x = 336
-                self.slider_eraser_x = 129
-        self.changeBrush()
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            if mouse_x >= 287 and mouse_x <= 336:
+                self.slider_x = mouse_x
+                self.slider_eraser_x = mouse_x - 207
+            else:
+                if mouse_x < 287:
+                    self.slider_x = 287
+                    self.slider_eraser_x = 80
+                elif mouse_x > 336:
+                    self.slider_x = 336
+                    self.slider_eraser_x = 129
+            self.s = self.slider_x - 286
     def getToolString(self): #Convert the selected tool to string to store in properties
         if self.brushClicked:
             return "brush"
@@ -3249,6 +3369,8 @@ class main:
             os.remove("gui/screen.png")
         if os.path.exists("gui/t_screen.png"):
             os.remove("gui/t_screen.png")
+        if os.path.exists("gui/typing.png"):
+            os.remove("gui/typing.png")
     def update(self): #Delete existing java files
         if os.path.exists("javaTest.bat"):
             os.remove("javaTest.bat")
@@ -3667,8 +3789,9 @@ class main:
                     break
         return name, family
     def typer(self):
+        self.screen.blit(pygame.image.load("gui/typing.png").convert_alpha(), (0,0))
         self.typePos = (self.points[0][0],self.points[0][1])
-        self.font = pygame.font.SysFont(self.selectedFont, 12, False, False)
+        self.font = pygame.font.SysFont(self.selectedFont, self.s, False, False)
         tr = self.font.render(self.text, 1, self.color)
         self.screen.blit(tr, self.typePos)
         print(str(self.typePos[0]) + "," + str(self.typePos[1]) + "\t" + self.text)
@@ -3698,12 +3821,7 @@ class main:
                     self.typer()
                 pygame.display.flip()         #Update screen
                 if self.sh_moving == True:    #slider moving
-                    if self.eraserClicked:    #Eraser tool
-                        self.eraserSlider()
-                    elif self.brushClicked:    #brush tool
-                        self.brushSlider()
-                    elif self.lineClicked:    #line tool
-                        self.lineSlider()
+                    self.slider()
                 self.gui(self.width, self.height)   #Update gui
                 pygame.display.flip()         #update screen again
 main()    #initialize program
