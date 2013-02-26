@@ -1750,7 +1750,7 @@ class main:
             root = Tk() #Tkinter root menu
             self.window_w = root.winfo_screenwidth() #Screen width
             self.window_h = root.winfo_screenheight() #Screen height
-            if (float(self.window_w)/float(self.window_h)) == (16/9): #If the width/height ration is 16/9 (widescreen), set size to 1280,720
+            if (float(self.window_w)/float(self.window_h)) == (16/9): #If the width/height ratio is 16/9 (widescreen), set size to 1280,720
                 self.width = 1280
                 self.height = 720
             else: #Otherwise set it to 1080,720
@@ -1788,6 +1788,16 @@ class main:
             self.yellowFillSelected = False
             self.tealFillSelected = False
             self.purpleFillSelected = False
+            self.whiteOutlineSelected = True  #Change to false after positioning
+            self.blackOutlineSelected = False
+            self.redOutlineSelected = False
+            self.orangeOutlineSelected = False
+            self.limeOutlineSelected = False
+            self.greenOutlineSelected = False
+            self.blueOutlineSelected = False
+            self.tealOutlineSelected = False
+            self.purpleOutlineSelected = False
+            self.yellowOutlineSelected = False
             #slider x locations
             self.slider_x = 287
             self.slider_eraser_x = 80
@@ -1951,6 +1961,33 @@ class main:
                 elif self.yellowSelected:
                     self.screen.blit(pygame.image.load("gui/yellow_box.png").convert_alpha(), (80,34))
                 self.screen.blit(pygame.image.load("gui/arrow.png").convert_alpha(), (213,34))
+                flf = pygame.font.SysFont("Arial", 17, False, False)
+                fl = flf.render("Outline", 1, self.black)
+                self.screen.blit(fl, (240, 34))
+                self.screen.blit(pygame.image.load("gui/slider.png").convert_alpha(), (290,38))
+                self.screen.blit(pygame.image.load("gui/slider_handle.png").convert_alpha(), (self.slider_x, 44))
+                ol = flf.render("Outline Color", 1, self.black)
+                self.screen.blit(ol, (295, 38))
+                if self.whiteOutlineSelected:
+                    self.screen.blit(pygame.image.load("gui/white_box.png").convert_alpha(), (395, 34))
+                elif self.blackOutlineSelected:
+                    self.screen.blit(pygame.image.load("gui/black_box.png").convert_alpha(), (395,34))
+                elif self.redOutlineSelected:
+                    self.screen.blit(pygame.image.load("gui/red_box.png").convert_alpha(), (395,34))
+                elif self.orangeOutlineSelected:
+                    self.screen.blit(pygame.image.load("gui/orange_box.png").convert_alpha(), (395,34))
+                elif self.limeOutlineSelected:
+                    self.screen.blit(pygame.image.load("gui/lime_box.png").convert_alpha(), (395,34))
+                elif self.greenOutlineSelected:
+                    self.screen.blit(pygame.image.load("gui/green_box.png").convert_alpha(), (395,34))
+                elif self.blueOutlineSelected:
+                    self.screen.blit(pygame.image.load("gui/blue_box.png").convert_alpha(), (395,34))
+                elif self.tealOutlineSelected:
+                    self.screen.blit(pygame.image.load("gui/teal_box.png").convert_alpha(), (395,34))
+                elif self.purpleOutlineSelected:
+                    self.screen.blit(pygame.image.load("gui/purple_box.png").convert_alpha(), (395,34))
+                elif self.yellowOutlineSelected:
+                    self.screen.blit(pygame.image.load("gui/yellow_box.png").convert_alpha(), (395,34))
             if self.ellipseClicked == False:
                 self.screen.blit(pygame.image.load("gui/ellipse.png").convert_alpha(), (3,150))
             else:
