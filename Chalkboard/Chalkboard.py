@@ -8,8 +8,10 @@
 #   Line color changing
 #   Circle/Ellipse color changing fix
 #   Shape outline
-#   Stamping/Clip art
 #   Text
+#
+#Clip art postponed until 3.0 or later as we need to have access to
+#a larger clip art database.
 #
 #Text tool complete
 #
