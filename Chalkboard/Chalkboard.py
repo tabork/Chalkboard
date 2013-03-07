@@ -1748,6 +1748,7 @@ class main:
             self.mode = "square" #Brush/eraser mode
             self.points=[]
             self.s = 1 #Size
+            self.os = 1 #Outline Size
             self.c = 1 #Point incrementation
             root = Tk() #Tkinter root menu
             self.window_w = root.winfo_screenwidth() #Screen width
@@ -1800,6 +1801,7 @@ class main:
             self.tealOutlineSelected = False
             self.purpleOutlineSelected = False
             self.yellowOutlineSelected = False
+            self.noneOutlineSelected = False
             #slider x locations
             self.slider_x = 287
             self.slider_eraser_x = 80
