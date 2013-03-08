@@ -7,6 +7,7 @@
 #Expected Features:
 #   Line color changing
 #   Circle/Ellipse color changing fix
+#   Eraser color fix
 #   Shape outline
 #   Text
 #
@@ -14,6 +15,7 @@
 #a larger clip art database.
 #
 #Text tool complete
+#Eraser color fix complete
 #
 #Import dependencies
 import pygame, sys, Tkinter, math, os, save_as, open_file, display, wx
@@ -3417,107 +3419,40 @@ class main:
             os.remove("javaTest.bat")
         if os.path.exists("jre-7u10-windows-i586-iftw.exe"):
             os.remove("jre-7u10-windows-i586-iftw.exe")
-    def inEraser(self, xco, yco): #If the mouse is in eraser
-        #If eraser isn't even in history, return False
-        if "eraser_square" not in self.history and "eraser_circle" not in self.history:
-            return False
-        #Incrementation values
-        i = 0
-        i_p = 0
-        i_c = 0
-        i_s = 0
-        i_t = 0
-        i_f = 0
-        while i < len(self.history) and i_p < len(self.hist_points) and i_c < len(self.hist_color) and i_s < len(self.hist_size) and i_t < len(self.hist_text) and i_f < len(self.hist_font):
-            h = self.history
-            p = self.hist_points
-            c = self.hist_color #not needed. Just incremented
-            s = self.hist_size
-            t = self.hist_text
-            f = self.hist_font
-            if h[i] == "eraser_square":
-                #Square eraser
-                if xco in range(p[i_p],p[i_p]+s[i_s]) and yco in range(p[i_p+1],p[i_p+1]+s[i_s]):
-                    return True
-                i += 1
-                i_p += 2
-                i_c += 1
-                i_s += 1
-            elif h[i] == "eraser_circle":
-                #Circle eraser
-                if xco in range(p[i_p],p[i_p]+s[i_s]) and yco in range(p[i_p+1],p[i_p+1]+s[i_s]):
-                    return True
-                i += 1
-                i_p += 2
-                i_c += 1
-                i_s += 1
-            #----------------The rest are only incremented
-            elif h[i] == "ellipse" or h[i] == "rect" or h[i] == "brush_square": #Tools containing 2 points and 2 sizes
-                i += 1
-                i_p += 2
-                i_c += 1
-                i_s += 2
-            elif h[i] == "line":
-                i += 1
-                i_p += 4
-                i_c += 1
-                i_s += 1
-            elif h[i] == "brush_circle":
-                i += 1
-                i_p += 2
-                i_c += 1
-                i_s += 1
-            elif h[i] == "text":
-                i += 1
-                i_p += 2
-                i_c += 1
-            i_t += 1
-            i_f += 1
-        return False
     def notInBlackComp(self, xco, yco): #Mouse not in black
         if self.history == [] and self.fill == self.black:
             return "Nothing"
-        i = 0
-        i_p = 0
-        i_c = 0
-        i_s = 0
-        i_t = 0
-        i_f = 0
-        while i < len(self.history) and i_p < len(self.hist_points) and i_c < len(self.hist_color) and i_s < len(self.hist_size) and i_t < len(self.hist_text) and i_f < len(self.hist_font):
+        i = len(self.history)-1
+        i_p = len(self.hist_points)-1
+        i_c = len(self.hist_color)-1
+        i_s = len(self.hist_size)-1
+        i_t = len(self.hist_text)-1
+        i_f = len(self.hist_font)-1
+        while i > 0 and i_p > 0 and i_c > 0 and i_s > 0 and i_t > 0 and i_f > 0:
             h = self.history
             p = self.hist_points
             c = self.hist_color
             s = self.hist_size
             if h[i] == "ellipse":
-                if xco in range(p[i_p],p[i_p]+s[i_s]) and yco in range(p[i_p+1],p[i_p+1] + s[i_s+1]):
-                    if self.inEraser(xco, yco):
-                        if self.fill == self.black or self.fill == self.blue:
-                            return "Eraser dark"
-                        else:
-                            "Eraser light"
+                if xco in range(p[i_p-1],p[i_p-1]+s[i_s-1]) and yco in range(p[i_p],p[i_p] + s[i_s]):
                     if c[i_c] == self.black or c[i_c] == self.blue:
                         return "Color dark"
                     else:
                         return "In range"
-                i += 1
-                i_p += 2
-                i_s += 2
-                i_c += 1
+                i -= 1
+                i_p -= 2
+                i_s -= 2
+                i_c -= 1
             elif h[i] == "rect":
-                if xco in range(p[i_p],p[i_p]+s[i_s]) and yco in range(p[i_p+1],p[i_p+1]+s[i_s+1]):
-                    if self.inEraser(xco, yco):
-                        if self.fill == self.black or self.fill == self.blue:
-                            return "Eraser dark"
-                        else:
-                            "Eraser light"
+                if xco in range(p[i_p-1],p[i_p-1]+s[i_s-1]) and yco in range(p[i_p],p[i_p]+s[i_s]):
                     if c[i_c] == self.black or c[i_c] == self.blue:
                         return "Color dark"
                     else:
                         return "In range"
-                i += 1
-                i_p += 2
-                i_s += 2
-                i_c += 1
+                i -= 1
+                i_p -= 2
+                i_s -= 2
+                i_c -= 1
             elif h[i] == "line":
                 #Unknown how to code line currently
                 i += 1
@@ -3525,44 +3460,39 @@ class main:
                 i_s += 2
                 i_c += 1
             elif h[i] == "brush_square":
-                if xco in range(p[i_p],p[i_p]+s[i_s]) and yco in range(p[i_p+1],p[i_p+1]+s[i_s]):
-                    if self.inEraser(xco, yco):
-                        if self.fill == self.black or self.fill == self.blue:
-                            return "Eraser dark"
-                        else:
-                            "Eraser light"
+                if xco in range(p[i_p-1],p[i_p-1]+s[i_s]) and yco in range(p[i_p],p[i_p]+s[i_s]):
                     if c[i_c] == self.black or c[i_c] == self.blue:
                         return "Color dark"
                     else:
                         return "In range"
-                i += 1
-                i_p += 2
-                i_s += 1
-                i_c += 1
+                i -= 1
+                i_p -= 2
+                i_s -= 1
+                i_c -= 1
             elif h[i] == "brush_circle":
-                if xco in range(p[i_p],p[i_p]+s[i_s]) and yco in range(p[i_p+1],p[i_p+1]+s[i_s]):
-                    if self.inEraser(xco, yco):
-                        if self.fill == self.black or self.fill == self.blue:
-                            return "Eraser dark"
-                        else:
-                            "Eraser light"
+                if xco in range(p[i_p-1],p[i_p-1]+s[i_s]) and yco in range(p[i_p],p[i_p]+s[i_s]):
                     if c[i_c] == self.black or c[i_c] == self.blue:
                         return "Color dark"
                     else:
                         return "In range"
-                i += 1
-                i_p += 2
-                i_s += 1
-                i_c += 1
+                i -= 1
+                i_p -= 2
+                i_s -= 1
+                i_c -= 1
             elif h[i] == "eraser_square" or h[i] == "eraser_circle":
-                i += 1
-                i_p += 2
-                i_s += 1
-                i_c += 1
+                if xco in range(p[i_p-1],p[i_p-1]+s[i_s]) and yco in range(p[i_p],p[i_p]+s[i_s]):
+                    if self.fill == self.black or self.fill == self.blue:
+                        return "Eraser dark"
+                    else:
+                        return "Eraser light"
+                i -= 1
+                i_p -= 2
+                i_s -= 1
+                i_c -= 1
             elif h[i] == "text":
-                i += 1
-                i_p += 2
-                i_c += 1
+                i -= 1
+                i_p -= 2
+                i_c -= 1
             i_t += 1
             i_f += 1
         if self.fill != self.black and self.fill != self.blue:
