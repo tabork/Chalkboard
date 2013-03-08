@@ -3315,6 +3315,7 @@ class main:
         self.line_s = self.s
         self.line_c = self.color
         self.c += 1
+        print("(" + str(self.point1) + "," + str(self.point2) + ")\t(" + str(self.point3) + "," + str(self.point4) + ")\t" + str(self.line_s))
         pygame.display.flip()
     def slider(self): #Slider
         if self.eraserClicked:
@@ -3420,8 +3421,11 @@ class main:
         if os.path.exists("jre-7u10-windows-i586-iftw.exe"):
             os.remove("jre-7u10-windows-i586-iftw.exe")
     def notInBlackComp(self, xco, yco): #Mouse not in black
-        if self.history == [] and self.fill == self.black:
-            return "Nothing"
+        if len(self.history) == 0:
+            if self.fill == self.black or self.fill == self.blue:
+                return "Nothing, dark"
+            else:
+                return "Nothing, light"
         i = len(self.history)-1
         i_p = len(self.hist_points)-1
         i_c = len(self.hist_color)-1
@@ -3455,10 +3459,10 @@ class main:
                 i_c -= 1
             elif h[i] == "line":
                 #Unknown how to code line currently
-                i += 1
-                i_p += 4
-                i_s += 2
-                i_c += 1
+                i -= 1
+                i_p -= 4
+                i_s -= 2
+                i_c -= 1
             elif h[i] == "brush_square":
                 if xco in range(p[i_p-1],p[i_p-1]+s[i_s]) and yco in range(p[i_p],p[i_p]+s[i_s]):
                     if c[i_c] == self.black or c[i_c] == self.blue:
@@ -3501,8 +3505,10 @@ class main:
             return "Fill dark, not in range"
     def notInBlack(self, xco, yco): #Convert string values from notInBlackComp(not in black compilation) to boolean
         xibc = self.notInBlackComp(xco,yco)
-        if xibc == "Nothing":
+        if xibc == "Nothing, dark":
             return False
+        elif xibc == "Nothing, light":
+            return True
         elif xibc == "Eraser dark":
             return False
         elif xibc == "Eraser light":
