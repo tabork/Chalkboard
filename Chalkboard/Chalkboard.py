@@ -1650,7 +1650,8 @@ class main:
             c = list(pygame.font.match_font(fa[i]))
             if (c[len(c)-1] == 'f' or c[len(c)-1] == 'F'):
                 fn = self.getFontName(ttLib.TTFont(pygame.font.match_font(fa[i])))[0]
-                if fn != "Wingdings 3" and fn != "Wingdings 2" and fn != "Wingdings" and fn != "Symbol":
+                if (fn != "Wingdings 3" and fn != "Wingdings 2" and fn != "Wingdings" and fn != "Symbol" and fn != "MS Outlook" and fn != "jbn_boot" and fn != "ZWAdobeF" and fn != "kor_boot"
+                    and fn != "cht_boot" and fn != "chs_boot" and fn != "wgl4_boot" and fn != "MS Reference Specialty" and fn != "Bookshelf Symbol 7" and fn != "Webdings" and fn != "jpn_boot"):
                     self.fontNames.append(fn)
             i += 1
         ii = 0
@@ -1750,7 +1751,6 @@ class main:
             self.mode = "square" #Brush/eraser mode
             self.points=[]
             self.s = 1 #Size
-            self.os = 1 #Outline Size
             self.c = 1 #Point incrementation
             root = Tk() #Tkinter root menu
             self.window_w = root.winfo_screenwidth() #Screen width
@@ -1793,7 +1793,7 @@ class main:
             self.yellowFillSelected = False
             self.tealFillSelected = False
             self.purpleFillSelected = False
-            self.whiteOutlineSelected = True  #Change to false after positioning
+            self.whiteOutlineSelected = False 
             self.blackOutlineSelected = False
             self.redOutlineSelected = False
             self.orangeOutlineSelected = False
@@ -1804,6 +1804,7 @@ class main:
             self.purpleOutlineSelected = False
             self.yellowOutlineSelected = False
             self.noneOutlineSelected = False
+            self.outlineArrowClicked = False
             #slider x locations
             self.slider_x = 287
             self.slider_eraser_x = 80
@@ -1820,6 +1821,8 @@ class main:
             self.hist_size = []
             self.hist_font = []
             self.hist_text = []
+            self.hist_oc = []
+            self.hist_os = []
             self.ell_type = 0
             self.rc = 0
             self.rw = 0
@@ -1831,12 +1834,15 @@ class main:
             self.rect_w = 0
             self.rect_h = 0
             self.rect_c = self.black
+            self.rect_oc = self.black
+            self.rect_os = self.s
             self.line_s = 0
             self.line_c = (0,0,0)
             self.cx = self.width-50 #Clear button position
             self.fax = self.cx-22 #Fill arrow position
             self.fx = self.fax-136 #Fill positions
             self.ffx = self.fx-100 #Fill text position
+            self.outline_color = "None"
             #Text tool variables
             self.fontNames = []
             self.fontPositions = []
@@ -1879,6 +1885,26 @@ class main:
             i_l += 1
         self.screen.blit(pygame.image.load("gui/up.png").convert_alpha(), (764, 75))
         self.screen.blit(pygame.image.load("gui/down.png").convert_alpha(), (764, 155))
+    #Resize screen on video resize
+    def resizeScreen(self, s):
+        pygame.image.save(self.screen,"gui/fs_screen.png") #Save temporary image
+        self.screen = pygame.display.set_mode(s, RESIZABLE, 0) #Resize screen to the size changed by user
+        pygame.display.flip() #Update screen
+        self.width, self.height = s #set the width and height to the event size for the gui
+        if self.width < self.window_w/2: #If the width is less than half of the total screen size
+            self.width = self.window_w/2;
+            self.screen = pygame.display.set_mode((self.width,self.height), RESIZABLE, 0)
+        self.cx = self.width-50 #Clear button position
+        self.fax = self.cx-22 #Fill arrow position
+        self.fx = self.fax-136 #Fill positions
+        self.ffx = self.fx-100 #Fill text position
+        if self.height < 185: #If the height is less than 185, set it to 185
+            self.height = 185
+            self.screen = pygame.display.set_mode((self.width,self.height),RESIZABLE,0)
+        #Reset gui and add temp. pic to screen
+        self.gui(self.width, self.height)
+        self.screen.fill(self.fill)
+        self.screen.blit(pygame.image.load("gui/fs_screen.png").convert_alpha(),(0,0))
     #Update gui
     def gui(self, width, height):
         if self.saving == False:
@@ -1968,32 +1994,36 @@ class main:
                     self.screen.blit(pygame.image.load("gui/yellow_box.png").convert_alpha(), (80,34))
                 self.screen.blit(pygame.image.load("gui/arrow.png").convert_alpha(), (213,34))
                 flf = pygame.font.SysFont("Arial", 17, False, False)
-                fl = flf.render("Outline", 1, self.black)
-                self.screen.blit(fl, (240, 34))
-                self.screen.blit(pygame.image.load("gui/slider.png").convert_alpha(), (290,38))
-                self.screen.blit(pygame.image.load("gui/slider_handle.png").convert_alpha(), (self.slider_x, 44))
+                if self.noneOutlineSelected == False:
+                    fl = flf.render("Outline", 1, self.black)
+                    self.screen.blit(fl, (240, 34))
+                    self.screen.blit(pygame.image.load("gui/slider.png").convert_alpha(), (290,38))
+                    self.screen.blit(pygame.image.load("gui/slider_handle.png").convert_alpha(), (self.slider_x, 44))
                 ol = flf.render("Outline Color", 1, self.black)
-                self.screen.blit(ol, (295, 38))
+                self.screen.blit(ol, (360, 35))
                 if self.whiteOutlineSelected:
-                    self.screen.blit(pygame.image.load("gui/white_box.png").convert_alpha(), (395, 34))
+                    self.screen.blit(pygame.image.load("gui/white_box.png").convert_alpha(), (460, 34))
                 elif self.blackOutlineSelected:
-                    self.screen.blit(pygame.image.load("gui/black_box.png").convert_alpha(), (395,34))
+                    self.screen.blit(pygame.image.load("gui/black_box.png").convert_alpha(), (460,34))
                 elif self.redOutlineSelected:
-                    self.screen.blit(pygame.image.load("gui/red_box.png").convert_alpha(), (395,34))
+                    self.screen.blit(pygame.image.load("gui/red_box.png").convert_alpha(), (460,34))
                 elif self.orangeOutlineSelected:
-                    self.screen.blit(pygame.image.load("gui/orange_box.png").convert_alpha(), (395,34))
+                    self.screen.blit(pygame.image.load("gui/orange_box.png").convert_alpha(), (460,34))
                 elif self.limeOutlineSelected:
-                    self.screen.blit(pygame.image.load("gui/lime_box.png").convert_alpha(), (395,34))
+                    self.screen.blit(pygame.image.load("gui/lime_box.png").convert_alpha(), (460,34))
                 elif self.greenOutlineSelected:
-                    self.screen.blit(pygame.image.load("gui/green_box.png").convert_alpha(), (395,34))
+                    self.screen.blit(pygame.image.load("gui/green_box.png").convert_alpha(), (460,34))
                 elif self.blueOutlineSelected:
-                    self.screen.blit(pygame.image.load("gui/blue_box.png").convert_alpha(), (395,34))
+                    self.screen.blit(pygame.image.load("gui/blue_box.png").convert_alpha(), (460,34))
                 elif self.tealOutlineSelected:
-                    self.screen.blit(pygame.image.load("gui/teal_box.png").convert_alpha(), (395,34))
+                    self.screen.blit(pygame.image.load("gui/teal_box.png").convert_alpha(), (460,34))
                 elif self.purpleOutlineSelected:
-                    self.screen.blit(pygame.image.load("gui/purple_box.png").convert_alpha(), (395,34))
+                    self.screen.blit(pygame.image.load("gui/purple_box.png").convert_alpha(), (460,34))
                 elif self.yellowOutlineSelected:
-                    self.screen.blit(pygame.image.load("gui/yellow_box.png").convert_alpha(), (395,34))
+                    self.screen.blit(pygame.image.load("gui/yellow_box.png").convert_alpha(), (460,34))
+                elif self.noneOutlineSelected:
+                    self.screen.blit(pygame.image.load("gui/none_box.png").convert_alpha(), (460,34))
+                self.screen.blit(pygame.image.load("gui/arrow.png").convert_alpha(), (596, 34))
             if self.ellipseClicked == False:
                 self.screen.blit(pygame.image.load("gui/ellipse.png").convert_alpha(), (3,150))
             else:
@@ -2020,6 +2050,37 @@ class main:
                 elif self.yellowSelected:
                     self.screen.blit(pygame.image.load("gui/yellow_box.png").convert_alpha(), (80,34))
                 self.screen.blit(pygame.image.load("gui/arrow.png").convert_alpha(), (213,34))
+                flf = pygame.font.SysFont("Arial", 17, False, False)
+                if self.noneOutlineSelected == False:
+                    fl = flf.render("Outline", 1, self.black)
+                    self.screen.blit(fl, (240, 34))
+                    self.screen.blit(pygame.image.load("gui/slider.png").convert_alpha(), (290,38))
+                    self.screen.blit(pygame.image.load("gui/slider_handle.png").convert_alpha(), (self.slider_x, 44))
+                ol = flf.render("Outline Color", 1, self.black)
+                self.screen.blit(ol, (360, 35))
+                if self.whiteOutlineSelected:
+                    self.screen.blit(pygame.image.load("gui/white_box.png").convert_alpha(), (460, 34))
+                elif self.blackOutlineSelected:
+                    self.screen.blit(pygame.image.load("gui/black_box.png").convert_alpha(), (460,34))
+                elif self.redOutlineSelected:
+                    self.screen.blit(pygame.image.load("gui/red_box.png").convert_alpha(), (460,34))
+                elif self.orangeOutlineSelected:
+                    self.screen.blit(pygame.image.load("gui/orange_box.png").convert_alpha(), (460,34))
+                elif self.limeOutlineSelected:
+                    self.screen.blit(pygame.image.load("gui/lime_box.png").convert_alpha(), (460,34))
+                elif self.greenOutlineSelected:
+                    self.screen.blit(pygame.image.load("gui/green_box.png").convert_alpha(), (460,34))
+                elif self.blueOutlineSelected:
+                    self.screen.blit(pygame.image.load("gui/blue_box.png").convert_alpha(), (460,34))
+                elif self.tealOutlineSelected:
+                    self.screen.blit(pygame.image.load("gui/teal_box.png").convert_alpha(), (460,34))
+                elif self.purpleOutlineSelected:
+                    self.screen.blit(pygame.image.load("gui/purple_box.png").convert_alpha(), (460,34))
+                elif self.yellowOutlineSelected:
+                    self.screen.blit(pygame.image.load("gui/yellow_box.png").convert_alpha(), (460,34))
+                elif self.noneOutlineSelected:
+                    self.screen.blit(pygame.image.load("gui/none_box.png").convert_alpha(), (460,34))
+                self.screen.blit(pygame.image.load("gui/arrow.png").convert_alpha(), (596, 34))
             if self.lineClicked == False:
                 self.screen.blit(pygame.image.load("gui/line.png").convert_alpha(), (3, 180))
             else:
@@ -2132,11 +2193,22 @@ class main:
                 self.screen.blit(pygame.image.load("gui/teal_box.png").convert_alpha(), (self.fx,194))
                 self.screen.blit(pygame.image.load("gui/purple_box.png").convert_alpha(), (self.fx,214))
                 self.screen.blit(pygame.image.load("gui/yellow_box.png").convert_alpha(), (self.fx, 234))
-                pygame.display.set_caption(self.title)
             if self.fileClicked:
                 self.screen.blit(pygame.image.load("gui/save_as.png").convert_alpha(), (0,25))
                 self.screen.blit(pygame.image.load("gui/save.png").convert_alpha(), (0,45))
                 self.screen.blit(pygame.image.load("gui/open.png").convert_alpha(), (0, 65))
+            if self.outlineArrowClicked:
+                self.screen.blit(pygame.image.load("gui/white_box.png").convert_alpha(), (460,54))
+                self.screen.blit(pygame.image.load("gui/black_box.png").convert_alpha(), (460,74))
+                self.screen.blit(pygame.image.load("gui/red_box.png").convert_alpha(), (460,94))
+                self.screen.blit(pygame.image.load("gui/orange_box.png").convert_alpha(), (460,114))
+                self.screen.blit(pygame.image.load("gui/lime_box.png").convert_alpha(), (460,134))
+                self.screen.blit(pygame.image.load("gui/green_box.png").convert_alpha(), (460,154))
+                self.screen.blit(pygame.image.load("gui/blue_box.png").convert_alpha(), (460,174))
+                self.screen.blit(pygame.image.load("gui/teal_box.png").convert_alpha(), (460,194))
+                self.screen.blit(pygame.image.load("gui/purple_box.png").convert_alpha(), (460,214))
+                self.screen.blit(pygame.image.load("gui/yellow_box.png").convert_alpha(), (460, 234))
+                self.screen.blit(pygame.image.load("gui/none_box.png").convert_alpha(), (460, 254))
         if self.fontArrowClicked:
             self.updateFontGui()
         pygame.display.flip()
@@ -2288,6 +2360,35 @@ class main:
             ft = open("properties/font.txt", "w")
             ft.write("Times New Roman")
             self.selectedFont = "Times New Roman"
+        if os.path.exists("properties/outline_color.txt"):
+            oc = open("properties/outline_color.txt", "r")
+            ocs = oc.read()
+            if ocs == "None":
+                self.noneOutlineSelected = True
+                self.outline_color = self.white
+            else:
+                c = self.getColor(ocs)
+                if c == self.white:
+                    self.whiteOutlineSelected = True
+                elif c == self.black:
+                    self.blackOutlineSelected = True
+                elif c == self.red:
+                    self.redOutlineSelected = True
+                elif c == self.orange:
+                    self.orangeOutlineSelected = True
+                elif c == self.lime:
+                    self.limeOutlineSelected = True
+                elif c == self.green:
+                    self.greenOutlineSelected = True
+                elif c == self.blue:
+                    self.blueOutlineSelected = True
+                elif c == self.teal:
+                    self.tealOutlineSelected = True
+                elif c == self.purple:
+                    self.purpleOutlineSelected = True
+                elif c == self.yellow:
+                    self.yellowOutlineSelected = True
+                self.outline_color = c
         self.screen.fill(self.fill)
         pygame.display.flip()
     #Setup application
@@ -2686,6 +2787,8 @@ class main:
                                 self.arrowClicked = False
                                 self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
                                 self.color = self.yellow
+                elif event.type == VIDEORESIZE: #If screen resized
+                    self.resizeScreen(event.size)
         elif self.fillArrowClicked: #If the fill arrow is clicked
             for event in pygame.event.get():
                 if event.type == QUIT: #If the X is clicked
@@ -2707,6 +2810,8 @@ class main:
                                 pygame.image.save(self.screen, "gui/menu_screen.png")
                         elif xco in range(self.fx,self.fx+131): #If within fill color options
                             self.fillScreen(yco) #Fill screen
+                elif event.type == VIDEORESIZE: #If screen resized
+                    self.resizeScreen(event.size)
         elif self.fileClicked: #If file menu button clicked
             for event in pygame.event.get():
                 if event.type == QUIT: #If the X is clicked
@@ -2732,6 +2837,8 @@ class main:
                             self.save()
                         elif xco in range(0,136) and yco in range(65,85): #Open
                             self.open_it()
+                elif event.type == VIDEORESIZE: #If screen resized
+                    self.resizeScreen(event.size)
         elif self.fontArrowClicked:
             for event in pygame.event.get():
                 if event.type == QUIT: #If X is clicked
@@ -2771,6 +2878,188 @@ class main:
                         else:
                             self.screen.blit(pygame.image.load("gui/t_screen.png").convert_alpha(), (0,0))
                             self.fontArrowClicked = False
+                elif event.type == VIDEORESIZE: #If screen resized
+                    self.resizeScreen(event.size)
+        elif self.outlineArrowClicked:
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    self.updateFiles() #Update files
+                    pygame.quit() #Quit program
+                    sys.exit()
+                elif event.type == MOUSEBUTTONDOWN:
+                    (button1, button2, button3) = pygame.mouse.get_pressed()
+                    if button1:
+                        xco, yco = event.pos
+                        if xco in range(460,591):
+                            if yco in range(54, 74):
+                                self.whiteOutlineSelected = True
+                                self.blackOutlineSelected = False
+                                self.redOutlineSelected = False
+                                self.orangeOutlineSelected = False
+                                self.limeOutlineSelected = False
+                                self.greenOutlineSelected = False
+                                self.blueOutlineSelected = False
+                                self.tealOutlineSelected = False
+                                self.purpleOutlineSelected = False
+                                self.yellowOutlineSelected = False
+                                self.noneOutlineSelected = False
+                                self.outlineArrowClicked = False
+                                self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
+                                self.outline_color = self.white
+                            elif yco in range(75,94):
+                                self.whiteOutlineSelected = False
+                                self.blackOutlineSelected = True
+                                self.redOutlineSelected = False
+                                self.orangeOutlineSelected = False
+                                self.limeOutlineSelected = False
+                                self.greenOutlineSelected = False
+                                self.blueOutlineSelected = False
+                                self.tealOutlineSelected = False
+                                self.purpleOutlineSelected = False
+                                self.yellowOutlineSelected = False
+                                self.noneOutlineSelected = False
+                                self.outlineArrowClicked = False
+                                self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
+                                self.outline_color = self.black
+                            elif yco in range(95,114):
+                                self.whiteOutlineSelected = False
+                                self.blackOutlineSelected = False
+                                self.redOutlineSelected = True
+                                self.orangeOutlineSelected = False
+                                self.limeOutlineSelected = False
+                                self.greenOutlineSelected = False
+                                self.blueOutlineSelected = False
+                                self.tealOutlineSelected = False
+                                self.purpleOutlineSelected = False
+                                self.yellowOutlineSelected = False
+                                self.noneOutlineSelected = False
+                                self.outlineArrowClicked = False
+                                self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
+                                self.outline_color = self.red
+                            elif yco in range(115,134):
+                                self.whiteOutlineSelected = False
+                                self.blackOutlineSelected = False
+                                self.redOutlineSelected = False
+                                self.orangeOutlineSelected = True
+                                self.limeOutlineSelected = False
+                                self.greenOutlineSelected = False
+                                self.blueOutlineSelected = False
+                                self.tealOutlineSelected = False
+                                self.purpleOutlineSelected = False
+                                self.yellowOutlineSelected = False
+                                self.noneOutlineSelected = False
+                                self.outlineArrowClicked = False
+                                self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
+                                self.outline_color = self.orange
+                            elif yco in range(135,154):
+                                self.whiteOutlineSelected = False
+                                self.blackOutlineSelected = False
+                                self.redOutlineSelected = False
+                                self.orangeOutlineSelected = False
+                                self.limeOutlineSelected = True
+                                self.greenOutlineSelected = False
+                                self.blueOutlineSelected = False
+                                self.tealOutlineSelected = False
+                                self.purpleOutlineSelected = False
+                                self.yellowOutlineSelected = False
+                                self.noneOutlineSelected = False
+                                self.outlineArrowClicked = False
+                                self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
+                                self.outline_color = self.lime
+                            elif yco in range(155, 174):
+                                self.whiteOutlineSelected = False
+                                self.blackOutlineSelected = False
+                                self.redOutlineSelected = False
+                                self.orangeOutlineSelected = False
+                                self.limeOutlineSelected = False
+                                self.greenOutlineSelected = True
+                                self.blueOutlineSelected = False
+                                self.tealOutlineSelected = False
+                                self.purpleOutlineSelected = False
+                                self.yellowOutlineSelected = False
+                                self.noneOutlineSelected = False
+                                self.outlineArrowClicked = False
+                                self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
+                                self.outline_color = self.green
+                            elif yco in range(175,194):
+                                self.whiteOutlineSelected = False
+                                self.blackOutlineSelected = False
+                                self.redOutlineSelected = False
+                                self.orangeOutlineSelected = False
+                                self.limeOutlineSelected = False
+                                self.greenOutlineSelected = False
+                                self.blueOutlineSelected = True
+                                self.tealOutlineSelected = False
+                                self.purpleOutlineSelected = False
+                                self.yellowOutlineSelected = False
+                                self.noneOutlineSelected = False
+                                self.outlineArrowClicked = False
+                                self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
+                                self.outline_color = self.blue
+                            elif yco in range(195,214):
+                                self.whiteOutlineSelected = False
+                                self.blackOutlineSelected = False
+                                self.redOutlineSelected = False
+                                self.orangeOutlineSelected = False
+                                self.limeOutlineSelected = False
+                                self.greenOutlineSelected = False
+                                self.blueOutlineSelected = False
+                                self.tealOutlineSelected = True
+                                self.purpleOutlineSelected = False
+                                self.yellowOutlineSelected = False
+                                self.noneOutlineSelected = False
+                                self.outlineArrowClicked = False
+                                self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
+                                self.outline_color = self.teal
+                            elif yco in range(215, 234):
+                                self.whiteOutlineSelected = False
+                                self.blackOutlineSelected = False
+                                self.redOutlineSelected = False
+                                self.orangeOutlineSelected = False
+                                self.limeOutlineSelected = False
+                                self.greenOutlineSelected = False
+                                self.blueOutlineSelected = False
+                                self.tealOutlineSelected = False
+                                self.purpleOutlineSelected = True
+                                self.yellowOutlineSelected = False
+                                self.noneOutlineSelected = False
+                                self.outlineArrowClicked = False
+                                self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
+                                self.outline_color = self.purple
+                            elif yco in range(235, 254):
+                                self.whiteOutlineSelected = False
+                                self.blackOutlineSelected = False
+                                self.redOutlineSelected = False
+                                self.orangeOutlineSelected = False
+                                self.limeOutlineSelected = False
+                                self.greenOutlineSelected = False
+                                self.blueOutlineSelected = False
+                                self.tealOutlineSelected = False
+                                self.purpleOutlineSelected = False
+                                self.yellowOutlineSelected = True
+                                self.noneOutlineSelected = False
+                                self.outlineArrowClicked = False
+                                self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
+                                self.outline_color = self.yellow
+                            elif yco in range(255, 274):
+                                self.whiteOutlineSelected = False
+                                self.blackOutlineSelected = False
+                                self.redOutlineSelected = False
+                                self.orangeOutlineSelected = False
+                                self.limeOutlineSelected = False
+                                self.greenOutlineSelected = False
+                                self.blueOutlineSelected = False
+                                self.tealOutlineSelected = False
+                                self.purpleOutlineSelected = False
+                                self.yellowOutlineSelected = False
+                                self.noneOutlineSelected = True
+                                self.outlineArrowClicked = False
+                                self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
+                        if (xco not in range(460,591) or yco not in range(80,274)) or (xco in range(596,613) and yco in range(34,52)):
+                            self.outlineArrowClicked = False
+                            self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
+                elif event.type == VIDEORESIZE: #If screen resized
+                        self.resizeScreen(event.size)
         elif self.typing:
             for event in pygame.event.get():
                 if event.type == QUIT:
@@ -2946,6 +3235,8 @@ class main:
                 elif event.type == KEYUP:
                     if event.key == K_LSHIFT or event.key == K_RSHIFT:
                         self.shift = False
+                elif event.type == VIDEORESIZE: #If screen resized
+                    self.resizeScreen(event.size)
         else: #Normal events
             for event in pygame.event.get():
                 if event.type == QUIT: #If X is clicked
@@ -3032,6 +3323,10 @@ class main:
                             if self.eraserClicked == False: #If eraser isn't selected
                                 pygame.image.save(self.screen, "gui/menu_screen.png")
                                 self.arrowClicked = True
+                        elif xco in range(596,613) and yco in range(34,52): #Outline arrow clicked
+                            if self.rectClicked or self.ellipseClicked or self.lineClicked:
+                                pygame.image.save(self.screen, "gui/menu_screen.png")
+                                self.outlineArrowClicked = True
                         elif xco in range(self.fax,self.fax+17) and yco in range(34,52): #Fill arrow clicked
                             pygame.image.save(self.screen, "gui/menu_screen.png")
                             self.fillArrowClicked = True
@@ -3100,12 +3395,20 @@ class main:
                         elif self.lineClicked: #If line selected
                             if xco in range(self.slider_x, self.slider_x + 9) and yco in range(44, 51): #slider handle clicked
                                 self.sh_moving = True
-                        elif self.textClicked:
-                            if xco in range(self.slider_x, self.slider_x + 9) and yco in range(44, 51): #slider handle clicked:
+                        elif self.textClicked: #If text selected
+                            if xco in range(self.slider_x, self.slider_x + 9) and yco in range(44, 51): #slider handle clicked
                                 self.sh_moving = True
                             elif xco in range(770, 787) and yco in range(34, 60):
                                 pygame.image.save(self.screen, "gui/t_screen.png")
                                 self.fontArrowClicked = True
+                        elif self.rectClicked: #If rectangle selected
+                            if self.noneOutlineSelected == False:
+                                if xco in range(self.slider_x, self.slider_x + 9) and yco in range(44, 51): #slider handle clicked
+                                    self.sh_moving = True
+                        elif self.ellipseClicked: #If ellipse selected
+                            if self.noneOutlineSelected == False:
+                                if xco in range(self.slider_x, self.slider_x + 9) and yco in range(44, 51): #slider handle clicked
+                                    self.sh_moving = True
                 elif event.type == MOUSEBUTTONUP: #If mouse up
                     #Reset dragging and moving
                     self.dragging = False
@@ -3123,6 +3426,8 @@ class main:
                         self.hist_size.append(self.rect_w)
                         self.hist_size.append(self.rect_h)
                         self.hist_color.append(self.rect_c)
+                        self.hist_oc.append(self.rect_oc)
+                        self.hist_os.append(self.rect_os)
                         self.hist_text.append("none")
                         self.hist_font.append("none")
                     elif self.ellipseClicked:
@@ -3163,24 +3468,7 @@ class main:
                     self.rect_h = 0
                     self.line_s = 0
                 elif event.type == VIDEORESIZE: #If screen resized
-                    pygame.image.save(self.screen,"gui/fs_screen.png") #Save temporary image
-                    self.screen = pygame.display.set_mode(event.size, RESIZABLE, 0) #Resize screen to the size changed by user
-                    pygame.display.flip() #Update screen
-                    self.width, self.height = event.size #set the width and height to the event size for the gui
-                    if self.width < self.window_w/2: #If the width is less than half of the total screen size
-                        self.width = self.window_w/2;
-                        self.screen = pygame.display.set_mode((self.width,self.height), RESIZABLE, 0)
-                    self.cx = self.width-50 #Clear button position
-                    self.fax = self.cx-22 #Fill arrow position
-                    self.fx = self.fax-136 #Fill positions
-                    self.ffx = self.fx-100 #Fill text position
-                    if self.height < 185: #If the height is less than 185, set it to 185
-                        self.height = 185
-                        self.screen = pygame.display.set_mode((self.width,self.height),RESIZABLE,0)
-                    #Reset gui and add temp. pic to screen
-                    self.gui(self.width, self.height)
-                    self.screen.fill(self.fill)
-                    self.screen.blit(pygame.image.load("gui/fs_screen.png").convert_alpha(),(0,0))
+                    self.resizeScreen(event.size)
     def rect_drag(self): #Rectangle dragging
         if self.placed == True:
             self.screen.blit(self.scr, (0,0))
@@ -3189,12 +3477,68 @@ class main:
         self.points.append(pygame.mouse.get_pos())
         pos2x = self.points[self.c][0] - self.points[0][0]
         pos2y = self.points[self.c][1] - self.points[0][1]
-        pygame.draw.rect(self.screen, self.color, Rect(self.points[0][0], self.points[0][1], pos2x, pos2y))
-        self.point1 = self.points[0][0]
-        self.point2 = self.points[0][1]
-        self.rect_w = pos2x
-        self.rect_h = pos2y
+        if self.noneOutlineSelected == False:
+            if pos2x > 0 and pos2y > 0:
+                if pos2x > self.s and pos2y > self.s:
+                    pygame.draw.rect(self.screen, self.outline_color, Rect(self.points[0][0], self.points[0][1], pos2x, pos2y))
+                    pygame.draw.rect(self.screen, self.color, Rect(self.points[0][0] + (self.s/2), self.points[0][1] + (self.s/2), pos2x - self.s, pos2y - self.s))
+                else:
+                    pygame.draw.rect(self.screen, self.outline_color, Rect(self.points[0][0], self.points[0][1], pos2x, pos2y))
+                self.point1 = self.points[0][0]
+                self.point2 = self.points[0][1]
+                self.rect_w = pos2x
+                self.rect_h = pos2y
+            elif pos2x < 0 and pos2y > 0:
+                x = pos2x + self.points[0][0]
+                y = self.points[0][1]
+                w = self.points[0][0]-x
+                h = pos2y
+                if w > self.s and h > self.s:
+                    pygame.draw.rect(self.screen, self.outline_color, Rect(x,y,w,h))
+                    pygame.draw.rect(self.screen, self.color, Rect(x + (self.s/2), y + (self.s/2), w - self.s, h - self.s))
+                else:
+                    pygame.draw.rect(self.screen, self.outline_color, Rect(x,y,w,h))
+                self.point1 = x
+                self.point2 = y
+                self.rect_w = w
+                self.rect_h = h
+            elif pos2x > 0 and pos2y < 0:
+                x = self.points[0][0]
+                y = pos2y + self.points[0][1]
+                w = pos2x
+                h = self.points[0][1]-y
+                if w > self.s and h > self.s:
+                    pygame.draw.rect(self.screen, self.outline_color, Rect(x,y,w,h))
+                    pygame.draw.rect(self.screen, self.color, Rect(x + (self.s/2), y + (self.s/2), w - self.s, h - self.s))
+                else:
+                    pygame.draw.rect(self.screen, self.outline_color, Rect(x,y,w,h))
+                self.point1 = x
+                self.point2 = y
+                self.rect_w = w
+                self.rect_h = h
+            elif pos2x < 0 and pos2y < 0:
+                x = pos2x + self.points[0][0]
+                y = pos2y + self.points[0][1]
+                w = self.points[0][0]-x
+                h = self.points[0][1]-y
+                if w > self.s and h > self.s:
+                    pygame.draw.rect(self.screen, self.outline_color, Rect(x,y,w,h))
+                    pygame.draw.rect(self.screen, self.color, Rect(x + (self.s/2), y + (self.s/2), w - self.s, h - self.s))
+                else:
+                    pygame.draw.rect(self.screen, self.outline_color, Rect(x,y,w,h))
+                self.point1 = x
+                self.point2 = y
+                self.rect_w = w
+                self.rect_h = h
+        else:
+            pygame.draw.rect(self.screen, self.color, Rect(self.points[0][0], self.points[0][1], pos2x, pos2y))
+            self.point1 = self.points[0][0]
+            self.point2 = self.points[0][1]
+            self.rect_w = pos2x
+            self.rect_h = pos2y
         self.rect_c = self.color
+        self.rect_oc = self.outline_color
+        self.rect_os = self.s
         self.c += 1
         pygame.display.flip()
     def ellipse_drag(self): #Ellipse dragging
@@ -3206,53 +3550,118 @@ class main:
         self.points.append(pygame.mouse.get_pos())
         rect_width = self.points[self.c][0] - self.points[0][0]
         rect_height = self.points[self.c][1] - self.points[0][1]
-        if rect_height < 0 and rect_width > 0:
-            rect_corner = [self.points[0][0], self.points[self.c][1]]
-            rect_bottom = [self.points[self.c][0], self.points[0][1]]
-            rect_width = rect_bottom[0] - rect_corner[0]
-            rect_height = rect_bottom[1] - rect_corner[1]
-            pygame.draw.ellipse(self.screen, self.color, Rect((rect_corner), (rect_width, rect_height)))
-            self.point1 = rect_corner[0]
-            self.point2 = rect_corner[1]
-        elif rect_height < 0 and rect_width < 0:
-            rect_width = self.points[0][0] - self.points[self.c][0]
-            rect_height = self.points[0][1] - self.points[self.c][1]
-            pygame.draw.ellipse(self.screen, self.color, Rect((self.points[self.c]), (rect_width, rect_height)))
-            self.point1 = self.points[self.c][0]
-            self.point2 = self.points[self.c][1]
-        elif rect_height > 0 and rect_width < 0:
-            rect_corner = [self.points[self.c][0], self.points[0][1]]
-            rect_bottom = [self.points[0][0], self.points[self.c][1]]
-            rect_width = rect_bottom[0] - rect_corner[0]
-            rect_height = rect_bottom[1] - rect_corner[1]
-            pygame.draw.ellipse(self.screen, self.color, Rect((rect_corner), (rect_width, rect_height)))
-            self.point1 = rect_corner[0]
-            self.point2 = rect_corner[1]
-        elif rect_height == 0 and rect_width != 0:
-            pygame.draw.line(self.screen, self.color, self.points[self.c], self.points[0], 4)
-            self.ell_type = 2
-            self.point1 = self.points[self.c][0]
-            self.point2 = self.points[self.c][1]
-            self.point3 = self.points[0][0]
-            self.point4 = self.points[0][1]
-        elif rect_height != 0 and rect_width == 0:
-            pygame.draw.line(self.screen, self.color, self.points[0], self.points[self.c], 4)
-            self.ell_type = 2
-            self.point1 = self.points[0][0]
-            self.point2 = self.points[0][1]
-            self.point3 = self.points[self.c][0]
-            self.point4 = self.points[self.c][1]
-        elif rect_height == 0 and rect_width == 0:
-            pygame.draw.line(self.screen, self.color, self.points[self.c], self.points[0], 4)
-            self.ell_type = 2
-            self.point1 = self.points[self.c][0]
-            self.point2 = self.points[self.c][1]
-            self.point3 = self.points[0][0]
-            self.point4 = self.points[0][1]
+        if self.noneOutlineSelected == False:
+            if rect_height < 0 and rect_width > 0:
+                rect_corner = [self.points[0][0], self.points[self.c][1]]
+                rect_bottom = [self.points[self.c][0], self.points[0][1]]
+                rect_width = rect_bottom[0] - rect_corner[0]
+                rect_height = rect_bottom[1] - rect_corner[1]
+                if rect_width > self.s and rect_height > self.s:
+                    pygame.draw.ellipse(self.screen, self.outline_color, Rect((rect_corner),(rect_width,rect_height)))
+                    pygame.draw.ellipse(self.screen, self.color, Rect((rect_corner[0]+(self.s/2),rect_corner[1]+(self.s/2)), (rect_width-self.s, rect_height-self.s)))
+                else:
+                    pygame.draw.ellipse(self.screen, self.outline_color, Rect((rect_corner),(rect_width,rect_height)))
+                self.point1 = rect_corner[0]
+                self.point2 = rect_corner[1]
+            elif rect_height < 0 and rect_width < 0:
+                rect_width = self.points[0][0] - self.points[self.c][0]
+                rect_height = self.points[0][1] - self.points[self.c][1]
+                if rect_width > self.s and rect_height > self.s:
+                    pygame.draw.ellipse(self.screen, self.outline_color, Rect((self.points[self.c]), (rect_width, rect_height)))
+                    pygame.draw.ellipse(self.screen, self.color, Rect((self.points[self.c][0]+(self.s/2), self.points[self.c][1]+(self.s/2)), (rect_width-self.s, rect_height-self.s)))
+                else:
+                    pygame.draw.ellipse(self.screen, self.outline_color, Rect((self.points[self.c]), (rect_width, rect_height)))
+                self.point1 = self.points[self.c][0]
+                self.point2 = self.points[self.c][1]
+            elif rect_height > 0 and rect_width < 0:
+                rect_corner = [self.points[self.c][0], self.points[0][1]]
+                rect_bottom = [self.points[0][0], self.points[self.c][1]]
+                rect_width = rect_bottom[0] - rect_corner[0]
+                rect_height = rect_bottom[1] - rect_corner[1]
+                if rect_width > self.s and rect_height > self.s:
+                    pygame.draw.ellipse(self.screen, self.outline_color, Rect((rect_corner), (rect_width, rect_height)))
+                    pygame.draw.ellipse(self.screen, self.color, Rect((rect_corner[0]+(self.s/2), rect_corner[1]+(self.s/2)), (rect_width-self.s, rect_height-self.s)))
+                else:
+                    pygame.draw.ellipse(self.screen, self.outline_color, Rect((rect_corner), (rect_width, rect_height)))
+                self.point1 = rect_corner[0]
+                self.point2 = rect_corner[1]
+            elif rect_height == 0 and rect_width != 0:
+                pygame.draw.line(self.screen, self.color, self.points[self.c], self.points[0], 4)
+                self.ell_type = 2
+                self.point1 = self.points[self.c][0]
+                self.point2 = self.points[self.c][1]
+                self.point3 = self.points[0][0]
+                self.point4 = self.points[0][1]
+            elif rect_height != 0 and rect_width == 0:
+                pygame.draw.line(self.screen, self.color, self.points[0], self.points[self.c], 4)
+                self.ell_type = 2
+                self.point1 = self.points[0][0]
+                self.point2 = self.points[0][1]
+                self.point3 = self.points[self.c][0]
+                self.point4 = self.points[self.c][1]
+            elif rect_height == 0 and rect_width == 0:
+                pygame.draw.line(self.screen, self.color, self.points[self.c], self.points[0], 4)
+                self.ell_type = 2
+                self.point1 = self.points[self.c][0]
+                self.point2 = self.points[self.c][1]
+                self.point3 = self.points[0][0]
+                self.point4 = self.points[0][1]
+            else:
+                if rect_width > self.s and rect_height > self.s:
+                    pygame.draw.ellipse(self.screen, self.outline_color, Rect((self.points[0]), (rect_width, rect_height)))
+                    pygame.draw.ellipse(self.screen, self.color, Rect((self.points[0][0]+(self.s/2), self.points[0][1]+(self.s/2)), (rect_width-self.s, rect_height-self.s)))
+                else:
+                    pygame.draw.ellipse(self.screen, self.outline_color, Rect((self.points[0]), (rect_width, rect_height)))
+                self.point1 = self.points[0][0]
+                self.point2 = self.points[0][1]
         else:
-            pygame.draw.ellipse(self.screen, self.color, Rect((self.points[0]), (rect_width, rect_height)))
-            self.point1 = self.points[0][0]
-            self.point2 = self.points[0][1]
+            if rect_height < 0 and rect_width > 0:
+                rect_corner = [self.points[0][0], self.points[self.c][1]]
+                rect_bottom = [self.points[self.c][0], self.points[0][1]]
+                rect_width = rect_bottom[0] - rect_corner[0]
+                rect_height = rect_bottom[1] - rect_corner[1]
+                pygame.draw.ellipse(self.screen, self.color, Rect((rect_corner), (rect_width, rect_height)))
+                self.point1 = rect_corner[0]
+                self.point2 = rect_corner[1]
+            elif rect_height < 0 and rect_width < 0:
+                rect_width = self.points[0][0] - self.points[self.c][0]
+                rect_height = self.points[0][1] - self.points[self.c][1]
+                pygame.draw.ellipse(self.screen, self.color, Rect((self.points[self.c]), (rect_width, rect_height)))
+                self.point1 = self.points[self.c][0]
+                self.point2 = self.points[self.c][1]
+            elif rect_height > 0 and rect_width < 0:
+                rect_corner = [self.points[self.c][0], self.points[0][1]]
+                rect_bottom = [self.points[0][0], self.points[self.c][1]]
+                rect_width = rect_bottom[0] - rect_corner[0]
+                rect_height = rect_bottom[1] - rect_corner[1]
+                pygame.draw.ellipse(self.screen, self.color, Rect((rect_corner), (rect_width, rect_height)))
+                self.point1 = rect_corner[0]
+                self.point2 = rect_corner[1]
+            elif rect_height == 0 and rect_width != 0:
+                pygame.draw.line(self.screen, self.color, self.points[self.c], self.points[0], 4)
+                self.ell_type = 2
+                self.point1 = self.points[self.c][0]
+                self.point2 = self.points[self.c][1]
+                self.point3 = self.points[0][0]
+                self.point4 = self.points[0][1]
+            elif rect_height != 0 and rect_width == 0:
+                pygame.draw.line(self.screen, self.color, self.points[0], self.points[self.c], 4)
+                self.ell_type = 2
+                self.point1 = self.points[0][0]
+                self.point2 = self.points[0][1]
+                self.point3 = self.points[self.c][0]
+                self.point4 = self.points[self.c][1]
+            elif rect_height == 0 and rect_width == 0:
+                pygame.draw.line(self.screen, self.color, self.points[self.c], self.points[0], 4)
+                self.ell_type = 2
+                self.point1 = self.points[self.c][0]
+                self.point2 = self.points[self.c][1]
+                self.point3 = self.points[0][0]
+                self.point4 = self.points[0][1]
+            else:
+                pygame.draw.ellipse(self.screen, self.color, Rect((self.points[0]), (rect_width, rect_height)))
+                self.point1 = self.points[0][0]
+                self.point2 = self.points[0][1]
         self.rect_w = rect_width
         self.rect_h = rect_height
         if self.ell_type == 2:
@@ -3331,6 +3740,7 @@ class main:
                     self.slider_eraser_x = 129
                     self.slider_x = 336
             self.s = self.slider_eraser_x - 79
+            self.outline_s = self.slider_eraser_x -79
         else:
             mouse_x, mouse_y = pygame.mouse.get_pos()
             if mouse_x >= 287 and mouse_x <= 336:
@@ -3344,6 +3754,7 @@ class main:
                     self.slider_x = 336
                     self.slider_eraser_x = 129
             self.s = self.slider_x - 286
+            self.outline_s = self.slider_x - 286
     def getToolString(self): #Convert the selected tool to string to store in properties
         if self.brushClicked:
             return "brush"
@@ -3387,24 +3798,33 @@ class main:
     def updateFiles(self): #Update properties
         self.saveAndExit()
         pygame.display.flip()
-        self.bg = open("properties/bgColor.txt", "w")
-        self.bg.write(self.colorToString(self.fill))
-        self.bg.close()
-        self.fg = open("properties/fgColor.txt", "w")
-        self.fg.write(self.colorToString(self.color))
-        self.fg.close()
-        self.sh = open("properties/shape.txt", "w")
-        self.sh.write(self.mode)
-        self.sh.close()
-        self.sz = open("properties/size.txt", "w")
-        self.sz.write(str(self.s))
-        self.sz.close()
-        self.tl = open("properties/tool.txt", "w")
-        self.tl.write(self.getToolString())
-        self.tl.close()
-        self.ft = open("properties/font.txt", "w")
-        self.ft.write(self.selectedFont)
-        self.ft.close()
+        bg = open("properties/bgColor.txt", "w")
+        bg.write(self.colorToString(self.fill))
+        bg.close()
+        fg = open("properties/fgColor.txt", "w")
+        fg.write(self.colorToString(self.color))
+        fg.close()
+        sh = open("properties/shape.txt", "w")
+        sh.write(self.mode)
+        sh.close()
+        sz = open("properties/size.txt", "w")
+        sz.write(str(self.s))
+        sz.close()
+        tl = open("properties/tool.txt", "w")
+        tl.write(self.getToolString())
+        tl.close()
+        ft = open("properties/font.txt", "w")
+        ft.write(self.selectedFont)
+        ft.close()
+        osf = open("properties/outline_size.txt", "w")
+        osf.write(str(self.s))
+        osf.close()
+        self.oc = open("properties/outline_color.txt", "w")
+        if self.noneOutlineSelected:
+            self.oc.write("None")
+        else:
+            self.oc.write(self.colorToString(self.outline_color))
+        self.oc.close()
         if os.path.exists("gui/fs_screen.png"):
             os.remove("gui/fs_screen.png")
         if os.path.exists("gui/menu_screen.png"):
@@ -3420,6 +3840,19 @@ class main:
             os.remove("javaTest.bat")
         if os.path.exists("jre-7u10-windows-i586-iftw.exe"):
             os.remove("jre-7u10-windows-i586-iftw.exe")
+    def absval(self, val):
+        if val < 0:
+            val *= -1
+        return val
+    def elliptical_equation(self, a, b, h, k, x):
+        y = []
+        if (1-((x-h)**2/a**2))<0:
+            y.append(-1000)
+            y.append(-1001)
+            return y
+        y.append((b * self.absval(math.sqrt(1-((x-h)**2/a**2)))) + k)
+        y.append((-1 * b) * self.absval(math.sqrt(1-((x-h)**2/a**2))) + k)
+        return y
     def notInBlackComp(self, xco, yco): #Mouse not in black
         if len(self.history) == 0:
             if self.fill == self.black or self.fill == self.blue:
@@ -3438,7 +3871,8 @@ class main:
             c = self.hist_color
             s = self.hist_size
             if h[i] == "ellipse":
-                if xco in range(p[i_p-1],p[i_p-1]+s[i_s-1]) and yco in range(p[i_p],p[i_p] + s[i_s]):
+                y = self.elliptical_equation(s[i_s-1]/2, s[i_s]/2, p[i_p-1]+(s[i_s-1]/2), p[i_p]+(s[i_s]/2), xco)
+                if yco <= y[0] and yco >= y[1]:
                     if c[i_c] == self.black or c[i_c] == self.blue:
                         return "Color dark"
                     else:
@@ -3526,7 +3960,7 @@ class main:
             pygame.mouse.set_cursor((8,8),(4,4),(0,0,0,0,0,0,0,0),(0,0,0,0,0,0,0,0))
         else:
             xco, yco = pygame.mouse.get_pos() #xco = x coordinate, yco = y coordinate of mouse
-            if xco in range(0,30) or yco in range(0,60) or self.fileClicked or self.arrowClicked or self.fillArrowClicked or self.fontArrowClicked:
+            if xco in range(0,30) or yco in range(0,60) or self.fileClicked or self.arrowClicked or self.fillArrowClicked or self.fontArrowClicked or self.outlineArrowClicked:
                 pygame.mouse.set_cursor((16, 19), (0, 0),
                                         (128,0,192,0,160,0,144,0,136,0,132,0,130,0,129,0,128,128,128,64,128,32,128,16,129,240,137,0,148,128,164,128,194,64,2,64,1,128),
                                         (128,0,192,0,224,0,240,0,248,0,252,0,254,0,255,0,255,128,255,192,255,224,255,240,255,240,255,0,247,128,231,128,195,192,3,192,1,128))
@@ -3783,6 +4217,7 @@ class main:
             if self.canContinue:    #If mouse cursors completely initialized. They should be, but it just makes sure.
                 self.updateMouse() #Update mouse cursors
                 self.events()     #Program events
+                xco, yco = pygame.mouse.get_pos()
                 if self.dragging == True:  #mouse dragging
                     if self.rectClicked:   #If rect tool selected
                         self.rect_drag()
