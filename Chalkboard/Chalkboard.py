@@ -2455,7 +2455,6 @@ class main:
                 i_p += 4
                 i_s += 1
             elif h[i] == "text":
-                print("init")
                 cf = pygame.font.SysFont(f[i_f], s[i_s], False, False)
                 ct = cf.render(t[i_t], 1, c[i_c])
                 self.screen.blit(ct, (p[i_p], p[i_p+1]))
@@ -3204,6 +3203,115 @@ class main:
                             self.text += 'Z'
                         else:
                             self.text += 'z'
+                    if event.key == K_0 or event.key == K_KP0:
+                        if self.shift:
+                            self.text += ')'
+                        else:
+                            self.text += '0'
+                    if event.key == K_1 or event.key == K_KP1:
+                        if self.shift:
+                            self.text += '!'
+                        else:
+                            self.text += '1'
+                    if event.key == K_2 or event.key == K_KP2:
+                        if self.shift:
+                            self.text += '@'
+                        else:
+                            self.text += '2'
+                    if event.key == K_3 or event.key == K_KP3:
+                        if self.shift:
+                            self.text += '#'
+                        else:
+                            self.text += '3'
+                    if event.key == K_4 or event.key == K_KP4:
+                        if self.shift:
+                            self.text += '$'
+                        else:
+                            self.text += '4'
+                    if event.key == K_5 or event.key == K_KP5:
+                        if self.shift:
+                            self.text += '%'
+                        else:
+                            self.text += '5'
+                    if event.key == K_6 or event.key == K_KP6:
+                        if self.shift:
+                            self.text += '^'
+                        else:
+                            self.text += '6'
+                    if event.key == K_7 or event.key == K_KP7:
+                        if self.shift:
+                            self.text += '&'
+                        else:
+                            self.text += '7'
+                    if event.key == K_8 or event.key == K_KP8:
+                        if self.shift:
+                            self.text += '*'
+                        else:
+                            self.text += '8'
+                    if event.key == K_9 or event.key == K_KP9:
+                        if self.shift:
+                            self.text += '('
+                        else:
+                            self.text += '9'
+                    if event.key == K_MINUS or event.key == K_KP_MINUS:
+                        if self.shift:
+                            self.text += '_'
+                        else:
+                            self.text += '-'
+                    if event.key == K_EQUALS:
+                        if self.shift:
+                            self.text += '+'
+                        else:
+                            self.text += '='
+                    if event.key == K_BACKQUOTE:
+                        if self.shift:
+                            self.text += '~'
+                        else:
+                            self.text += '`'
+                    if event.key == K_LEFTBRACKET:
+                        if self.shift:
+                            self.text += '{'
+                        else:
+                            self.text += '['
+                    if event.key == K_RIGHTBRACKET:
+                        if self.shift:
+                            self.text += '}'
+                        else:
+                            self.text += ']'
+                    if event.key == K_BACKSLASH:
+                        if self.shift:
+                            self.text += '|'
+                        else:
+                            self.text += '\\'
+                    if event.key == K_SEMICOLON:
+                        if self.shift:
+                            self.text += ':'
+                        else:
+                            self.text += ';'
+                    if event.key == K_QUOTE:
+                        if self.shift:
+                            self.text += '"'
+                        else:
+                            self.text += '\''
+                    if event.key == K_COMMA:
+                        if self.shift:
+                            self.text += '<'
+                        else:
+                            self.text += ','
+                    if event.key == K_PERIOD or event.key == K_KP_PERIOD:
+                        if self.shift:
+                            self.text += '>'
+                        else:
+                            self.text += '.'
+                    if event.key == K_SLASH or event.key == K_KP_DIVIDE:
+                        if self.shift:
+                            self.text += '?'
+                        else:
+                            self.text += '/'
+                    if event.key == K_KP_MULTIPLY:
+                        self.text += '*'
+                    if event.key == K_KP_PLUS:
+                        self.text += '+'
                     if event.key == K_SPACE:
                         self.text += ' '
                     if event.key == K_BACKSPACE:
@@ -3224,19 +3332,6 @@ class main:
                         self.points = []
                         self.text = ""
                         self.typing = False
-                        i = 0
-                        while i < len(self.history):
-                            print(self.history[i])
-                            i += 1
-                        i_t = 0
-                        while i_t < len(self.hist_text):
-                            print(self.hist_text[i_t])
-                            i_t += 1
-                        i_f = 0
-                        while i_f < len(self.hist_font):
-                            print(self.hist_font[i_f])
-                            i_f += 1
-                    print(self.text)
                 elif event.type == KEYUP:
                     if event.key == K_LSHIFT or event.key == K_RSHIFT:
                         self.shift = False
@@ -3249,11 +3344,9 @@ class main:
                     pygame.quit() #Quit program
                     sys.exit()
                 elif event.type == MOUSEBUTTONDOWN: #If mouse is down
-                    print(str(self.textClicked) + "\t" + str(self.typing))
                     (button1, button2, button3) = pygame.mouse.get_pressed()
                     if button1:
                         xco, yco = event.pos #Get the event position
-                        print(str(xco) + "," + str(yco))
                         if xco in range(30,self.width) and yco in range(60,self.height): #If in canvas
                             if self.saved: #If saved
                                 self.saved = False #saved set to false
@@ -3295,7 +3388,6 @@ class main:
                             self.points.append(event.pos)
                             self.dragging = True
                         elif self.textClicked and xco not in range(0,30) and yco not in range(0,60):
-                            print("typing = True")
                             self.points.append(event.pos)
                             pygame.image.save(self.screen, "gui/typing.png")
                             self.typing = True
@@ -3761,7 +3853,6 @@ class main:
         self.line_s = self.s
         self.line_c = self.color
         self.c += 1
-        print("(" + str(self.point1) + "," + str(self.point2) + ")\t(" + str(self.point3) + "," + str(self.point4) + ")\t" + str(self.line_s))
         pygame.display.flip()
     def slider(self): #Slider
         if self.eraserClicked:
@@ -4248,14 +4339,10 @@ class main:
         self.font = pygame.font.SysFont(self.selectedFont, self.s, False, False)
         tr = self.font.render(self.text, 1, self.color)
         self.screen.blit(tr, self.typePos)
-        print(str(self.typePos[0]) + "," + str(self.typePos[1]) + "\t" + self.text)
     def __init__(self):
         self.update()   #deletes possible existing update files
         self.setup()    #sets up everything for program
         i = 0
-        while i < len(self.fontPositions):
-            print(self.fontNames[i] + "         " + str(self.fontPositions[i]))
-            i+= 1
         while True:    #Holds program methods
             if self.canContinue:    #If mouse cursors completely initialized. They should be, but it just makes sure.
                 self.updateMouse() #Update mouse cursors
