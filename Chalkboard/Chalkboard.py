@@ -14,8 +14,11 @@
 #Clip art postponed until 3.0 or later as we need to have access to
 #a larger clip art database.
 #
-#Text tool complete
+#Text tool nearly complete
 #Eraser color fix complete
+#Ellipse color fix complete
+#Brush/Eraser tool now configured to not have gaps
+#Shape outline complete
 #
 #Import dependencies
 import pygame, sys, Tkinter, math, os, save_as, open_file, display, wx
@@ -1750,6 +1753,8 @@ class main:
             self.color = self.white
             self.mode = "square" #Brush/eraser mode
             self.points=[]
+            self.last_x = 0
+            self.last_y = 0
             self.s = 1 #Size
             self.c = 1 #Point incrementation
             root = Tk() #Tkinter root menu
@@ -3266,8 +3271,26 @@ class main:
                             self.dragging = True
                         elif self.brushClicked and xco not in range(0,30) and yco not in range(0,60):
                             self.dragging = True
+                            self.last_x = xco
+                            self.last_y = yco
+                            if self.mode == "square":
+                                if self.s == 1:
+                                    pygame.draw.circle(self.screen, self.color, (xco,yco), self.s/2)
+                                else:
+                                    pygame.draw.rect(self.screen, self.color, (xco-(self.s/2), yco-(self.s/2), self.s, self.s))
+                            else:
+                                pygame.draw.circle(self.screen, self.color, (xco,yco), self.s/2)
                         elif self.eraserClicked and xco not in range(0,30) and yco not in range(0,60):
                             self.dragging = True
+                            self.last_x = xco
+                            self.last_y = yco
+                            if self.mode == "square":
+                                if self.s == 1:
+                                    pygame.draw.circle(self.screen, self.fill, (xco,yco), self.s/2)
+                                else:
+                                    pygame.draw.rect(self.screen, self.fill, (xco-(self.s/2), yco-(self.s/2), self.s, self.s))
+                            else:
+                                pygame.draw.circle(self.screen, self.fill, (xco,yco), self.s/2)
                         elif self.lineClicked and xco not in range(0,30) and yco not in range(0,60):
                             self.points.append(event.pos)
                             self.dragging = True
@@ -3671,44 +3694,58 @@ class main:
         self.c += 1
         pygame.display.flip()
     def brush_drag(self): #Brush dragging
-        x, y = pygame.mouse.get_pos()
-        if self.mode == "square":
-            if self.s == 1:
-                pygame.draw.circle(self.screen,self.color,(x,y),self.s/2)
+        end = pygame.mouse.get_pos()
+        start = (self.last_x, self.last_y)
+        dx = end[0]-start[0]
+        dy = end[1]-start[1]
+        distance = max(abs(dx), abs(dy))
+        for i in range(distance):
+            x = int( start[0]+float(i)/distance*dx)
+            y = int( start[1]+float(i)/distance*dy)
+            if self.mode == "square":
+                if self.s == 1:
+                    pygame.draw.circle(self.screen, self.color, (x, y), self.s/2)
+                else:
+                    pygame.draw.rect(self.screen, self.color, Rect(x-(self.s/2), y-(self.s/2), self.s, self.s))
+                self.history.append("brush_square")
             else:
-                x -= self.s/2
-                y -= self.s/2
-                pygame.draw.rect(self.screen, self.color, Rect(x, y, self.s, self.s))
-            self.history.append("brush_square")
-        elif self.mode == "circle":
-            pygame.draw.circle(self.screen, self.color,(x,y),self.s/2)
-            self.history.append("brush_circle")
-        self.hist_points.append(x)
-        self.hist_points.append(y)
-        self.hist_color.append(self.color)
-        self.hist_size.append(self.s)
-        self.hist_text.append("none")
-        self.hist_font.append("none")
+                pygame.draw.circle(self.screen, self.color, (x, y), self.s/2)
+                self.history.append("brush_circle")
+            self.hist_points.append(x)
+            self.hist_points.append(y)
+            self.hist_size.append(self.s)
+            self.hist_color.append(self.color)
+            self.hist_text.append("none")
+            self.hist_font.append("none")
+            self.last_x = x
+            self.last_y = y
         pygame.display.flip()
     def eraser_drag(self): #Eraser dragging
-        x, y = pygame.mouse.get_pos()
-        if self.mode == "square":
-            if self.s == 1:
-                pygame.draw.circle(self.screen,self.fill,(x,y),self.s/2)
+        end = pygame.mouse.get_pos()
+        start = (self.last_x, self.last_y)
+        dx = end[0]-start[0]
+        dy = end[1]-start[1]
+        distance = max(abs(dx), abs(dy))
+        for i in range(distance):
+            x = int( start[0]+float(i)/distance*dx)
+            y = int( start[1]+float(i)/distance*dy)
+            if self.mode == "square":
+                if self.s == 1:
+                    pygame.draw.circle(self.screen, self.fill, (x, y), self.s/2)
+                else:
+                    pygame.draw.rect(self.screen, self.fill, Rect(x-(self.s/2), y-(self.s/2), self.s, self.s))
+                self.history.append("eraser_square")
             else:
-                x -= self.s/2
-                y -= self.s/2
-                pygame.draw.rect(self.screen, self.fill, Rect(x, y, self.s, self.s))
-            self.history.append("eraser_square")
-        elif self.mode == "circle":
-            pygame.draw.circle(self.screen, self.fill,(x,y),self.s/2)
-            self.history.append("eraser_circle")
-        self.hist_points.append(x)
-        self.hist_points.append(y)
-        self.hist_size.append(self.s)
-        self.hist_color.append(self.fill)
-        self.hist_text.append("none")
-        self.hist_font.append("none")
+                pygame.draw.circle(self.screen, self.fill, (x, y), self.s/2)
+                self.history.append("eraser_circle")
+            self.hist_points.append(x)
+            self.hist_points.append(y)
+            self.hist_size.append(self.s)
+            self.hist_color.append(self.fill)
+            self.hist_text.append("none")
+            self.hist_font.append("none")
+            self.last_x = x
+            self.last_y = y
         pygame.display.flip()
     def line_drag(self): #Line dragging
         if self.placed == True:
@@ -3846,13 +3883,20 @@ class main:
         return val
     def elliptical_equation(self, a, b, h, k, x):
         y = []
-        if (1-((x-h)**2/a**2))<0:
-            y.append(-1000)
-            y.append(-1001)
-            return y
-        y.append((b * self.absval(math.sqrt(1-((x-h)**2/a**2)))) + k)
-        y.append((-1 * b) * self.absval(math.sqrt(1-((x-h)**2/a**2))) + k)
+        y.append((b * self.absval(math.sqrt(1-(float((x-h)**2)/float(a**2))))) + k)
+        y.append(((-1 * b) * self.absval(math.sqrt(1-(float((x-h)**2)/float(a**2))))) + k)
         return y
+    def inEllipse(self, a, b, h, k, x, y):
+        #Precautions
+        a = self.absval(a)
+        b = self.absval(b)
+        #Rectangle checks
+        if x < (h-a) or x > (h+a) or y < (k-b) or y > (k+b):
+            return False
+        yval = self.elliptical_equation(a,b,h,k,x)
+        if y >= yval[1] and y <= yval[0]:
+            return True
+        return False
     def notInBlackComp(self, xco, yco): #Mouse not in black
         if len(self.history) == 0:
             if self.fill == self.black or self.fill == self.blue:
@@ -3865,14 +3909,13 @@ class main:
         i_s = len(self.hist_size)-1
         i_t = len(self.hist_text)-1
         i_f = len(self.hist_font)-1
-        while i > 0 and i_p > 0 and i_c > 0 and i_s > 0 and i_t > 0 and i_f > 0:
+        while i >= 0 and i_p >= 0 and i_c >= 0 and i_s >= 0 and i_t >= 0 and i_f >= 0:
             h = self.history
             p = self.hist_points
             c = self.hist_color
             s = self.hist_size
             if h[i] == "ellipse":
-                y = self.elliptical_equation(s[i_s-1]/2, s[i_s]/2, p[i_p-1]+(s[i_s-1]/2), p[i_p]+(s[i_s]/2), xco)
-                if yco <= y[0] and yco >= y[1]:
+                if self.inEllipse(s[i_s-1]/2, s[i_s]/2, p[i_p-1]+(s[i_s-1]/2), p[i_p]+(s[i_s]/2), xco, yco):
                     if c[i_c] == self.black or c[i_c] == self.blue:
                         return "Color dark"
                     else:
@@ -4217,7 +4260,6 @@ class main:
             if self.canContinue:    #If mouse cursors completely initialized. They should be, but it just makes sure.
                 self.updateMouse() #Update mouse cursors
                 self.events()     #Program events
-                xco, yco = pygame.mouse.get_pos()
                 if self.dragging == True:  #mouse dragging
                     if self.rectClicked:   #If rect tool selected
                         self.rect_drag()
