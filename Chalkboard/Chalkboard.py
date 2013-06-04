@@ -25,6 +25,10 @@ import pygame, sys, Tkinter, math, os, save_as, open_file, display, wx
 from fontTools import ttLib
 from pygame.locals import *
 from Tkinter import *
+from pygame.image import *
+from pygame.display import *
+from pygame.font import *
+from pygame.mouse import *
 class main:
     #Declare mouse cursors
     def setupCursors(self):
@@ -3988,6 +3992,124 @@ class main:
         if y >= yval[1] and y <= yval[0]:
             return True
         return False
+    def point_slope_y_int(self, m, x, y):
+        mx1 = m*x
+        return ((-1*mx1)+y)
+    def inLine(self, x1, y1, x2, y2, s, x, y):
+        if s < 4:
+            return False
+        #Straight line
+        if x1 == x2:
+            if y1 == y2:
+                return False
+            if y1 < y2:
+                if x >= (x1-(s/2)) and x <= (x1+(s/2)) and y >= y1 and y <= y2:
+                    return True
+                return False
+            elif y1 > y2:
+                if x >= (x1-(s/2)) and x <= (x1+(s/2)) and y >= y2 and y <= y1:
+                    return True
+                return False
+        if y1 == y2:
+            if x1 == x2:
+                return False
+            if x1 < x2:
+                if x >= x1 and x <= x2 and y >= (y1-(s/2)) and y <= (y1+(s/2)):
+                    return True
+                return False
+            elif x1 > x2:
+                if x >= x2 and x <= x1 and y >= (y1-(s/2)) and y <= (y1+(s/2)):
+                    return True
+                return False
+        if x2 > x1 and y2 > y1:
+            if x < (x1-(s/2)) or x > (x2+(s/2)) or y < y1 or y > y2:
+                return False
+            slope = float(y2-y1)/float(x2-x1)
+            yint = self.point_slope_y_int(slope, x1, y1)
+            yint2 = yint
+            yints = []
+            yints.append(yint)
+            i = (s/2)
+            while i > 0:
+                yint += slope
+                yints.append(yint)
+                i -= 1
+            i = (s/2)
+            while i < s:
+                yint2 -= slope
+                yints.append(yint2)
+                i += 1
+            for yinter in yints:
+                yval = (slope*x)+yinter
+                if y in range(int(math.floor(yval)-1),int(math.ceil(yval)+1)):
+                    return True
+        elif x2 > x1 and y2 < y1:
+            if x < (x1-(s/2)) or x > (x2+(s/2)) or y < y2 or y > y1:
+                return False
+            slope = float(y1-y2)/float(x2-x1)
+            yint = self.point_slope_y_int(slope, x1, y1)
+            yint2 = yint
+            yints = []
+            yints.append(yint)
+            i = (s/2)
+            while i > 0:
+                yint += slope
+                yints.append(yint)
+                i -= 1
+            i = (s/2)
+            while i < s:
+                yint2 -= slope
+                yints.append(yint2)
+                i += 1
+            for yinter in yints:
+                yval = (slope*x)+yinter
+                if y in range(int(math.floor(yval)-1),int(math.ceil(yval)+1)):
+                    return True
+        elif x2 < x1 and y2 > y1:
+            if x < (x2-(s/2)) or x > (x1+(s/2)) or y < y1 or y > y2:
+                return False
+            slope = float(y2-y1)/float(x1-x2)
+            yint = self.point_slope_y_int(slope, x1, y1)
+            yint2 = yint
+            yints = []
+            yints.append(yint)
+            i = (s/2)
+            while i > 0:
+                yint += slope
+                yints.append(yint)
+                i -= 1
+            i = (s/2)
+            while i < s:
+                yint2 -= slope
+                yints.append(yint2)
+                i += 1
+            for yinter in yints:
+                yval = (slope*x)+yinter
+                if y in range(int(math.floor(yval)-1),int(math.ceil(yval)+1)):
+                    return True
+        elif x2 < x1 and y2 < y1:
+            if x < (x2-(s/2)) or x > (x1+(s/2)) or y < y2 or y > y1:
+                return False
+            slope = float(y1-y2)/float(x2-x1)
+            yint = self.point_slope_y_int(slope, x1, y1)
+            yint2 = yint
+            yints = []
+            yints.append(yint)
+            i = (s/2)
+            while i > 0:
+                yint -= slope
+                yints.append(yint)
+                i -= 1
+            i = (s/2)
+            while i < s:
+                yint2 += slope
+                yints.append(yint2)
+                i += 1
+            for yinter in yints:
+                yval = (slope*x)+yinter
+                if y in range(int(math.floor(yval)-1),int(math.ceil(yval)+1)):
+                    return True
+        return False
     def notInBlackComp(self, xco, yco): #Mouse not in black
         if len(self.history) == 0:
             if self.fill == self.black or self.fill == self.blue:
@@ -4026,10 +4148,14 @@ class main:
                 i_s -= 2
                 i_c -= 1
             elif h[i] == "line":
-                #Unknown how to code line currently
+                if self.inLine(p[i_p-3], p[i_p-2], p[i_p-1], p[i_p], s[i_s], xco, yco):
+                    if c[i_c] == self.black or c[i_c] == self.blue:
+                        return "Color dark"
+                    else:
+                        return "In range"
                 i -= 1
                 i_p -= 4
-                i_s -= 2
+                i_s -= 1
                 i_c -= 1
             elif h[i] == "brush_square":
                 if xco in range(p[i_p-1],p[i_p-1]+s[i_s]) and yco in range(p[i_p],p[i_p]+s[i_s]):
