@@ -27,7 +27,6 @@ from pygame.locals import *
 from Tkinter import *
 from pygame.image import *
 from pygame.display import *
-from pygame.font import *
 from pygame.mouse import *
 class main:
     #Declare mouse cursors
@@ -3528,6 +3527,9 @@ class main:
                             if self.noneOutlineSelected == False:
                                 if xco in range(self.slider_x, self.slider_x + 9) and yco in range(44, 51): #slider handle clicked
                                     self.sh_moving = True
+                elif event.type == KEYDOWN:
+                    if event.key == K_LSHIFT or event.key == K_RSHIFT:
+                        self.shift = True
                 elif event.type == MOUSEBUTTONUP: #If mouse up
                     #Reset dragging and moving
                     self.dragging = False
@@ -3586,6 +3588,9 @@ class main:
                     self.rect_w = 0
                     self.rect_h = 0
                     self.line_s = 0
+                elif event.type == KEYUP:
+                    if event.key == K_LSHIFT or event.key == K_RSHIFT:
+                        self.shift = False
                 elif event.type == VIDEORESIZE: #If screen resized
                     self.resizeScreen(event.size)
     def rect_drag(self): #Rectangle dragging
@@ -3599,9 +3604,19 @@ class main:
         if self.noneOutlineSelected == False:
             if pos2x > 0 and pos2y > 0:
                 if pos2x > self.s and pos2y > self.s:
+                    if self.shift:
+                        if pos2x > pos2y:
+                            pos2y = pos2x
+                        elif pos2y > pos2x:
+                            pos2x = pos2y
                     pygame.draw.rect(self.screen, self.outline_color, Rect(self.points[0][0], self.points[0][1], pos2x, pos2y))
                     pygame.draw.rect(self.screen, self.color, Rect(self.points[0][0] + (self.s/2), self.points[0][1] + (self.s/2), pos2x - self.s, pos2y - self.s))
                 else:
+                    if self.shift:
+                        if pos2x > pos2y:
+                            pos2y = pos2x
+                        elif pos2y > pos2x:
+                            pos2x = pos2y
                     pygame.draw.rect(self.screen, self.outline_color, Rect(self.points[0][0], self.points[0][1], pos2x, pos2y))
                 self.point1 = self.points[0][0]
                 self.point2 = self.points[0][1]
@@ -3613,9 +3628,19 @@ class main:
                 w = self.points[0][0]-x
                 h = pos2y
                 if w > self.s and h > self.s:
+                    if self.shift:
+                        if w > h:
+                            h = w
+                        elif h > w:
+                            w = h
                     pygame.draw.rect(self.screen, self.outline_color, Rect(x,y,w,h))
                     pygame.draw.rect(self.screen, self.color, Rect(x + (self.s/2), y + (self.s/2), w - self.s, h - self.s))
                 else:
+                    if self.shift:
+                        if w > h:
+                            h = w
+                        elif h > w:
+                            w = h
                     pygame.draw.rect(self.screen, self.outline_color, Rect(x,y,w,h))
                 self.point1 = x
                 self.point2 = y
@@ -3627,9 +3652,19 @@ class main:
                 w = pos2x
                 h = self.points[0][1]-y
                 if w > self.s and h > self.s:
+                    if self.shift:
+                        if w > h:
+                            h = w
+                        elif h > w:
+                            w = h
                     pygame.draw.rect(self.screen, self.outline_color, Rect(x,y,w,h))
                     pygame.draw.rect(self.screen, self.color, Rect(x + (self.s/2), y + (self.s/2), w - self.s, h - self.s))
                 else:
+                    if self.shift:
+                        if w > h:
+                            h = w
+                        elif h > w:
+                            w = h
                     pygame.draw.rect(self.screen, self.outline_color, Rect(x,y,w,h))
                 self.point1 = x
                 self.point2 = y
@@ -3641,15 +3676,30 @@ class main:
                 w = self.points[0][0]-x
                 h = self.points[0][1]-y
                 if w > self.s and h > self.s:
+                    if self.shift:
+                        if w > h:
+                            h = w
+                        elif h > w:
+                            w = h
                     pygame.draw.rect(self.screen, self.outline_color, Rect(x,y,w,h))
                     pygame.draw.rect(self.screen, self.color, Rect(x + (self.s/2), y + (self.s/2), w - self.s, h - self.s))
                 else:
+                    if self.shift:
+                        if w > h:
+                            h = w
+                        elif h > w:
+                            w = h
                     pygame.draw.rect(self.screen, self.outline_color, Rect(x,y,w,h))
                 self.point1 = x
                 self.point2 = y
                 self.rect_w = w
                 self.rect_h = h
         else:
+            if self.shift:
+                if pos2x > pos2y:
+                    pos2y = pos2x
+                elif pos2y > pos2x:
+                    pos2x = pos2y
             pygame.draw.rect(self.screen, self.color, Rect(self.points[0][0], self.points[0][1], pos2x, pos2y))
             self.point1 = self.points[0][0]
             self.point2 = self.points[0][1]
@@ -3676,9 +3726,19 @@ class main:
                 rect_width = rect_bottom[0] - rect_corner[0]
                 rect_height = rect_bottom[1] - rect_corner[1]
                 if rect_width > self.s and rect_height > self.s:
+                    if self.shift:
+                        if rect_width > rect_height:
+                            rect_height = rect_width
+                        elif rect_height > rect_width:
+                            rect_width = rect_height
                     pygame.draw.ellipse(self.screen, self.outline_color, Rect((rect_corner),(rect_width,rect_height)))
                     pygame.draw.ellipse(self.screen, self.color, Rect((rect_corner[0]+(self.s/2),rect_corner[1]+(self.s/2)), (rect_width-self.s, rect_height-self.s)))
                 else:
+                    if self.shift:
+                        if rect_width > rect_height:
+                            rect_height = rect_width
+                        elif rect_height > rect_width:
+                            rect_width = rect_height
                     pygame.draw.ellipse(self.screen, self.outline_color, Rect((rect_corner),(rect_width,rect_height)))
                 self.point1 = rect_corner[0]
                 self.point2 = rect_corner[1]
@@ -3686,9 +3746,19 @@ class main:
                 rect_width = self.points[0][0] - self.points[self.c][0]
                 rect_height = self.points[0][1] - self.points[self.c][1]
                 if rect_width > self.s and rect_height > self.s:
+                    if self.shift:
+                        if rect_width > rect_height:
+                            rect_height = rect_width
+                        elif rect_height > rect_width:
+                            rect_width = rect_height
                     pygame.draw.ellipse(self.screen, self.outline_color, Rect((self.points[self.c]), (rect_width, rect_height)))
                     pygame.draw.ellipse(self.screen, self.color, Rect((self.points[self.c][0]+(self.s/2), self.points[self.c][1]+(self.s/2)), (rect_width-self.s, rect_height-self.s)))
                 else:
+                    if self.shift:
+                        if rect_width > rect_height:
+                            rect_height = rect_width
+                        elif rect_height > rect_width:
+                            rect_width = rect_height
                     pygame.draw.ellipse(self.screen, self.outline_color, Rect((self.points[self.c]), (rect_width, rect_height)))
                 self.point1 = self.points[self.c][0]
                 self.point2 = self.points[self.c][1]
@@ -3698,9 +3768,19 @@ class main:
                 rect_width = rect_bottom[0] - rect_corner[0]
                 rect_height = rect_bottom[1] - rect_corner[1]
                 if rect_width > self.s and rect_height > self.s:
+                    if self.shift:
+                        if rect_width > rect_height:
+                            rect_height = rect_width
+                        elif rect_height > rect_width:
+                            rect_width = rect_height
                     pygame.draw.ellipse(self.screen, self.outline_color, Rect((rect_corner), (rect_width, rect_height)))
                     pygame.draw.ellipse(self.screen, self.color, Rect((rect_corner[0]+(self.s/2), rect_corner[1]+(self.s/2)), (rect_width-self.s, rect_height-self.s)))
                 else:
+                    if self.shift:
+                        if rect_width > rect_height:
+                            rect_height = rect_width
+                        elif rect_height > rect_width:
+                            rect_width = rect_height
                     pygame.draw.ellipse(self.screen, self.outline_color, Rect((rect_corner), (rect_width, rect_height)))
                 self.point1 = rect_corner[0]
                 self.point2 = rect_corner[1]
@@ -3727,9 +3807,19 @@ class main:
                 self.point4 = self.points[0][1]
             else:
                 if rect_width > self.s and rect_height > self.s:
+                    if self.shift:
+                        if rect_width > rect_height:
+                            rect_height = rect_width
+                        elif rect_height > rect_width:
+                            rect_width = rect_height
                     pygame.draw.ellipse(self.screen, self.outline_color, Rect((self.points[0]), (rect_width, rect_height)))
                     pygame.draw.ellipse(self.screen, self.color, Rect((self.points[0][0]+(self.s/2), self.points[0][1]+(self.s/2)), (rect_width-self.s, rect_height-self.s)))
                 else:
+                    if self.shift:
+                        if rect_width > rect_height:
+                            rect_height = rect_width
+                        elif rect_height > rect_width:
+                            rect_width = rect_height
                     pygame.draw.ellipse(self.screen, self.outline_color, Rect((self.points[0]), (rect_width, rect_height)))
                 self.point1 = self.points[0][0]
                 self.point2 = self.points[0][1]
@@ -3739,12 +3829,22 @@ class main:
                 rect_bottom = [self.points[self.c][0], self.points[0][1]]
                 rect_width = rect_bottom[0] - rect_corner[0]
                 rect_height = rect_bottom[1] - rect_corner[1]
+                if self.shift:
+                    if rect_width > rect_height:
+                        rect_height = rect_width
+                    elif rect_height > rect_width:
+                        rect_width = rect_height
                 pygame.draw.ellipse(self.screen, self.color, Rect((rect_corner), (rect_width, rect_height)))
                 self.point1 = rect_corner[0]
                 self.point2 = rect_corner[1]
             elif rect_height < 0 and rect_width < 0:
                 rect_width = self.points[0][0] - self.points[self.c][0]
                 rect_height = self.points[0][1] - self.points[self.c][1]
+                if self.shift:
+                    if rect_width > rect_height:
+                        rect_height = rect_width
+                    elif rect_height > rect_width:
+                        rect_width = rect_height
                 pygame.draw.ellipse(self.screen, self.color, Rect((self.points[self.c]), (rect_width, rect_height)))
                 self.point1 = self.points[self.c][0]
                 self.point2 = self.points[self.c][1]
@@ -3753,6 +3853,11 @@ class main:
                 rect_bottom = [self.points[0][0], self.points[self.c][1]]
                 rect_width = rect_bottom[0] - rect_corner[0]
                 rect_height = rect_bottom[1] - rect_corner[1]
+                if self.shift:
+                    if rect_width > rect_height:
+                        rect_height = rect_width
+                    elif rect_height > rect_width:
+                        rect_width = rect_height
                 pygame.draw.ellipse(self.screen, self.color, Rect((rect_corner), (rect_width, rect_height)))
                 self.point1 = rect_corner[0]
                 self.point2 = rect_corner[1]
@@ -3778,6 +3883,11 @@ class main:
                 self.point3 = self.points[0][0]
                 self.point4 = self.points[0][1]
             else:
+                if self.shift:
+                    if rect_width > rect_height:
+                        rect_height = rect_width
+                    elif rect_height > rect_width:
+                        rect_width = rect_height
                 pygame.draw.ellipse(self.screen, self.color, Rect((self.points[0]), (rect_width, rect_height)))
                 self.point1 = self.points[0][0]
                 self.point2 = self.points[0][1]
@@ -3849,11 +3959,65 @@ class main:
         else:
             self.screen.fill(self.fill)
         self.points.append(pygame.mouse.get_pos())
-        pygame.draw.line(self.screen, self.color, self.points[0], self.points[self.c], self.s)
-        self.point1 = self.points[0][0]
-        self.point2 = self.points[0][1]
-        self.point3 = self.points[self.c][0]
-        self.point4 = self.points[self.c][1]
+        if self.shift:
+            if self.points[self.c][0] > self.points[0][0] and self.points[self.c][1] > self.points[0][1]:
+                if (self.points[self.c][0]-self.points[0][0]) > (self.points[self.c][1]-self.points[0][1]):
+                    pygame.draw.line(self.screen, self.color, self.points[0], (self.points[self.c][0], self.points[0][1]), self.s)
+                    self.point1 = self.points[0][0]
+                    self.point2 = self.points[0][1]
+                    self.point4 = self.points[self.c][0]
+                    self.point3 = self.points[0][1]
+                elif (self.points[self.c][1]-self.points[0][1]) > (self.points[self.c][0]-self.points[0][0]):
+                    pygame.draw.line(self.screen, self.color, self.points[0], (self.points[0][0], self.points[self.c][1]), self.s)
+                    self.point1 = self.points[0][0]
+                    self.point2 = self.points[0][1]
+                    self.point3 = self.points[0][0]
+                    self.point4 = self.points[self.c][1]
+            elif self.points[self.c][0] > self.points[0][0] and self.points[self.c][1] < self.points[0][1]:
+                if (self.points[self.c][0]-self.points[0][0]) > (self.points[0][1]-self.points[self.c][1]):
+                    pygame.draw.line(self.screen, self.color, self.points[0], (self.points[self.c][0], self.points[0][1]), self.s)
+                    self.point1 = self.points[0][0]
+                    self.point2 = self.points[0][1]
+                    self.point4 = self.points[self.c][0]
+                    self.point3 = self.points[0][1]
+                elif (self.points[0][1]-self.points[self.c][1]) > (self.points[self.c][0]-self.points[0][0]):
+                    pygame.draw.line(self.screen, self.color, self.points[0], (self.points[0][0], self.points[self.c][1]), self.s)
+                    self.point1 = self.points[0][0]
+                    self.point2 = self.points[0][1]
+                    self.point3 = self.points[0][0]
+                    self.point4 = self.points[self.c][1]
+            elif self.points[self.c][0] < self.points[0][0] and self.points[self.c][1] > self.points[0][1]:
+                if (self.points[0][0]-self.points[self.c][0]) > (self.points[self.c][1]-self.points[0][1]):
+                    pygame.draw.line(self.screen, self.color, self.points[0], (self.points[self.c][0], self.points[0][1]), self.s)
+                    self.point1 = self.points[0][0]
+                    self.point2 = self.points[0][1]
+                    self.point4 = self.points[self.c][0]
+                    self.point3 = self.points[0][1]
+                elif (self.points[self.c][1]-self.points[0][1]) > (self.points[0][0]-self.points[self.c][0]):
+                    pygame.draw.line(self.screen, self.color, self.points[0], (self.points[0][0], self.points[self.c][1]), self.s)
+                    self.point1 = self.points[0][0]
+                    self.point2 = self.points[0][1]
+                    self.point3 = self.points[0][0]
+                    self.point4 = self.points[self.c][1]
+            elif self.points[self.c][0] < self.points[0][0] and self.points[self.c][1] < self.points[0][1]:
+                if (self.points[0][0]-self.points[self.c][0]) > (self.points[0][1]-self.points[self.c][1]):
+                    pygame.draw.line(self.screen, self.color, self.points[0], (self.points[self.c][0], self.points[0][1]), self.s)
+                    self.point1 = self.points[0][0]
+                    self.point2 = self.points[0][1]
+                    self.point4 = self.points[self.c][0]
+                    self.point3 = self.points[0][1]
+                elif (self.points[0][1]-self.points[self.c][1]) > (self.points[0][0]-self.points[self.c][0]):
+                    pygame.draw.line(self.screen, self.color, self.points[0], (self.points[0][0], self.points[self.c][1]), self.s)
+                    self.point1 = self.points[0][0]
+                    self.point2 = self.points[0][1]
+                    self.point3 = self.points[0][0]
+                    self.point4 = self.points[self.c][1]
+        else:
+            pygame.draw.line(self.screen, self.color, self.points[0], self.points[self.c], self.s)
+            self.point1 = self.points[0][0]
+            self.point2 = self.points[0][1]
+            self.point3 = self.points[self.c][0]
+            self.point4 = self.points[self.c][1]
         self.line_s = self.s
         self.line_c = self.color
         self.c += 1
@@ -3993,6 +4157,12 @@ class main:
             return True
         return False
     def point_slope_y_int(self, m, x, y):
+        #Plug in values into point slope form [y-y1 = m(x-x1)] to get standard form [y = mx+b]
+        #And get b which is the y-intercept
+        # y-y1 = m(x-x1)
+        # y-y1 = mx-mx1
+        # y = mx-mx1+y1
+        # yint = -mx1+y
         mx1 = m*x
         return ((-1*mx1)+y)
     def inLine(self, x1, y1, x2, y2, s, x, y):
@@ -4046,7 +4216,7 @@ class main:
         elif x2 > x1 and y2 < y1:
             if x < (x1-(s/2)) or x > (x2+(s/2)) or y < y2 or y > y1:
                 return False
-            slope = float(y1-y2)/float(x2-x1)
+            slope = float(y2-y1)/float(x2-x1)
             yint = self.point_slope_y_int(slope, x1, y1)
             yint2 = yint
             yints = []
@@ -4068,7 +4238,7 @@ class main:
         elif x2 < x1 and y2 > y1:
             if x < (x2-(s/2)) or x > (x1+(s/2)) or y < y1 or y > y2:
                 return False
-            slope = float(y2-y1)/float(x1-x2)
+            slope = float(y1-y2)/float(x1-x2)
             yint = self.point_slope_y_int(slope, x1, y1)
             yint2 = yint
             yints = []
@@ -4090,7 +4260,7 @@ class main:
         elif x2 < x1 and y2 < y1:
             if x < (x2-(s/2)) or x > (x1+(s/2)) or y < y2 or y > y1:
                 return False
-            slope = float(y1-y2)/float(x2-x1)
+            slope = float(y2-y1)/float(x2-x1)
             yint = self.point_slope_y_int(slope, x1, y1)
             yint2 = yint
             yints = []
