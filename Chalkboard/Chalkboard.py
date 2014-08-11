@@ -1829,8 +1829,6 @@ class main:
             self.hist_size = []
             self.hist_font = []
             self.hist_text = []
-            self.hist_oc = []
-            self.hist_os = []
             self.ell_type = 0
             self.rc = 0
             self.rw = 0
@@ -1839,11 +1837,13 @@ class main:
             self.point2 = 0
             self.point3 = 0
             self.point4 = 0
+            self.opoint1 = 0
+            self.opoint2 = 0
             self.rect_w = 0
             self.rect_h = 0
+            self.outline_w = 0
+            self.outline_h = 0
             self.rect_c = self.black
-            self.rect_oc = self.black
-            self.rect_os = self.s
             self.line_s = 0
             self.line_c = (0,0,0)
             self.cx = self.width-50 #Clear button position
@@ -3463,10 +3463,14 @@ class main:
                             self.hist_text = []
                             self.hist_font = []
                             self.ell_type = 0
+                            self.opoint1 = 0
+                            self.opoint2 = 0
                             self.point1 = 0
                             self.point2 = 0
                             self.point3 = 0
                             self.point4 = 0
+                            self.outline_w = 0
+                            self.outline_h = 0
                             self.rect_w = 0
                             self.rect_h = 0
                             self.rect_c = self.black
@@ -3541,18 +3545,34 @@ class main:
                     self.scr = pygame.image.load("gui/screen.png").convert_alpha()
                     #Write to history corresponding to what tool selected
                     if self.rectClicked:
+                        if self.noneOutlineSelected == False:
+                            self.history.append("rect")
+                            self.hist_points.append(self.opoint1)
+                            self.hist_points.append(self.opoint2)
+                            self.hist_size.append(self.outline_w)
+                            self.hist_size.append(self.outline_h)
+                            self.hist_color.append(self.outline_color)
+                            self.hist_text.append("none")
+                            self.hist_font.append("none")
                         self.history.append("rect")
                         self.hist_points.append(self.point1)
                         self.hist_points.append(self.point2)
                         self.hist_size.append(self.rect_w)
                         self.hist_size.append(self.rect_h)
                         self.hist_color.append(self.rect_c)
-                        self.hist_oc.append(self.rect_oc)
-                        self.hist_os.append(self.rect_os)
                         self.hist_text.append("none")
                         self.hist_font.append("none")
                     elif self.ellipseClicked:
                         if self.ell_type != 2:
+                            if self.noneOutlineSelected == False:
+                                self.history.append("ellipse")
+                                self.hist_points.append(self.opoint1)
+                                self.hist_points.append(self.opoint2)
+                                self.hist_size.append(self.outline_w)
+                                self.hist_size.append(self.outline_h)
+                                self.hist_color.append(self.outline_color)
+                                self.hist_text.append("none")
+                                self.hist_font.append("none")
                             self.history.append("ellipse")
                             self.hist_points.append(self.point1)
                             self.hist_points.append(self.point2)
@@ -3581,10 +3601,14 @@ class main:
                         self.hist_text.append("none")
                         self.hist_font.append("none")
                     #Reset draw points
+                    self.opoint1 = 0
+                    self.opoint2 = 0
                     self.point1 = 0
                     self.point2 = 0
                     self.point3 = 0
                     self.point4 = 0
+                    self.outline_w = 0
+                    self.outline_h = 0
                     self.rect_w = 0
                     self.rect_h = 0
                     self.line_s = 0
@@ -3618,10 +3642,14 @@ class main:
                         elif pos2y > pos2x:
                             pos2x = pos2y
                     pygame.draw.rect(self.screen, self.outline_color, Rect(self.points[0][0], self.points[0][1], pos2x, pos2y))
-                self.point1 = self.points[0][0]
-                self.point2 = self.points[0][1]
-                self.rect_w = pos2x
-                self.rect_h = pos2y
+                self.opoint1 = self.points[0][0]
+                self.opoint2 = self.points[0][1]
+                self.point1 = self.points[0][0] + (self.s/2)
+                self.point2 = self.points[0][1] + (self.s/2)
+                self.outline_w = pos2x
+                self.outline_h = pos2y
+                self.rect_w = pos2x - self.s
+                self.rect_h = pos2y - self.s
             elif pos2x < 0 and pos2y > 0:
                 x = pos2x + self.points[0][0]
                 y = self.points[0][1]
@@ -3642,10 +3670,14 @@ class main:
                         elif h > w:
                             w = h
                     pygame.draw.rect(self.screen, self.outline_color, Rect(x,y,w,h))
-                self.point1 = x
-                self.point2 = y
-                self.rect_w = w
-                self.rect_h = h
+                self.opoint1 = x
+                self.opoint2 = y
+                self.point1 = x + (self.s/2)
+                self.point2 = y + (self.s/2)
+                self.outline_w = w
+                self.outline_h = h
+                self.rect_w = w - self.s
+                self.rect_h = h - self.s
             elif pos2x > 0 and pos2y < 0:
                 x = self.points[0][0]
                 y = pos2y + self.points[0][1]
@@ -3666,10 +3698,14 @@ class main:
                         elif h > w:
                             w = h
                     pygame.draw.rect(self.screen, self.outline_color, Rect(x,y,w,h))
-                self.point1 = x
-                self.point2 = y
-                self.rect_w = w
-                self.rect_h = h
+                self.opoint1 = x
+                self.opoint2 = y
+                self.point1 = x + (self.s/2)
+                self.point2 = y + (self.s/2)
+                self.outline_w = w
+                self.outline_h = h
+                self.rect_w = w - self.s
+                self.rect_h = h - self.s
             elif pos2x < 0 and pos2y < 0:
                 x = pos2x + self.points[0][0]
                 y = pos2y + self.points[0][1]
@@ -3690,10 +3726,14 @@ class main:
                         elif h > w:
                             w = h
                     pygame.draw.rect(self.screen, self.outline_color, Rect(x,y,w,h))
-                self.point1 = x
-                self.point2 = y
-                self.rect_w = w
-                self.rect_h = h
+                self.opoint1 = x
+                self.opoint2 = y
+                self.point1 = x + (self.s/2)
+                self.point2 = y + (self.s/2)
+                self.outline_w = w
+                self.outline_h = h
+                self.rect_w = w - self.s
+                self.rect_h = h - self.s
         else:
             if self.shift:
                 if pos2x > pos2y:
@@ -3740,8 +3780,10 @@ class main:
                         elif rect_height > rect_width:
                             rect_width = rect_height
                     pygame.draw.ellipse(self.screen, self.outline_color, Rect((rect_corner),(rect_width,rect_height)))
-                self.point1 = rect_corner[0]
-                self.point2 = rect_corner[1]
+                self.opoint1 = rect_corner[0]
+                self.opoint2 = rect_corner[1]
+                self.point1 = rect_corner[0] + (self.s/2)
+                self.point2 = rect_corner[1] + (self.s/2)
             elif rect_height < 0 and rect_width < 0:
                 rect_width = self.points[0][0] - self.points[self.c][0]
                 rect_height = self.points[0][1] - self.points[self.c][1]
@@ -3760,8 +3802,10 @@ class main:
                         elif rect_height > rect_width:
                             rect_width = rect_height
                     pygame.draw.ellipse(self.screen, self.outline_color, Rect((self.points[self.c]), (rect_width, rect_height)))
-                self.point1 = self.points[self.c][0]
-                self.point2 = self.points[self.c][1]
+                self.opoint1 = self.points[self.c][0]
+                self.opoint2 = self.points[self.c][1]
+                self.point1 = self.points[self.c][0] + (self.s/2)
+                self.point2 = self.points[self.c][1] + (self.s/2)
             elif rect_height > 0 and rect_width < 0:
                 rect_corner = [self.points[self.c][0], self.points[0][1]]
                 rect_bottom = [self.points[0][0], self.points[self.c][1]]
@@ -3782,8 +3826,10 @@ class main:
                         elif rect_height > rect_width:
                             rect_width = rect_height
                     pygame.draw.ellipse(self.screen, self.outline_color, Rect((rect_corner), (rect_width, rect_height)))
-                self.point1 = rect_corner[0]
-                self.point2 = rect_corner[1]
+                self.opoint1 = rect_corner[0]
+                self.opoint2 = rect_corner[1]
+                self.point1 = rect_corner[0] + (self.s/2)
+                self.point2 = rect_corner[1] + (self.s/2)
             elif rect_height == 0 and rect_width != 0:
                 pygame.draw.line(self.screen, self.color, self.points[self.c], self.points[0], 4)
                 self.ell_type = 2
@@ -3821,8 +3867,14 @@ class main:
                         elif rect_height > rect_width:
                             rect_width = rect_height
                     pygame.draw.ellipse(self.screen, self.outline_color, Rect((self.points[0]), (rect_width, rect_height)))
-                self.point1 = self.points[0][0]
-                self.point2 = self.points[0][1]
+                self.opoint1 = self.points[0][0]
+                self.opoint2 = self.points[0][1]
+                self.point1 = self.points[0][0] + (self.s/2)
+                self.point2 = self.points[0][1] + (self.s/2)
+            self.outline_w = rect_width
+            self.outline_h = rect_height
+            self.rect_w = rect_width - self.s
+            self.rect_h = rect_height - self.s
         else:
             if rect_height < 0 and rect_width > 0:
                 rect_corner = [self.points[0][0], self.points[self.c][1]]
@@ -3891,8 +3943,8 @@ class main:
                 pygame.draw.ellipse(self.screen, self.color, Rect((self.points[0]), (rect_width, rect_height)))
                 self.point1 = self.points[0][0]
                 self.point2 = self.points[0][1]
-        self.rect_w = rect_width
-        self.rect_h = rect_height
+            self.rect_w = rect_width
+            self.rect_h = rect_height
         if self.ell_type == 2:
             self.line_c = self.color
         else:
@@ -4361,8 +4413,9 @@ class main:
                 i -= 1
                 i_p -= 2
                 i_c -= 1
-            i_t += 1
-            i_f += 1
+                i_s -= 1
+            i_t -= 1
+            i_f -= 1
         if self.fill != self.black and self.fill != self.blue:
             return "Fill light, not in range"
         else:
