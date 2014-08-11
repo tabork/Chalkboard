@@ -30,7 +30,7 @@ Contributor List
 
 Currently, there is just one person working; however, anyone who says they want to help (even if they don't fork repo) will be added to list:
 
-Tabor Kvasnicka (kamakwazee@hotmail.com)
+Tabor Kvasnicka (kamakwazee@gmail.com)
 
 Installation Instructions
 ==========
