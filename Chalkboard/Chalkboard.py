@@ -4,21 +4,6 @@
 #   Created and Maintained by the Kamakwazee Open Source Team
 #           -Tabor Kvasnicka   ]----Currently, only person
 #
-#Expected Features:
-#   Line color changing
-#   Circle/Ellipse color changing fix
-#   Eraser color fix
-#   Shape outline
-#   Text
-#
-#Clip art postponed until 3.0 or later as we need to have access to
-#a larger clip art database.
-#
-#Text tool nearly complete
-#Eraser color fix complete
-#Ellipse color fix complete
-#Brush/Eraser tool now configured to not have gaps
-#Shape outline complete
 #
 #Import dependencies
 import pygame, sys, Tkinter, math, os, save_as, open_file, display, wx
