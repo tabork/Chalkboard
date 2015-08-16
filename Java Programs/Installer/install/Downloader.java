@@ -20,8 +20,9 @@ import org.apache.commons.net.ftp.FTPFile;
 public class Downloader extends JFrame{
 
 	/**
-	 * 
+	 *
 	 */
+	private static String GUID = "454f42d9-6f6e-48be-804d-e275fb4a97ed";
 	private static final long serialVersionUID = 4237530638084074684L;
 	public static JProgressBar currentBar, totalBar;
 	public static JLabel fileLabel;
@@ -45,19 +46,6 @@ public class Downloader extends JFrame{
 			current = ((DownloadCountingOutputStream) e.getSource()).getByteCount();
             percentage = (int) Math.round((current/totalSize)*100);
 			changeBar(currentBar, percentage);
-			/*if(percentage == 100)
-			{
-				
-				//current = 0;
-				//currentFileSizes += totalSize - currentPrev;
-				//currentPrev = 0;
-				currentFileSizes += totalSize;
-				changeBar(currentBar, 0);
-				
-			}
-			//currentFileSizes += current - currentPrev;
-			pd = (int) Math.round((currentFileSizes/totalFileSizes)*100);
-			changeBar(totalBar, pd);*/
 			
 		}
 		
@@ -168,10 +156,7 @@ public class Downloader extends JFrame{
 				totalSize = Double.parseDouble(dl.openConnection().getHeaderField("Content-Length"));
 				IOUtils.copy(is, countStream);
 				amtDownloaded++;
-				//System.out.println(Integer.toString(amtDownloaded));
-				//System.out.println(Double.toString(amtDownloaded/amtTotal));
 				int pd = (int) Math.round((((double) amtDownloaded)/((double) amtTotal))*100);
-				//System.out.println(Integer.toString(pd));
 				changeBar(totalBar, pd);
 				
 			}
