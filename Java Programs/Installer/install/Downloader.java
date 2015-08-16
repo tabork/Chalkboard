@@ -108,7 +108,10 @@ public class Downloader extends JFrame{
 				{
 					
 					getPaths(path + file.getName() + "/");
-					new File("C:\\Program Files\\" + path + file.getName() + "\\").mkdirs();
+					if(x86)
+						new File("C:\\Program Files\\Chalkboard\\" + path + file.getName() + "\\").mkdirs();
+					else
+						new File("C:\\Program Files (x86)\\Chalkboard\\" + path + file.getName() + "\\").mkdirs();
 					
 				}
 				else
@@ -136,23 +139,28 @@ public class Downloader extends JFrame{
 			FTPFile[] files = client.listFiles("/Chalkboard");
 			totalFileSizes = getTotalFileSizes(files);
 			pathList = new ArrayList<String>();
-			getPaths("/Chalkboard/");
+			getPaths("/");
 			paths = pathList.toArray(new String[pathList.size()]);
 			amtTotal = paths.length;
 			System.out.println(Integer.toString(amtTotal));
 			System.out.println("Made connections");
 			String arch = System.getProperty("os.arch");
 			x86 = (arch.contains("64")) ? false : true;
+			if(x86)
+				new File("C:\\Program Files\\Chalkboard\\").mkdirs();
+			else
+				new File("C:\\Program Files (x86)\\Chalkboard\\").mkdirs();
 			for(String path : paths)
 			{
 				
 				String p = path;
 				fileLabel.setText(path);
 				if(x86)
-					path = "C:\\Program Files\\" + path;
+					path = "C:\\Program Files\\Chalkboard\\" + path;
 				else
-					path = "C:\\Program Files (x86)\\" + path;
-				URL dl = new URL("http://kamakwazee.net" + p);
+					path = "C:\\Program Files (x86)\\Chalkboard\\" + path;
+				
+				URL dl = new URL("http://kamakwazee.net/Chalkboard/" + p);
 				OutputStream os = new FileOutputStream(new File(path));
 				InputStream is = dl.openStream();
 				DownloadCountingOutputStream countStream = new DownloadCountingOutputStream(os);
