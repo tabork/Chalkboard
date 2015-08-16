@@ -35,6 +35,7 @@ public class Downloader extends JFrame{
 	public static FTPClient client;
 	public static ArrayList<String> pathList;
 	public static int amtDownloaded, amtTotal;
+	public static boolean x86;
 	
 	private static class ProgressListener implements ActionListener{
 		
@@ -107,7 +108,7 @@ public class Downloader extends JFrame{
 				{
 					
 					getPaths(path + file.getName() + "/");
-					new File("C:\\Users\\kamak\\Desktop\\Download" + path + file.getName() + "\\").mkdirs();
+					new File("C:\\Program Files\\" + path + file.getName() + "\\").mkdirs();
 					
 				}
 				else
@@ -129,7 +130,7 @@ public class Downloader extends JFrame{
 		try {
 			client.connect("kamakwazee.net");
 			System.out.println("connected");
-			client.login("kamakwazee", "SndMr44!");
+			client.login("chalkboardinst", "Chalkb0ard!nst");
 			client.enterLocalPassiveMode();
 			System.out.println("Logged in");
 			FTPFile[] files = client.listFiles("/Chalkboard");
@@ -140,12 +141,17 @@ public class Downloader extends JFrame{
 			amtTotal = paths.length;
 			System.out.println(Integer.toString(amtTotal));
 			System.out.println("Made connections");
+			String arch = System.getProperty("os.arch");
+			x86 = (arch.contains("64")) ? false : true;
 			for(String path : paths)
 			{
 				
 				String p = path;
 				fileLabel.setText(path);
-				path = "C:\\Users\\kamak\\Desktop\\Download" + path;
+				if(x86)
+					path = "C:\\Program Files\\" + path;
+				else
+					path = "C:\\Program Files (x86)\\" + path;
 				URL dl = new URL("http://kamakwazee.net" + p);
 				OutputStream os = new FileOutputStream(new File(path));
 				InputStream is = dl.openStream();
