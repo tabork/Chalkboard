@@ -1,3 +1,10 @@
+#
+#Chalkboard 3.0
+#
+#
+#Display open file dialog
+#
+#
 import wx
 
 class open_f():

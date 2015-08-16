@@ -1,9 +1,11 @@
 #
-#Chalkboard 2.3
+#Chalkboard 3.0
 #
 #   Created and Maintained by the Kamakwazee Open Source Team
 #           -Tabor Kvasnicka   ]----Currently, only person
 #
+#Potential features
+#---still coming up with ideas
 #
 #Import dependencies
 import pygame, sys, Tkinter, math, os, save_as, open_file, display, wx
