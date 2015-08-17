@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 
 import org.apache.commons.io.IOUtils;
@@ -37,6 +38,7 @@ public class Downloader extends JFrame{
 	public static ArrayList<String> pathList;
 	public static int amtDownloaded, amtTotal;
 	public static boolean x86;
+	public static String installPath;
 	
 	private static class ProgressListener implements ActionListener{
 		
@@ -124,8 +126,11 @@ public class Downloader extends JFrame{
 			client.login("chalkboardinst", "Chalkb0ard!nst");
 			client.enterLocalPassiveMode();
 			System.out.println("Logged in");
-			FTPFile[] files = client.listFiles("/Chalkboard");
+			FTPFile[] files = client.listFiles("/");
 			totalFileSizes = getTotalFileSizes(files);
+			installPath = "C:\\Program Files (x86)\\Chalkboard\\";
+			System.out.println(Double.toString( totalFileSizes));
+			new Registry().write(GUID, installPath, (int) Math.round(totalFileSizes/1000));
 			pathList = new ArrayList<String>();
 			getPaths("/");
 			paths = pathList.toArray(new String[pathList.size()]);
@@ -135,29 +140,58 @@ public class Downloader extends JFrame{
 			String arch = System.getProperty("os.arch");
 			x86 = (arch.contains("64")) ? false : true;
 			if(x86)
-				new File("C:\\Program Files\\Chalkboard\\").mkdirs();
+				installPath = "C:\\Program Files\\Chalkboard\\";
 			else
-				new File("C:\\Program Files (x86)\\Chalkboard\\").mkdirs();
+				installPath = "C:\\Program Files (x86)\\Chalkboard\\";
+			
+			new File(installPath).mkdirs();
+			
 			for(String path : paths)
 			{
+				boolean fileDownloaded = false;
+				int exceptionCounter = 0;
 				
-				String p = path;
-				fileLabel.setText(path);
-				if(x86)
-					path = "C:\\Program Files\\Chalkboard\\" + path;
-				else
-					path = "C:\\Program Files (x86)\\Chalkboard\\" + path;
-				
-				URL dl = new URL("http://kamakwazee.net/Chalkboard/" + p);
-				OutputStream os = new FileOutputStream(new File(path));
-				InputStream is = dl.openStream();
-				DownloadCountingOutputStream countStream = new DownloadCountingOutputStream(os);
-				countStream.setListener(new ProgressListener());
-				totalSize = Double.parseDouble(dl.openConnection().getHeaderField("Content-Length"));
-				IOUtils.copy(is, countStream);
-				amtDownloaded++;
-				int pd = (int) Math.round((((double) amtDownloaded)/((double) amtTotal))*100);
-				changeBar(totalBar, pd);
+				while(!fileDownloaded)
+				{
+					String p = path;
+					try
+					{
+						
+						fileLabel.setText(path);
+						path = installPath + path;
+						URL dl = new URL("http://kamakwazee.net/Chalkboard/" + p);
+						OutputStream os = new FileOutputStream(new File(path));
+						InputStream is = dl.openStream();
+						DownloadCountingOutputStream countStream = new DownloadCountingOutputStream(os);
+						countStream.setListener(new ProgressListener());
+						totalSize = Double.parseDouble(dl.openConnection().getHeaderField("Content-Length"));
+						IOUtils.copy(is, countStream);
+						amtDownloaded++;
+						int pd = (int) Math.round((((double) amtDownloaded)/((double) amtTotal))*100);
+						changeBar(totalBar, pd);
+						
+						if((double) current == totalSize)
+							fileDownloaded = true;
+					}
+					catch(Exception e)
+					{
+						
+						path = p;
+						exceptionCounter++;
+						e.printStackTrace();
+						
+						if(exceptionCounter == 5)
+						{
+							
+							JOptionPane.showMessageDialog(null, "There has been an error installing.", "Error", JOptionPane.ERROR_MESSAGE);
+							finish("Downloading due to error");
+							
+						}
+						
+						continue;
+						
+					}
+				}
 				
 			}
 			client.disconnect();
@@ -167,6 +201,7 @@ public class Downloader extends JFrame{
 		}
 		finally
 		{
+			
 			
 			finish("Downloading");
 			
