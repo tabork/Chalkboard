@@ -3604,12 +3604,21 @@ class main:
                         self.shift = False
                 elif event.type == VIDEORESIZE: #If screen resized
                     self.resizeScreen(event.size)
+    #changes value of a tuple
+    def tupReplace(self, tup, i, val):
+        lst = list(tup);
+        lst[i] = val;
+        return tuple(lst)
     def rect_drag(self): #Rectangle dragging
         if self.placed == True:
             self.screen.blit(self.scr, (0,0))
         else:
             self.screen.fill(self.fill)
         self.points.append(pygame.mouse.get_pos())
+        if self.points[self.c][0] < 30:
+            self.points[self.c] = self.tupReplace(self.points[self.c],0,30)
+        if self.points[self.c][1] < 60:
+            self.points[self.c] = self.tupReplace(self.points[self.c],1,60)
         pos2x = self.points[self.c][0] - self.points[0][0]
         pos2y = self.points[self.c][1] - self.points[0][1]
         if self.noneOutlineSelected == False:
@@ -3744,6 +3753,10 @@ class main:
             self.screen.fill(self.fill)
         self.ell_type = 0
         self.points.append(pygame.mouse.get_pos())
+        if self.points[self.c][0] < 30:
+            self.points[self.c] = self.tupReplace(self.points[self.c],0,30)
+        if self.points[self.c][1] < 60:
+            self.points[self.c] = self.tupReplace(self.points[self.c],1,60)
         rect_width = self.points[self.c][0] - self.points[0][0]
         rect_height = self.points[self.c][1] - self.points[0][1]
         if self.noneOutlineSelected == False:
@@ -3940,6 +3953,14 @@ class main:
         pygame.display.flip()
     def brush_drag(self): #Brush dragging
         end = pygame.mouse.get_pos()
+        if end[0] < 30:
+            end = self.tupReplace(end, 0, 30+self.s/2)
+        if end[1] < 60:
+            end = self.tupReplace(end, 1, 60+self.s/2)
+        if self.last_x < 30:
+            self.last_x = 30+self.s/2
+        if self.last_y < 60:
+            self.last_y = 60+self.s/2
         start = (self.last_x, self.last_y)
         dx = end[0]-start[0]
         dy = end[1]-start[1]
@@ -3967,6 +3988,14 @@ class main:
         pygame.display.flip()
     def eraser_drag(self): #Eraser dragging
         end = pygame.mouse.get_pos()
+        if end[0] < 30:
+            end = self.tupReplace(end, 0, 30+self.s/2)
+        if end[1] < 60:
+            end = self.tupReplace(end, 1, 60+self.s/2)
+        if self.last_x < 30:
+            self.last_x = 30+self.s/2
+        if self.last_y < 60:
+            self.last_y = 60+self.s/2
         start = (self.last_x, self.last_y)
         dx = end[0]-start[0]
         dy = end[1]-start[1]
@@ -3998,6 +4027,10 @@ class main:
         else:
             self.screen.fill(self.fill)
         self.points.append(pygame.mouse.get_pos())
+        if self.points[self.c][0] < 30:
+            self.points[self.c] = self.tupReplace(self.points[self.c],0,30)
+        if self.points[self.c][1] < 60:
+            self.points[self.c] = self.tupReplace(self.points[self.c],1,60)
         if self.shift:
             if self.points[self.c][0] > self.points[0][0] and self.points[self.c][1] > self.points[0][1]:
                 if (self.points[self.c][0]-self.points[0][0]) > (self.points[self.c][1]-self.points[0][1]):
