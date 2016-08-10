@@ -7,7 +7,7 @@ class ColorDialog:
         self.screen.blit(pygame.image.load("gui/typing.png"),(0,0))
         self.screen.blit(self.font.render(self.text, 1, (0,0,0)), self.typePos)
     
-    def showDialog(self):
+    def showDialog(self, color=(0,0,0)):
         pygame.init()
         self.screen = pygame.display.set_mode((200,300),0,0)
         self.screen.fill((255,255,255))
@@ -15,23 +15,23 @@ class ColorDialog:
         self.redTyping = False
         self.greenTyping = False
         self.blueTyping = False
-        self.r = 0
-        self.g = 0
-        self.b = 0
+        self.r = color[0]
+        self.g = color[1]
+        self.b = color[2]
         self.text = ""
         
         self.screen.blit(self.font.render("red: ", 1, (0,0,0)),(10,10))
         pygame.draw.rect(self.screen, (0,0,0), Rect(50,10,50,30))
         pygame.draw.rect(self.screen, (255,255,255), Rect(52,12,46,26))
-        self.screen.blit(self.font.render("0", 1, (0,0,0)),(53,13))
+        self.screen.blit(self.font.render(str(self.r), 1, (0,0,0)),(53,13))
         self.screen.blit(self.font.render("green: ", 1, (0,0,0)),(10,75))
         pygame.draw.rect(self.screen, (0,0,0), Rect(50,75,50,30))
         pygame.draw.rect(self.screen, (255,255,255), Rect(52,77,46,26))
-        self.screen.blit(self.font.render("0", 1, (0,0,0)),(53,78))
+        self.screen.blit(self.font.render(str(self.g), 1, (0,0,0)),(53,78))
         self.screen.blit(self.font.render("blue: ", 1, (0,0,0)),(10,140))
         pygame.draw.rect(self.screen, (0,0,0), Rect(50,140,50,30))
         pygame.draw.rect(self.screen, (255,255,255), Rect(52,142,46,26))
-        self.screen.blit(self.font.render("0", 1, (0,0,0)),(53,143))
+        self.screen.blit(self.font.render(str(self.b), 1, (0,0,0)),(53,143))
         pygame.draw.rect(self.screen, (0,0,0), Rect(50,250,50,30))
         pygame.draw.rect(self.screen, (255,255,255), Rect(52,252,46,26))
         self.screen.blit(self.font.render("Okay", 1, (0,0,0)),(53,253))
@@ -120,7 +120,7 @@ class ColorDialog:
                             pygame.draw.rect(self.screen, (255,255,255), Rect(52,142,46,26))
                             pygame.image.save(self.screen, "gui/typing.png")
                         elif x in range(50,100) and y in range(250,280):
+                            pygame.quit()
                             return (self.r,self.g,self.b)
 
             pygame.display.flip()
-
