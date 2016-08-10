@@ -1847,6 +1847,19 @@ class main:
             self.text = ""
             self.typing = False
             self.shift = False
+
+            self.textDict = {K_a:'a',K_b:'b',K_c:'c',K_d:'d',K_e:'e',K_f:'f',K_g:'g',K_h:'h',K_i:'i',K_j:'j',K_k:'k',K_l:'l',K_m:'m',K_n:'n',K_o:'o',
+                             K_p:'p',K_q:'q',K_r:'r',K_s:'s',K_t:'t',K_u:'u',K_v:'v',K_w:'w',K_x:'x',K_y:'y',K_z:'z',K_0:'0',K_1:'1',K_2:'2',K_3:'3',
+                             K_4:'4',K_5:'5',K_6:'6',K_7:'7',K_8:'8',K_9:'9',K_KP0:'0',K_KP1:'1',K_KP2:'2',K_KP3:'3',K_KP4:'4',K_KP5:'5',K_KP6:'6',
+                             K_KP7:'7',K_KP8:'8',K_KP9:'9',K_MINUS:'-',K_EQUALS:'=',K_COMMA:',',K_SLASH:'/',K_PERIOD:'.',K_SEMICOLON:';',
+                             K_QUOTE:'\'',K_LEFTBRACKET:'[',K_RIGHTBRACKET:']',K_BACKSLASH:'\\',K_SPACE:' ',K_BACKQUOTE:'`',K_KP_PERIOD:'.',
+                             K_KP_DIVIDE:"/",K_KP_MULTIPLY:'*',K_KP_MINUS:'-',K_KP_PLUS:'+'}
+            self.textShiftDict = {K_a:'A',K_b:'B',K_c:'C',K_d:'D',K_e:'E',K_f:'F',K_g:'G',K_h:'H',K_i:'I',K_j:'J',K_k:'K',K_l:'L',K_m:'M',K_n:'N',K_o:'O',
+                                  K_p:'P',K_q:'Q',K_r:'R',K_s:'S',K_t:'T',K_u:'U',K_v:'V',K_w:'W',K_x:'X',K_y:'Y',K_z:'Z',K_0:')',K_1:'!',K_2:'@',K_3:'#',
+                                  K_4:'$',K_5:'%',K_6:'^',K_7:'&',K_8:'*',K_9:'(',K_KP0:'0',K_KP1:'1',K_KP2:'2',K_KP3:'3',K_KP4:'4',K_KP5:'5',K_KP6:'6',
+                                  K_KP7:'7',K_KP8:'8',K_KP9:'9',K_MINUS:'_',K_EQUALS:'+',K_COMMA:'<',K_SLASH:'?',K_PERIOD:'>',K_SEMICOLON:':',
+                                  K_QUOTE:'"',K_LEFTBRACKET:'{',K_RIGHTBRACKET:'}',K_BACKSLASH:'|',K_SPACE:' ',K_BACKQUOTE:'~',K_KP_PERIOD:'.',
+                                  K_KP_DIVIDE:"/",K_KP_MULTIPLY:'*',K_KP_MINUS:'-',K_KP_PLUS:'+'}
         else: #Otherwise
             self.main_icon = pygame.image.load(self.icon).convert() #Load icon
             pygame.display.set_icon(self.main_icon) #Apply icon
@@ -3061,249 +3074,6 @@ class main:
                     pygame.quit() #Quit program
                     sys.exit()
                 elif event.type == KEYDOWN:
-                    if event.key == K_LSHIFT or event.key == K_RSHIFT:
-                        self.shift = True
-                    if event.key == K_a:
-                        if self.shift:
-                            self.text += 'A'
-                        else:
-                            self.text += 'a'
-                    if event.key == K_b:
-                        if self.shift:
-                            self.text += 'B'
-                        else:
-                            self.text += 'b'
-                    if event.key == K_c:
-                        if self.shift:
-                            self.text += 'C'
-                        else:
-                            self.text += 'c'
-                    if event.key == K_d:
-                        if self.shift:
-                            self.text += 'D'
-                        else:
-                            self.text += 'd'
-                    if event.key == K_e:
-                        if self.shift:
-                            self.text += 'E'
-                        else:
-                            self.text += 'e'
-                    if event.key == K_f:
-                        if self.shift:
-                            self.text += 'F'
-                        else:
-                            self.text += 'f'
-                    if event.key == K_g:
-                        if self.shift:
-                            self.text += 'G'
-                        else:
-                            self.text += 'g'
-                    if event.key == K_h:
-                        if self.shift:
-                            self.text += 'H'
-                        else:
-                            self.text += 'h'
-                    if event.key == K_i:
-                        if self.shift:
-                            self.text += 'I'
-                        else:
-                            self.text += 'i'
-                    if event.key == K_j:
-                        if self.shift:
-                            self.text += 'J'
-                        else:
-                            self.text += 'j'
-                    if event.key == K_k:
-                        if self.shift:
-                            self.text += 'K'
-                        else:
-                            self.text += 'k'
-                    if event.key == K_l:
-                        if self.shift:
-                            self.text += 'L'
-                        else:
-                            self.text += 'l'
-                    if event.key == K_m:
-                        if self.shift:
-                            self.text += 'M'
-                        else:
-                            self.text += 'm'
-                    if event.key == K_n:
-                        if self.shift:
-                            self.text += 'N'
-                        else:
-                            self.text += 'n'
-                    if event.key == K_o:
-                        if self.shift:
-                            self.text += 'O'
-                        else:
-                            self.text += 'o'
-                    if event.key == K_p:
-                        if self.shift:
-                            self.text += 'P'
-                        else:
-                            self.text += 'p'
-                    if event.key == K_q:
-                        if self.shift:
-                            self.text += 'Q'
-                        else:
-                            self.text += 'q'
-                    if event.key == K_r:
-                        if self.shift:
-                            self.text += 'R'
-                        else:
-                            self.text += 'r'
-                    if event.key == K_s:
-                        if self.shift:
-                            self.text += 'S'
-                        else:
-                            self.text += 's'
-                    if event.key == K_t:
-                        if self.shift:
-                            self.text += 'T'
-                        else:
-                            self.text += 't'
-                    if event.key == K_u:
-                        if self.shift:
-                            self.text += 'U'
-                        else:
-                            self.text += 'u'
-                    if event.key == K_v:
-                        if self.shift:
-                            self.text += 'V'
-                        else:
-                            self.text += 'v'
-                    if event.key == K_w:
-                        if self.shift:
-                            self.text += 'W'
-                        else:
-                            self.text += 'w'
-                    if event.key == K_x:
-                        if self.shift:
-                            self.text += 'X'
-                        else:
-                            self.text += 'x'
-                    if event.key == K_y:
-                        if self.shift:
-                            self.text += 'Y'
-                        else:
-                            self.text += 'y'
-                    if event.key == K_z:
-                        if self.shift:
-                            self.text += 'Z'
-                        else:
-                            self.text += 'z'
-                    if event.key == K_0 or event.key == K_KP0:
-                        if self.shift:
-                            self.text += ')'
-                        else:
-                            self.text += '0'
-                    if event.key == K_1 or event.key == K_KP1:
-                        if self.shift:
-                            self.text += '!'
-                        else:
-                            self.text += '1'
-                    if event.key == K_2 or event.key == K_KP2:
-                        if self.shift:
-                            self.text += '@'
-                        else:
-                            self.text += '2'
-                    if event.key == K_3 or event.key == K_KP3:
-                        if self.shift:
-                            self.text += '#'
-                        else:
-                            self.text += '3'
-                    if event.key == K_4 or event.key == K_KP4:
-                        if self.shift:
-                            self.text += '$'
-                        else:
-                            self.text += '4'
-                    if event.key == K_5 or event.key == K_KP5:
-                        if self.shift:
-                            self.text += '%'
-                        else:
-                            self.text += '5'
-                    if event.key == K_6 or event.key == K_KP6:
-                        if self.shift:
-                            self.text += '^'
-                        else:
-                            self.text += '6'
-                    if event.key == K_7 or event.key == K_KP7:
-                        if self.shift:
-                            self.text += '&'
-                        else:
-                            self.text += '7'
-                    if event.key == K_8 or event.key == K_KP8:
-                        if self.shift:
-                            self.text += '*'
-                        else:
-                            self.text += '8'
-                    if event.key == K_9 or event.key == K_KP9:
-                        if self.shift:
-                            self.text += '('
-                        else:
-                            self.text += '9'
-                    if event.key == K_MINUS or event.key == K_KP_MINUS:
-                        if self.shift:
-                            self.text += '_'
-                        else:
-                            self.text += '-'
-                    if event.key == K_EQUALS:
-                        if self.shift:
-                            self.text += '+'
-                        else:
-                            self.text += '='
-                    if event.key == K_BACKQUOTE:
-                        if self.shift:
-                            self.text += '~'
-                        else:
-                            self.text += '`'
-                    if event.key == K_LEFTBRACKET:
-                        if self.shift:
-                            self.text += '{'
-                        else:
-                            self.text += '['
-                    if event.key == K_RIGHTBRACKET:
-                        if self.shift:
-                            self.text += '}'
-                        else:
-                            self.text += ']'
-                    if event.key == K_BACKSLASH:
-                        if self.shift:
-                            self.text += '|'
-                        else:
-                            self.text += '\\'
-                    if event.key == K_SEMICOLON:
-                        if self.shift:
-                            self.text += ':'
-                        else:
-                            self.text += ';'
-                    if event.key == K_QUOTE:
-                        if self.shift:
-                            self.text += '"'
-                        else:
-                            self.text += '\''
-                    if event.key == K_COMMA:
-                        if self.shift:
-                            self.text += '<'
-                        else:
-                            self.text += ','
-                    if event.key == K_PERIOD or event.key == K_KP_PERIOD:
-                        if self.shift:
-                            self.text += '>'
-                        else:
-                            self.text += '.'
-                    if event.key == K_SLASH or event.key == K_KP_DIVIDE:
-                        if self.shift:
-                            self.text += '?'
-                        else:
-                            self.text += '/'
-                    if event.key == K_KP_MULTIPLY:
-                        self.text += '*'
-                    if event.key == K_KP_PLUS:
-                        self.text += '+'
-                    if event.key == K_SPACE:
-                        self.text += ' '
                     if event.key == K_BACKSPACE:
                         c = list(self.text)
                         self.text = ""
@@ -3311,7 +3081,7 @@ class main:
                         while i < len(c)-1:
                             self.text += c[i]
                             i += 1
-                    if event.key == K_RETURN:
+                    elif event.key == K_RETURN or event.key == K_KP_ENTER:
                         self.history.append("text")
                         self.hist_points.append(self.points[0][0])
                         self.hist_points.append(self.points[0][1])
@@ -3322,6 +3092,16 @@ class main:
                         self.points = []
                         self.text = ""
                         self.typing = False
+                    elif event.key == K_LSHIFT or event.key == K_RSHIFT:
+                        self.shift = True
+                    else:
+                        try:
+                            if self.shift:
+                                self.text += self.textShiftDict[event.key]
+                            else:
+                                self.text += self.textDict[event.key]
+                        except KeyError:
+                            pass
                 elif event.type == KEYUP:
                     if event.key == K_LSHIFT or event.key == K_RSHIFT:
                         self.shift = False
