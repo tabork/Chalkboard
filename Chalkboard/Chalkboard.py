@@ -3325,6 +3325,18 @@ class main:
                 elif event.type == KEYUP:
                     if event.key == K_LSHIFT or event.key == K_RSHIFT:
                         self.shift = False
+                elif event.type == MOUSEBUTTONDOWN:
+                    self.history.append("text")
+                    self.hist_points.append(self.points[0][0])
+                    self.hist_points.append(self.points[0][1])
+                    self.hist_text.append(self.text)
+                    self.hist_font.append(self.selectedFont)
+                    self.hist_color.append(self.color)
+                    self.hist_size.append(self.s)
+                    self.points = []
+                    self.text = ""
+                    self.points.append(event.pos)
+                    pygame.image.save(self.screen, "gui/typing.png")
                 elif event.type == VIDEORESIZE: #If screen resized
                     self.resizeScreen(event.size)
         else: #Normal events
