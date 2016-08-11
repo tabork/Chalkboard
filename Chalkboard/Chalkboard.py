@@ -1739,6 +1739,7 @@ class main:
             self.purple = (204, 0, 255)
             self.teal = (0, 255, 255)
             self.orange = (255, 102, 0)
+            self.none = (-1,-1,-1) #No color
             self.fill = self.black
             self.color = self.white
             self.mode = "square" #Brush/eraser mode
@@ -1837,7 +1838,7 @@ class main:
             self.fax = self.cx-22 #Fill arrow position
             self.fx = self.fax-136 #Fill positions
             self.ffx = self.fx-100 #Fill text position
-            self.outline_color = "None"
+            self.outline_color = self.none
             #Text tool variables
             self.fontNames = []
             self.fontPositions = []
@@ -1847,6 +1848,10 @@ class main:
             self.text = ""
             self.typing = False
             self.shift = False
+
+            self.colorDict = {"white":self.white,"black":self.black,"red":self.red,"blue":self.blue,"green":self.green,
+                              "yellow":self.yellow,"lime":self.lime,"purple":self.purple,"teal":self.teal,
+                              "orange":self.orange, "none":self.none}
 
             self.textDict = {K_a:'a',K_b:'b',K_c:'c',K_d:'d',K_e:'e',K_f:'f',K_g:'g',K_h:'h',K_i:'i',K_j:'j',K_k:'k',K_l:'l',K_m:'m',K_n:'n',K_o:'o',
                              K_p:'p',K_q:'q',K_r:'r',K_s:'s',K_t:'t',K_u:'u',K_v:'v',K_w:'w',K_x:'x',K_y:'y',K_z:'z',K_0:'0',K_1:'1',K_2:'2',K_3:'3',
@@ -2235,10 +2240,10 @@ class main:
         elif t == "text":
             self.textClicked = True
     #Determine which color and fill color menu items are clicked
-    def setClicked(self, bg):
-        if bg: #if background is true
+    def setClicked(self, bfo):
+        if bfo == 0: #Background
             self.blackFillSelected = self.whiteFillSelected = self.redFillSelected = self.blueFillSelected = self.yellowFillSelected = False
-            self.limeFillSelected = self.purpleFillSelected = self.tealFillSelected = self.orangeFillSelected = False
+            self.limeFillSelected = self.purpleFillSelected = self.tealFillSelected = self.orangeFillSelected = self.greenFillSelected = False
             if self.fill == self.black:
                 self.blackFillSelected = True
             elif self.fill == self.white:
@@ -2259,9 +2264,9 @@ class main:
                 self.tealFillSelected = True
             elif self.fill == self.orange:
                 self.orangeFillSelected = True
-        else: #otherwise
+        elif bfo == 1: #Foreground
             self.blackSelected = self.whiteSelected = self.redSelected = self.blueSelected = self.yellowSelected = False
-            self.limeSelected = self.purpleSelected = self.tealSelected = self.orangeSelected = False
+            self.limeSelected = self.purpleSelected = self.tealSelected = self.orangeSelected = self.greenSelected = False
             if self.color == self.black:
                 self.blackSelected = True
             elif self.color == self.white:
@@ -2282,28 +2287,32 @@ class main:
                 self.tealSelected = True
             elif self.color == self.orange:
                 self.orangeSelected = True
-    #Get what the color property value is
-    def getColor(self, c):
-        if c == "black":
-            return self.black
-        elif c == "white":
-            return self.white
-        elif c == "red":
-            return self.red
-        elif c == "blue":
-            return self.blue
-        elif c == "green":
-            return self.green
-        elif c == "yellow":
-            return self.yellow
-        elif c == "lime":
-            return self.lime
-        elif c == "purple":
-            return self.purple
-        elif c == "teal":
-            return self.teal
-        elif c == "orange":
-            return self.orange
+        elif bfo == 2: #Outline
+            self.blackOutlineSelected = self.whiteOutlineSelected = self.redOutlineSelected = self.blueOutlineSelected = self.yellowOutlineSelected = False
+            self.limeOutlineSelected = self.purpleOutlineSelected = self.tealOutlineSelected = self.orangeOutlineSelected = self.noneOutlineSelected = False
+            self.greenOutlineSelected = False
+            if self.outline_color == self.black:
+                self.blackOutlineSelected = True
+            elif self.outline_color == self.white:
+                self.whiteOutlineSelected = True
+            elif self.outline_color == self.red:
+                self.redOutlineSelected = True
+            elif self.outline_color == self.blue:
+                self.blueOutlineSelected = True
+            elif self.outline_color == self.green:
+                self.greenOutlineSelected = True
+            elif self.outline_color == self.yellow:
+                self.yellowOutlineSelected = True
+            elif self.outline_color == self.lime:
+                self.limeOutlineSelected = True
+            elif self.outline_color == self.purple:
+                self.purpleOutlineSelected = True
+            elif self.outline_color == self.teal:
+                self.tealOutlineSelected = True
+            elif self.outline_color == self.orange:
+                self.orangeOutlineSelected = True
+            elif self.outline_color == self.none:
+                self.noneOutlineSelected = True
     #Get property values. Self explanatory
     def getProperties(self):
         if os.path.exists("properties/bgColor.txt"):
@@ -2314,8 +2323,8 @@ class main:
             bgcf.write("black")
             bgc = "black"
         bgcf.close()
-        self.fill = self.getColor(bgc)
-        self.setClicked(True)
+        self.fill = self.colorDict[bgc]
+        self.setClicked(0)
         if os.path.exists("properties/fgColor.txt"):
             fgcf = open("properties/fgColor.txt", "r")
             fgc = fgcf.read()
@@ -2324,8 +2333,8 @@ class main:
             fgcf.write("white")
             fgc = "white"
         fgcf.close()
-        self.color = self.getColor(fgc)
-        self.setClicked(False)
+        self.color = self.colorDict[fgc]
+        self.setClicked(1)
         if os.path.exists("properties/shape.txt"):
             sf = open("properties/shape.txt", "r")
             s = sf.read()
@@ -2377,30 +2386,11 @@ class main:
             ocs = oc.read()
             if ocs == "None":
                 self.noneOutlineSelected = True
-                self.outline_color = self.white
+                self.outline_color = self.none
             else:
-                c = self.getColor(ocs)
-                if c == self.white:
-                    self.whiteOutlineSelected = True
-                elif c == self.black:
-                    self.blackOutlineSelected = True
-                elif c == self.red:
-                    self.redOutlineSelected = True
-                elif c == self.orange:
-                    self.orangeOutlineSelected = True
-                elif c == self.lime:
-                    self.limeOutlineSelected = True
-                elif c == self.green:
-                    self.greenOutlineSelected = True
-                elif c == self.blue:
-                    self.blueOutlineSelected = True
-                elif c == self.teal:
-                    self.tealOutlineSelected = True
-                elif c == self.purple:
-                    self.purpleOutlineSelected = True
-                elif c == self.yellow:
-                    self.yellowOutlineSelected = True
+                c = self.colorDict[ocs]
                 self.outline_color = c
+            self.setClicked(2)
         self.screen.fill(self.fill)
         pygame.display.flip()
     #Setup application
@@ -2496,7 +2486,7 @@ class main:
             self.fill = self.yellow
         self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
         self.fillArrowClicked = False
-        self.setClicked(True)
+        self.setClicked(0)
         self.screen.fill(self.fill)
         if self.saved: #If saved
             self.saved = False #Set saved to false
@@ -2554,7 +2544,7 @@ class main:
                                 self.color = self.yellow
                             self.arrowClicked = False
                             self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
-                            self.setClicked(False)
+                            self.setClicked(1)
                 elif event.type == VIDEORESIZE: #If screen resized
                     self.resizeScreen(event.size)
         elif self.fillArrowClicked: #If the fill arrow is clicked
@@ -2660,169 +2650,30 @@ class main:
                         xco, yco = event.pos
                         if xco in range(460,591):
                             if yco in range(54, 74):
-                                self.whiteOutlineSelected = True
-                                self.blackOutlineSelected = False
-                                self.redOutlineSelected = False
-                                self.orangeOutlineSelected = False
-                                self.limeOutlineSelected = False
-                                self.greenOutlineSelected = False
-                                self.blueOutlineSelected = False
-                                self.tealOutlineSelected = False
-                                self.purpleOutlineSelected = False
-                                self.yellowOutlineSelected = False
-                                self.noneOutlineSelected = False
-                                self.outlineArrowClicked = False
-                                self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
                                 self.outline_color = self.white
                             elif yco in range(75,94):
-                                self.whiteOutlineSelected = False
-                                self.blackOutlineSelected = True
-                                self.redOutlineSelected = False
-                                self.orangeOutlineSelected = False
-                                self.limeOutlineSelected = False
-                                self.greenOutlineSelected = False
-                                self.blueOutlineSelected = False
-                                self.tealOutlineSelected = False
-                                self.purpleOutlineSelected = False
-                                self.yellowOutlineSelected = False
-                                self.noneOutlineSelected = False
-                                self.outlineArrowClicked = False
-                                self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
                                 self.outline_color = self.black
                             elif yco in range(95,114):
-                                self.whiteOutlineSelected = False
-                                self.blackOutlineSelected = False
-                                self.redOutlineSelected = True
-                                self.orangeOutlineSelected = False
-                                self.limeOutlineSelected = False
-                                self.greenOutlineSelected = False
-                                self.blueOutlineSelected = False
-                                self.tealOutlineSelected = False
-                                self.purpleOutlineSelected = False
-                                self.yellowOutlineSelected = False
-                                self.noneOutlineSelected = False
-                                self.outlineArrowClicked = False
-                                self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
                                 self.outline_color = self.red
                             elif yco in range(115,134):
-                                self.whiteOutlineSelected = False
-                                self.blackOutlineSelected = False
-                                self.redOutlineSelected = False
-                                self.orangeOutlineSelected = True
-                                self.limeOutlineSelected = False
-                                self.greenOutlineSelected = False
-                                self.blueOutlineSelected = False
-                                self.tealOutlineSelected = False
-                                self.purpleOutlineSelected = False
-                                self.yellowOutlineSelected = False
-                                self.noneOutlineSelected = False
-                                self.outlineArrowClicked = False
-                                self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
                                 self.outline_color = self.orange
                             elif yco in range(135,154):
-                                self.whiteOutlineSelected = False
-                                self.blackOutlineSelected = False
-                                self.redOutlineSelected = False
-                                self.orangeOutlineSelected = False
-                                self.limeOutlineSelected = True
-                                self.greenOutlineSelected = False
-                                self.blueOutlineSelected = False
-                                self.tealOutlineSelected = False
-                                self.purpleOutlineSelected = False
-                                self.yellowOutlineSelected = False
-                                self.noneOutlineSelected = False
-                                self.outlineArrowClicked = False
-                                self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
                                 self.outline_color = self.lime
                             elif yco in range(155, 174):
-                                self.whiteOutlineSelected = False
-                                self.blackOutlineSelected = False
-                                self.redOutlineSelected = False
-                                self.orangeOutlineSelected = False
-                                self.limeOutlineSelected = False
-                                self.greenOutlineSelected = True
-                                self.blueOutlineSelected = False
-                                self.tealOutlineSelected = False
-                                self.purpleOutlineSelected = False
-                                self.yellowOutlineSelected = False
-                                self.noneOutlineSelected = False
-                                self.outlineArrowClicked = False
-                                self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
                                 self.outline_color = self.green
                             elif yco in range(175,194):
-                                self.whiteOutlineSelected = False
-                                self.blackOutlineSelected = False
-                                self.redOutlineSelected = False
-                                self.orangeOutlineSelected = False
-                                self.limeOutlineSelected = False
-                                self.greenOutlineSelected = False
-                                self.blueOutlineSelected = True
-                                self.tealOutlineSelected = False
-                                self.purpleOutlineSelected = False
-                                self.yellowOutlineSelected = False
-                                self.noneOutlineSelected = False
-                                self.outlineArrowClicked = False
-                                self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
                                 self.outline_color = self.blue
                             elif yco in range(195,214):
-                                self.whiteOutlineSelected = False
-                                self.blackOutlineSelected = False
-                                self.redOutlineSelected = False
-                                self.orangeOutlineSelected = False
-                                self.limeOutlineSelected = False
-                                self.greenOutlineSelected = False
-                                self.blueOutlineSelected = False
-                                self.tealOutlineSelected = True
-                                self.purpleOutlineSelected = False
-                                self.yellowOutlineSelected = False
-                                self.noneOutlineSelected = False
-                                self.outlineArrowClicked = False
-                                self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
                                 self.outline_color = self.teal
                             elif yco in range(215, 234):
-                                self.whiteOutlineSelected = False
-                                self.blackOutlineSelected = False
-                                self.redOutlineSelected = False
-                                self.orangeOutlineSelected = False
-                                self.limeOutlineSelected = False
-                                self.greenOutlineSelected = False
-                                self.blueOutlineSelected = False
-                                self.tealOutlineSelected = False
-                                self.purpleOutlineSelected = True
-                                self.yellowOutlineSelected = False
-                                self.noneOutlineSelected = False
-                                self.outlineArrowClicked = False
-                                self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
                                 self.outline_color = self.purple
                             elif yco in range(235, 254):
-                                self.whiteOutlineSelected = False
-                                self.blackOutlineSelected = False
-                                self.redOutlineSelected = False
-                                self.orangeOutlineSelected = False
-                                self.limeOutlineSelected = False
-                                self.greenOutlineSelected = False
-                                self.blueOutlineSelected = False
-                                self.tealOutlineSelected = False
-                                self.purpleOutlineSelected = False
-                                self.yellowOutlineSelected = True
-                                self.noneOutlineSelected = False
-                                self.outlineArrowClicked = False
-                                self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
                                 self.outline_color = self.yellow
                             elif yco in range(255, 274):
-                                self.whiteOutlineSelected = False
-                                self.blackOutlineSelected = False
-                                self.redOutlineSelected = False
-                                self.orangeOutlineSelected = False
-                                self.limeOutlineSelected = False
-                                self.greenOutlineSelected = False
-                                self.blueOutlineSelected = False
-                                self.tealOutlineSelected = False
-                                self.purpleOutlineSelected = False
-                                self.yellowOutlineSelected = False
-                                self.noneOutlineSelected = True
-                                self.outlineArrowClicked = False
-                                self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
+                                self.outline_color = self.none
+                            self.outlineArrowClicked = False
+                            self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
+                            self.setClicked(2)
                         if (xco not in range(460,591) or yco not in range(80,274)) or (xco in range(596,613) and yco in range(34,52)):
                             self.outlineArrowClicked = False
                             self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
