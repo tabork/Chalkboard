@@ -2237,6 +2237,8 @@ class main:
     #Determine which color and fill color menu items are clicked
     def setClicked(self, bg):
         if bg: #if background is true
+            self.blackFillSelected = self.whiteFillSelected = self.redFillSelected = self.blueFillSelected = self.yellowFillSelected = False
+            self.limeFillSelected = self.purpleFillSelected = self.tealFillSelected = self.orangeFillSelected = False
             if self.fill == self.black:
                 self.blackFillSelected = True
             elif self.fill == self.white:
@@ -2258,6 +2260,8 @@ class main:
             elif self.fill == self.orange:
                 self.orangeFillSelected = True
         else: #otherwise
+            self.blackSelected = self.whiteSelected = self.redSelected = self.blueSelected = self.yellowSelected = False
+            self.limeSelected = self.purpleSelected = self.tealSelected = self.orangeSelected = False
             if self.color == self.black:
                 self.blackSelected = True
             elif self.color == self.white:
@@ -2471,155 +2475,29 @@ class main:
     def fillScreen(self, yco):
         #Detects which color selected then fills screen with the color.
         if yco in range(54, 74):
-            self.whiteFillSelected = True
-            self.blackFillSelected = False
-            self.redFillSelected = False
-            self.orangeFillSelected = False
-            self.limeFillSelected = False
-            self.greenFillSelected = False
-            self.blueFillSelected = False
-            self.tealFillSelected = False
-            self.purpleFillSelected = False
-            self.yellowFillSelected = False
-            self.fillArrowClicked = False
-            self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
             self.fill = self.white
-            self.screen.fill(self.fill)
         elif yco in range(75,94):
-            self.whiteFillSelected = False
-            self.blackFillSelected = True
-            self.redFillSelected = False
-            self.orangeFillSelected = False
-            self.limeFillSelected = False
-            self.greenFillSelected = False
-            self.blueFillSelected = False
-            self.tealFillSelected = False
-            self.purpleFillSelected = False
-            self.yellowFillSelected = False
-            self.fillArrowClicked = False
-            self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
             self.fill = self.black
-            self.screen.fill(self.fill)
         elif yco in range(95,114):
-            self.whiteFillSelected = False
-            self.blackFillSelected = False
-            self.redFillSelected = True
-            self.orangeFillSelected = False
-            self.limeFillSelected = False
-            self.greenFillSelected = False
-            self.blueFillSelected = False
-            self.tealFillSelected = False
-            self.purpleFillSelected = False
-            self.yellowFillSelected = False
-            self.fillArrowClicked = False
-            self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
             self.fill = self.red
-            self.screen.fill(self.fill)
         elif yco in range(115,134):
-            self.whiteFillSelected = False
-            self.blackFillSelected = False
-            self.redFillSelected = False
-            self.orangeFillSelected = True
-            self.limeFillSelected = False
-            self.greenFillSelected = False
-            self.blueFillSelected = False
-            self.tealFillSelected = False
-            self.purpleFillSelected = False
-            self.yellowFillSelected = False
-            self.fillArrowClicked = False
-            self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
             self.fill = self.orange
-            self.screen.fill(self.fill)
         elif yco in range(135,154):
-            self.whiteFillSelected = False
-            self.blackFillSelected = False
-            self.redFillSelected = False
-            self.orangeFillSelected = False
-            self.limeFillSelected = True
-            self.greenFillSelected = False
-            self.blueFillSelected = False
-            self.tealFillSelected = False
-            self.purpleFillSelected = False
-            self.yellowFillSelected = False
-            self.fillArrowClicked = False
-            self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
             self.fill = self.lime
-            self.screen.fill(self.fill)
         elif yco in range(155, 174):
-            self.whiteFillSelected = False
-            self.blackFillSelected = False
-            self.redFillSelected = False
-            self.orangeFillSelected = False
-            self.limeFillSelected = False
-            self.greenFillSelected = True
-            self.blueFillSelected = False
-            self.tealFillSelected = False
-            self.purpleFillSelected = False
-            self.yellowFillSelected = False
-            self.fillArrowClicked = False
-            self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
             self.fill = self.green
-            self.screen.fill(self.fill)
         elif yco in range(175,194):
-            self.whiteFillSelected = False
-            self.blackFillSelected = False
-            self.redFillSelected = False
-            self.orangeFillSelected = False
-            self.limeFillSelected = False
-            self.greenFillSelected = False
-            self.blueFillSelected = True
-            self.tealFillSelected = False
-            self.purpleFillSelected = False
-            self.yellowFillSelected = False
-            self.fillArrowClicked = False
-            self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
             self.fill = self.blue
-            self.screen.fill(self.fill)
         elif yco in range(195,214):
-            self.whiteFillSelected = False
-            self.blackFillSelected = False
-            self.redFillSelected = False
-            self.orangeFillSelected = False
-            self.limeFillSelected = False
-            self.greenFillSelected = False
-            self.blueFillSelected = False
-            self.tealFillSelected = True
-            self.purpleFillSelected = False
-            self.yellowFillSelected = False
-            self.fillArrowClicked = False
-            self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
             self.fill = self.teal
-            self.screen.fill(self.fill)
         elif yco in range(215, 234):
-            self.whiteFillSelected = False
-            self.blackFillSelected = False
-            self.redFillSelected = False
-            self.orangeFillSelected = False
-            self.limeFillSelected = False
-            self.greenFillSelected = False
-            self.blueFillSelected = False
-            self.tealFillSelected = False
-            self.purpleFillSelected = True
-            self.yellowFillSelected = False
-            self.fillArrowClicked = False
-            self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
             self.fill = self.purple
-            self.screen.fill(self.fill)
         elif yco in range(235, 254):
-            self.whiteFillSelected = False
-            self.blackFillSelected = False
-            self.redFillSelected = False
-            self.orangeFillSelected = False
-            self.limeFillSelected = False
-            self.greenFillSelected = False
-            self.blueFillSelected = False
-            self.tealFillSelected = False
-            self.purpleFillSelected = False
-            self.yellowFillSelected = True
-            self.fillArrowClicked = False
-            self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
             self.fill = self.yellow
-            self.screen.fill(self.fill)
+        self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
+        self.fillArrowClicked = False
+        self.setClicked(True)
+        self.screen.fill(self.fill)
         if self.saved: #If saved
             self.saved = False #Set saved to false
             self.title = self.title + "*" #Add * to title to symbolize edit
@@ -2655,145 +2533,28 @@ class main:
                         elif xco in range(80,180): #if within the color choices
                             #Change the color of the brush to selected color
                             if yco in range(54, 74):
-                                self.whiteSelected = True
-                                self.blackSelected = False
-                                self.redSelected = False
-                                self.orangeSelected = False
-                                self.limeSelected = False
-                                self.greenSelected = False
-                                self.blueSelected = False
-                                self.tealSelected = False
-                                self.purpleSelected = False
-                                self.yellowSelected = False
-                                self.arrowClicked = False
-                                self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
                                 self.color = self.white
                             elif yco in range(75,94):
-                                self.whiteSelected = False
-                                self.blackSelected = True
-                                self.redSelected = False
-                                self.orangeSelected = False
-                                self.limeSelected = False
-                                self.greenSelected = False
-                                self.blueSelected = False
-                                self.tealSelected = False
-                                self.purpleSelected = False
-                                self.yellowSelected = False
-                                self.arrowClicked = False
-                                self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
                                 self.color = self.black
                             elif yco in range(95,114):
-                                self.whiteSelected = False
-                                self.blackSelected = False
-                                self.redSelected = True
-                                self.orangeSelected = False
-                                self.limeSelected = False
-                                self.greenSelected = False
-                                self.blueSelected = False
-                                self.tealSelected = False
-                                self.purpleSelected = False
-                                self.yellowSelected = False
-                                self.arrowClicked = False
-                                self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
                                 self.color = self.red
                             elif yco in range(115,134):
-                                self.whiteSelected = False
-                                self.blackSelected = False
-                                self.redSelected = False
-                                self.orangeSelected = True
-                                self.limeSelected = False
-                                self.greenSelected = False
-                                self.blueSelected = False
-                                self.tealSelected = False
-                                self.purpleSelected = False
-                                self.yellowSelected = False
-                                self.arrowClicked = False
-                                self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
                                 self.color = self.orange
                             elif yco in range(135,154):
-                                self.whiteSelected = False
-                                self.blackSelected = False
-                                self.redSelected = False
-                                self.orangeSelected = False
-                                self.limeSelected = True
-                                self.greenSelected = False
-                                self.blueSelected = False
-                                self.tealSelected = False
-                                self.purpleSelected = False
-                                self.yellowSelected = False
-                                self.arrowClicked = False
-                                self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
                                 self.color = self.lime
                             elif yco in range(155, 174):
-                                self.whiteSelected = False
-                                self.blackSelected = False
-                                self.redSelected = False
-                                self.orangeSelected = False
-                                self.limeSelected = False
-                                self.greenSelected = True
-                                self.blueSelected = False
-                                self.tealSelected = False
-                                self.purpleSelected = False
-                                self.yellowSelected = False
-                                self.arrowClicked = False
-                                self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
                                 self.color = self.green
                             elif yco in range(175,194):
-                                self.whiteSelected = False
-                                self.blackSelected = False
-                                self.redSelected = False
-                                self.orangeSelected = False
-                                self.limeSelected = False
-                                self.greenSelected = False
-                                self.blueSelected = True
-                                self.tealSelected = False
-                                self.purpleSelected = False
-                                self.yellowSelected = False
-                                self.arrowClicked = False
-                                self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
                                 self.color = self.blue
                             elif yco in range(195,214):
-                                self.whiteSelected = False
-                                self.blackSelected = False
-                                self.redSelected = False
-                                self.orangeSelected = False
-                                self.limeSelected = False
-                                self.greenSelected = False
-                                self.blueSelected = False
-                                self.tealSelected = True
-                                self.purpleSelected = False
-                                self.yellowSelected = False
-                                self.arrowClicked = False
-                                self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
                                 self.color = self.teal
                             elif yco in range(215, 234):
-                                self.whiteSelected = False
-                                self.blackSelected = False
-                                self.redSelected = False
-                                self.orangeSelected = False
-                                self.limeSelected = False
-                                self.greenSelected = False
-                                self.blueSelected = False
-                                self.tealSelected = False
-                                self.purpleSelected = True
-                                self.yellowSelected = False
-                                self.arrowClicked = False
-                                self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
                                 self.color = self.purple
                             elif yco in range(235, 254):
-                                self.whiteSelected = False
-                                self.blackSelected = False
-                                self.redSelected = False
-                                self.orangeSelected = False
-                                self.limeSelected = False
-                                self.greenSelected = False
-                                self.blueSelected = False
-                                self.tealSelected = False
-                                self.purpleSelected = False
-                                self.yellowSelected = True
-                                self.arrowClicked = False
-                                self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
                                 self.color = self.yellow
+                            self.arrowClicked = False
+                            self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0))
+                            self.setClicked(False)
                 elif event.type == VIDEORESIZE: #If screen resized
                     self.resizeScreen(event.size)
         elif self.fillArrowClicked: #If the fill arrow is clicked
