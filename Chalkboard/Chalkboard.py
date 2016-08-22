@@ -8,13 +8,18 @@
 #---still coming up with ideas
 #
 #Import dependencies
-import pygame, sys, Tkinter, math, os, save_as, open_file, display, wx
+import pygame, sys, Tkinter, math, os, save_as, open_file, disp, wx
+from disp import *
+from save_as import *
+from open_file import *
+from pygame import *
 from fontTools import ttLib
 from pygame.locals import *
 from Tkinter import *
 from pygame.image import *
 from pygame.display import *
 from pygame.mouse import *
+from pygame.font import *
 class main:
     #Declare mouse cursors
     def setupCursors(self):
@@ -1656,7 +1661,7 @@ class main:
     def open_it(self):
         self.fileClicked = False #First make the file menu go away
         if self.saved == False:  #If it is already saved,
-            yn = display.disp().display() #ask if user wants to save
+            yn = disp.display() #ask if user wants to save
             if yn: #If yes,
                 self.save() #run self.save method
         self.screen.blit(pygame.image.load("gui/menu_screen.png"), (0,0)) #Place the temporary menu_screen.png file on screen.
@@ -2842,7 +2847,7 @@ class main:
                         #Clear
                         elif xco in range(self.cx,self.cx+50) and yco in range(34,54):
                             if self.saved == False:
-                                yn = display.disp().display() #Display the save question
+                                yn = disp.display() #Display the save question
                                 if yn: #If yes, save
                                     pygame.image.save(self.screen, "gui/menu_screen.png")
                                     self.save()
@@ -3564,7 +3569,7 @@ class main:
     def saveAndExit(self): #Save and exit
         pygame.image.save(self.screen,"gui/menu_screen.png")
         if self.saved == False:
-            yn = display.disp().display()
+            yn = disp.display()
             if yn:
                 self.save()
     def updateFiles(self): #Update properties
