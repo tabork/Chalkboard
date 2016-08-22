@@ -1,22 +1,21 @@
 package install;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URL;
-import java.util.ArrayList;
-
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JProgressBar;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import javax.swing.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.*;
+import java.net.URL;
+import java.util.ArrayList;
 
 public class Downloader extends JFrame{
 
@@ -39,6 +38,7 @@ public class Downloader extends JFrame{
 	public static int amtDownloaded, amtTotal;
 	public static boolean x86;
 	public static String installPath;
+	private String server, un, pw;
 	
 	private static class ProgressListener implements ActionListener{
 		
@@ -86,12 +86,11 @@ public class Downloader extends JFrame{
 	
 	private void getPaths(String path) throws IOException
 	{
-		
 		FTPFile[] files = client.listFiles(path);
 		for(FTPFile file : files)
 		{
-			
-			if(!file.getName().equals(".") && !file.getName().equals("..") && !file.getName().equals(".htaccess"))
+
+			if(!file.getName().equals(".") && !file.getName().equals("..") && !file.getName().equals(".htaccess") && !file.getName().equals(".ftpquota"))
 			{
 				
 				if(file.isDirectory())
@@ -116,14 +115,51 @@ public class Downloader extends JFrame{
 		}
 		
 	}
+
+	private void readXML()
+	{
+
+		try
+		{
+
+			File fXmlFile = new File("ftpinfo.xml");
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(fXmlFile);
+
+			doc.getDocumentElement().normalize();
+
+			NodeList nList = doc.getElementsByTagName("ftp");
+
+			Node nNode = nList.item(0);
+
+			System.out.println("\nCurrent Element :" + nNode.getNodeName());
+
+			if(nNode.getNodeType() == Node.ELEMENT_NODE)
+			{
+
+				Element eElement = (Element) nNode;
+				server = eElement.getElementsByTagName("server").item(0).getTextContent();
+				un = eElement.getElementsByTagName("un").item(0).getTextContent();
+				pw = eElement.getElementsByTagName("pw").item(0).getTextContent();
+
+			}
+
+		} catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+
+	}
 	
 	public void Download(int hours) throws IOException{
+		readXML();
 		current = 0;
 		client = new FTPClient();
 		try {
-			client.connect("kamakwazee.net");
+			client.connect(server);
 			System.out.println("connected");
-			client.login("chalkboardinst", "Chalkb0ard!nst");
+			client.login(un, pw);
 			client.enterLocalPassiveMode();
 			System.out.println("Logged in");
 			FTPFile[] files = client.listFiles("/");
@@ -143,7 +179,7 @@ public class Downloader extends JFrame{
 				installPath = "C:\\Program Files\\Chalkboard\\";
 			else
 				installPath = "C:\\Program Files (x86)\\Chalkboard\\";
-			
+
 			new File(installPath).mkdirs();
 			
 			for(String path : paths)
@@ -159,7 +195,7 @@ public class Downloader extends JFrame{
 						
 						fileLabel.setText(path);
 						path = installPath + path;
-						URL dl = new URL("http://kamakwazee.net/Chalkboard/" + p);
+						URL dl = new URL("http://" + server + "/Chalkboard" + p);
 						OutputStream os = new FileOutputStream(new File(path));
 						InputStream is = dl.openStream();
 						DownloadCountingOutputStream countStream = new DownloadCountingOutputStream(os);
@@ -196,7 +232,6 @@ public class Downloader extends JFrame{
 			}
 			client.disconnect();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		finally
