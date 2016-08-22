@@ -48,9 +48,9 @@ public class Registry {
 			{
 
 				Element eElement = (Element) nNode;
-				vmaj = Integer.parseInt(eElement.getAttribute("major"));
-				vmin = Integer.parseInt(eElement.getAttribute("minor"));
-				version = eElement.getAttribute("version");
+				vmaj = Integer.parseInt(eElement.getElementsByTagName("major").item(0).getTextContent());
+				vmin = Integer.parseInt(eElement.getElementsByTagName("minor").item(0).getTextContent());
+				version = eElement.getElementsByTagName("version").item(0).getTextContent();
 
 			}
 
