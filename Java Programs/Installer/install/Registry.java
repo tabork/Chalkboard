@@ -63,7 +63,9 @@ public class Registry {
 	
 	public void write(String GUID, String installPath, int estimatedSize)
 	{
-		
+
+		readXML();
+
 		String regPath = "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\{" + GUID + "}";
 		
 		Advapi32Util.registryCreateKey(WinReg.HKEY_LOCAL_MACHINE, regPath);
