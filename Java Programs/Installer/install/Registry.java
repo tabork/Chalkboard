@@ -11,6 +11,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 import java.time.LocalDateTime;
+import java.util.Formatter;
 
 public class Registry {
 
@@ -80,7 +81,20 @@ public class Registry {
 		Advapi32Util.registrySetStringValue(WinReg.HKEY_LOCAL_MACHINE, regPath, "InstallDate", dateString);
 		Advapi32Util.registrySetStringValue(WinReg.HKEY_LOCAL_MACHINE, regPath, "InstallLocation", installPath);
 		Advapi32Util.registrySetIntValue(WinReg.HKEY_LOCAL_MACHINE, regPath, "EstimatedSize", estimatedSize);
-		Advapi32Util.registrySetStringValue(WinReg.HKEY_LOCAL_MACHINE, regPath, "UninstallString", installPath + "uninstall.exe");
+		String ad = System.getenv("AppData") + "\\Chalkboard";
+		File bat = new File(ad + "\\uninstall.bat");
+		try  {
+			new File(ad).mkdirs();
+			Formatter f = new Formatter(bat);
+			String com = "reg delete hklm\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\{454f42d9-6f6e-48be-804d-e275fb4a97ed} /f%nrmdir /s /q \"C:\\Program Files (x86)\\Chalkboard\"%ndel %%0%n";
+			f.format(com);
+			f.close();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		Advapi32Util.registrySetStringValue(WinReg.HKEY_LOCAL_MACHINE, regPath, "UninstallString", ad + "\\uninstall.bat");
 		
 	}
 
