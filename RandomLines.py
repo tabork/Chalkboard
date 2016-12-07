@@ -38,6 +38,8 @@ class main:
                 if event.key == K_ESCAPE:
                     pygame.quit()
                     sys.exit()
+                elif event.key == K_s:
+                    pygame.image.save(self.screen,"gen.jpg")
                 else:
                     self.started = True
                     self.points = []
