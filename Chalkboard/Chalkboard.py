@@ -9,6 +9,7 @@
 #
 #Import dependencies
 import pygame, sys, Tkinter, math, os, save_as, open_file, disp, wx
+from math import sqrt
 from disp import *
 from save_as import *
 from open_file import *
@@ -3623,8 +3624,8 @@ class main:
         return val
     def elliptical_equation(self, a, b, h, k, x):
         y = []
-        y.append((b * self.absval(math.sqrt(1-(float((x-h)**2)/float(a**2))))) + k)
-        y.append(((-1 * b) * self.absval(math.sqrt(1-(float((x-h)**2)/float(a**2))))) + k)
+        y.append((b * self.absval(sqrt(1-(float((x-h)**2)/float(a**2))))) + k)
+        y.append(((-1 * b) * self.absval(sqrt(1-(float((x-h)**2)/float(a**2))))) + k)
         return y
     def inEllipse(self, a, b, h, k, x, y):
         #Precautions
